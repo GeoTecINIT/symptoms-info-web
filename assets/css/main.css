@@ -2894,6 +2894,7 @@ body {
     width: 100%;
     z-index: 10001;
     background-image: url('images/overlay.png');
+    background-color: #fff;
   }
 
   #titleBar .title {
