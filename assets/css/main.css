@@ -1895,7 +1895,7 @@ input[type='reset'],
 button,
 .button {
   -webkit-appearance: none;
-  display: inline-flex;
+  display: inline-block;
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
@@ -1903,7 +1903,7 @@ button,
   background: #b1ddab;
   color: #fff;
   border: 0;
-  line-height: 1em;
+  line-height: 1.25em;
   border-radius: 8px;
   outline: 0;
   cursor: pointer;
@@ -1913,7 +1913,7 @@ button,
   -ms-transition: background-color 0.2s ease-in-out;
   transition: background-color 0.2s ease-in-out;
   font-size: 1.25em;
-  padding: 0.85em 1.85em;
+  padding: 0.85em 0.85em;
   text-align: center;
   vertical-align: middle;
 }
@@ -3113,7 +3113,7 @@ body {
   input[type='reset'],
   button,
   .button {
-    display: inline-flex;
+    display: inline-block;
     text-align: center;
     width: 100%;
   }
