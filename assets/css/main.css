@@ -169,6 +169,10 @@ textarea {
   margin: 0 0 2em 0;
 }
 
+.section-title-mobile {
+  visibility: hidden;
+}
+
 /* Basic */
 
 html {
@@ -1891,7 +1895,7 @@ input[type='reset'],
 button,
 .button {
   -webkit-appearance: none;
-  display: inline-block;
+  display: inline-flex;
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
@@ -1911,6 +1915,7 @@ button,
   font-size: 1.25em;
   padding: 0.85em 1.85em;
   text-align: center;
+  vertical-align: middle;
 }
 
 input[type='button']:hover,
@@ -1958,7 +1963,7 @@ input[type='submit'].large,
 input[type='reset'].large,
 button.large,
 .button.large {
-  font-size: 1.65em;
+  font-size: 1.25em;
 }
 
 /* List */
@@ -2854,6 +2859,10 @@ body {
     border-top: solid 2px #e7eae8;
     padding-top: 50px;
   }
+  .section-title-web {
+    display: none;
+    visibility: visible;
+  }
 
   /* Nav */
 
@@ -3104,7 +3113,8 @@ body {
   input[type='reset'],
   button,
   .button {
-    display: block;
+    display: inline-flex;
+    text-align: center;
     width: 100%;
   }
 
@@ -3113,7 +3123,7 @@ body {
   input[type='reset'].large,
   button.large,
   .button.large {
-    font-size: 1.25em;
+    font-size: 1em;
   }
 
   /* Actions */
