@@ -606,7 +606,7 @@ header > p {
 }
 
 .row.gtr-200 {
-  margin-top: -100px;
+  margin-top: -150px;
   margin-left: -100px;
 }
 
@@ -2425,7 +2425,6 @@ table.default thead {
 #header .logo {
   position: relative;
   text-align: center;
-  border-top: solid 5px #e7eae8;
 }
 
 #header .logo div {
@@ -2661,7 +2660,7 @@ body {
   border-bottom: solid 5px #c1cac5;
   border-top-width: 35px;
   border-bottom-width: 10px;
-  padding: 6em 0 6em 0;
+  padding: 2em 0 6em 0;
 }
 
 /* Sidebar + Content */
