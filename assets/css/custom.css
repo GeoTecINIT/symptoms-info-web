@@ -1,0 +1,25 @@
+.text-small {
+  font-size: small;
+}
+
+.wp-block-image img {
+  display: block;
+  width: 100%;
+}
+
+figcaption {
+  font-size: small;
+  font-style: italic;
+}
+
+li a {
+  text-decoration: none;
+}
+
+div.hide {
+  display: none;
+}
+
+div.show {
+  display: block;
+}
