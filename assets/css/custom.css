@@ -23,3 +23,28 @@ div.hide {
 div.show {
   display: block;
 }
+
+li.lang a {
+  color: grey !important;
+}
+
+li.lang a:hover {
+  color: white !important;
+}
+
+li.lang-disabled a {
+  color: #2DC38A !important;
+  pointer-events: none !important;
+}
+
+li.lang-disabled a:hover {
+  color: #2DC38A !important;
+  background-color: inherit !important;
+  pointer-events: none !important;
+}
+
+li.lang-disabled:hover {
+  color: #2DC38A !important;
+  background-color: inherit !important;
+  pointer-events: none !important;
+}

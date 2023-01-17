@@ -10,8 +10,8 @@
 	<title>SyMptOMS Info</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<link rel="stylesheet" href="assets/css/custom.css" />
+	<link rel="stylesheet" href="../assets/css/main.css" />
+	<link rel="stylesheet" href="../assets/css/custom.css" />
 
 	<script>
 
@@ -75,22 +75,22 @@
 					posts_html = posts_html + tag.name + '; ';
 				})
 
-				let title_image = p._embedded['wp:featuredmedia'][0].title? p._embedded['wp:featuredmedia'][0].title.rendered : '';
+				let post_image = p._embedded['wp:featuredmedia'][0];
 
-				if (p.imgurl) {
+				if (p.imgurl && post_image.title) {
 
 					posts_html = posts_html + '</a></li>' +
 						'</ul>' +
 						'</header>' +
 						'' +
 						'<section>' +
-						'<span class="image featured"><img src="' + p.imgurl + '" alt="' + title_image + '" /></span>' +
+						'<span class="image featured"><img src="' + p.imgurl + '" alt="' + post_image.title.rendered + '" /></span>' +
 						'<p>' + p.content.rendered + '</p>' +
 						'</section> </div>';
 
 					more_posts = more_posts + '<div class="col-3 col-6-medium col-12-small">' +
 						'<section class="box feature">' +
-						'<span class="image featured"><img src="' + p.imgurl + '" alt="' + title_image + '" /></span>' +
+						'<span class="image featured"><img src="' + p.imgurl + '" /></span>' +
 						'<h3><a href="#" onclick="displayPost(' + p.id + ')">' + p.title.rendered + '</a></h3>' +
 						'<p>' + p.excerpt.rendered + '</p>' +
 						'</section>' +
@@ -159,7 +159,7 @@
 				<div>
 					<h1>
 						<a href="index.html" id="logo"><img style="width:15%; height:15%; vertical-align: middle;"
-								src="images/logo-symptoms.png" alt="Logo symptoms" /></a>
+								src="../images/logo-symptoms.png" alt="Logo symptoms" /></a>
 					</h1>
 					<p>Sensor- and Mobile -based Mental Health Solution</p>
 				</div>
@@ -169,15 +169,15 @@
 		<!-- Nav -->
 		<nav id="nav">
 			<ul>
-				<li><a href="index.html">Home</a></li>
+				<li><a href="index.html">Inicio</a></li>
 				<li>
-					<a href="symptoms-platform.html">Platform</a>
+					<a href="symptoms-platform.html">Platforma</a>
 				</li>
-				<li><a href="about.html">About us</a></li>
+				<li><a href="about.html">Sobre nosotros</a></li>
 				<li class="current"><a href="blog.html">Blog</a></li>
 
-				<li class="lang-disabled"><a href="blog.html">EN</a></li>
-				<li class="lang"><a href="es/blog.html">ES</a></li>
+				<li class="lang"><a href="../blog.html">EN</a></li>
+				<li class="lang-disabled"><a href="../es/blog.html">ES</a></li>
 			</ul>
 		</nav>
 
@@ -241,19 +241,18 @@
 						<!-- About -->
 						<section>
 							<p>
-								SyMptOMS is being developed by
-								<a href="http://geotec.uji.es">GEOTEC</a> with the
-								contribution of
+								SyMptOMS es un desarrollo de
+								<a href="http://geotec.uji.es">GEOTEC</a>
+								con la colaboración de
 								<a href="http://www.labpsitec.uji.es/esp/index.php">LABPSITEC</a>
-								and funding by Ministerio de Ciencia, Innovación y
-								Universidades
+								y financiado por el Ministerio de Ciencia, Innovación y Universidades.
 							</p>
 						</section>
 					</div>
 					<div class="col-12">
 						<!-- Contact -->
 						<section>
-							<h2 class="major"><span>Get in touch</span></h2>
+							<h2 class="major"><span>Contacto</span></h2>
 							<ul class="contact">
 								<li>
 									<a class="icon brands fa-facebook-f" href="#"><span
@@ -285,7 +284,7 @@
 				<!-- Copyright -->
 				<div id="copyright">
 					<ul class="menu">
-						<li>&copy; Untitled. All rights reserved</li>
+						<li>&copy; SyMptOMS. All rights reserved</li>
 						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 					</ul>
 				</div>
@@ -295,13 +294,13 @@
 	</div>
 
 	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.dropotron.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/jquery.dropotron.min.js"></script>
+	<script src="../assets/js/jquery.scrolly.min.js"></script>
+	<script src="../assets/js/browser.min.js"></script>
+	<script src="../assets/js/breakpoints.min.js"></script>
+	<script src="../assets/js/util.js"></script>
+	<script src="../assets/js/main.js"></script>
 
 </body>
 
