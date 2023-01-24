@@ -48,3 +48,8 @@ li.lang-disabled:hover {
   background-color: inherit !important;
   pointer-events: none !important;
 }
+
+.col-6.image-middle {
+  vertical-align: middle;
+  margin: auto;
+}

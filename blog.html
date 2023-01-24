@@ -56,7 +56,6 @@
 						'<div class="text-small">' + p.excerpt.rendered + '</div>' +
 						'<ul class="meta">' +
 						'<li class="icon fa-clock">' + d.toDateString() + '</li>' +
-						'<li class="icon fa-link"></li>' +
 						'</ul>' +
 						'</article>' +
 						'</a> </li>';
@@ -70,6 +69,7 @@
 					'<ul class="meta">' +
 					'<li class="icon fa-clock">' + d.toDateString() + '</li>' +
 					'<li class="icon fa-comments">';
+;
 
 				p._embedded['wp:term'][1].forEach(tag => {
 					posts_html = posts_html + tag.name + '; ';
@@ -79,7 +79,8 @@
 
 				if (p.imgurl) {
 
-					posts_html = posts_html + '</a></li>' +
+					posts_html = posts_html + '</li>' +
+						'<li class="icon fa-link"> <a href="'+ p.link +'" target= "_blank"> See original post</a></li>' +
 						'</ul>' +
 						'</header>' +
 						'' +
