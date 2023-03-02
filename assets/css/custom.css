@@ -53,3 +53,8 @@ li.lang-disabled:hover {
   vertical-align: middle;
   margin: auto;
 }
+
+p {
+  text-align: justify;
+  font-size: 12px;
+}
