@@ -16,6 +16,7 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "bib2json": "^0.0.1",
     "firebase-admin": "^11.4.1",
     "firebase-functions": "^4.1.1",
     "jsdom": "^20.0.3",

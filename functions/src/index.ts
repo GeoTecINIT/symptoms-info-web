@@ -3,6 +3,7 @@ const admin = require("firebase-admin");
 const jsdom = require("jsdom");
 const nodeFetch = require("node-fetch");
 const {JSDOM} = jsdom;
+const bibtexParser = require("bib2json");
 
 const defaultApp = admin.initializeApp();
 
@@ -11,6 +12,19 @@ const rtdb = defaultApp.database();
 // const bucket = storage.getStorage().bucket();
 
 const BLOG_POSTS_URL = "http://geotec.uji.es/wp-json/wp/v2/posts?_embed&tags=203";
+const PUBLICATIONS_URL = "http://geotec.uji.es/?feed=tp_pub_bibtex&tag=445";
+
+exports.scheduledSavePublications = functions.pubsub.schedule("every 24 hours").onRun(async () => {
+    const refPubs = rtdb.ref("publications");
+    const response = await nodeFetch(PUBLICATIONS_URL);
+    const data = await response.text();
+
+    const entries = bibtexParser(data);
+    // console.log(entries);
+
+    // Save publications to bbdd
+    refPubs.set(entries);
+});
 
 exports.scheduledSaveBlogPosts = functions.pubsub.schedule("every 24 hours").onRun(async () => {
     const refPosts = rtdb.ref("geotecblog");
@@ -18,11 +32,11 @@ exports.scheduledSaveBlogPosts = functions.pubsub.schedule("every 24 hours").onR
     const data = await response.json();
 
     // save all posts data to bbdd
-    /* refPosts.set(data).catch((error) => {
-         functions.logger.error(error);
-         console.log(error);
-     });
-     */
+    // refPosts.set(data).catch((error) => {
+    //     functions.logger.error(error);
+    //     console.log(error);
+    // });
+
 
     const refLastUpdated = rtdb.ref("lastUpdated");
 
@@ -79,7 +93,7 @@ exports.scheduledSaveBlogPosts = functions.pubsub.schedule("every 24 hours").onR
                 }
             }
         });
-    }, (errorObject: { name: string }) => {
+    }, (errorObject: {name: string}) => {
         console.log("The read failed: " + errorObject.name);
     });
 });
