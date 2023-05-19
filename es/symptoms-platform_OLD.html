@@ -10,8 +10,8 @@
   <title>SyMptOMS Platform</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <link rel="stylesheet" href="assets/css/main.css" />
-  <link rel="stylesheet" href="assets/css/custom.css" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/custom.css" />
 </head>
 
 <body>
@@ -22,7 +22,7 @@
         <div>
           <h1>
             <a href="index.html" id="logo"><img style="width:15%; height:15%; vertical-align: middle;"
-                src="images/logo-symptoms.png" alt="Logo symptoms" /></a>
+                src="../images/logo-symptoms.png" alt="Logo symptoms" /></a>
           </h1>
           <p>Sensor- and Mobile -based Mental Health Solution</p>
         </div>
@@ -31,19 +31,15 @@
     <!-- Nav -->
     <nav id="nav">
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="research-lines.html">Research Lines</a></li>
-        <li><a href="use-cases.html">Use Cases</a></li>
-        <li><a href="tools.html">Tools</a></li>
-        <li><a href="publications.html">Publications</a></li>
+        <li><a href="index.html">Inicio</a></li>
+        <li class="current">
+          <a href="symptoms-platform.html">Platforma</a>
+        </li>
+        <li><a href="about.html">Sobre nosotros</a></li>
         <li><a href="blog.html">Blog</a></li>
-        <li><a href="about.html">About us</a></li>
-    
-        <!--  <li  class="current"><a href="symptoms-platform.html">Platform</a></li> -->
-        <span class="menu-lang">
-          <li class="item-lang lang-disabled"><a href="index.html">EN</a></li>
-          <li class="item-lang lang"><a href="es/index.html">ES</a> </li>
-        </span>
+
+        <li class="lang"><a href="../symptoms-platform.html">EN</a></li>
+        <li class="lang-disabled"><a href="../es/symptoms-platform.html">ES</a></li>
       </ul>
     </nav>
 
@@ -56,13 +52,12 @@
               <!-- Content -->
               <article class="box page-content">
                 <header>
-                  <h2>SyMptoMS Platform</h2>
+                  <h2>Plataforma SyMptoMS</h2>
                 </header>
                 <section>
                   <p>
-                    SyMptoMS consists of an smartphone app for patients, web
-                    app for therapists, server-side sevices, for data storage,
-                    analysis, etc
+                    SyMptoMS está formado por una aplicación móvil para los pacientes, una aplicación web para los
+                    terapistas, servicios para guardar los datos y analizarlos, etc.
                   </p>
                 </section>
               </article>
@@ -71,15 +66,15 @@
           <div class="col-12">
             <!-- Features -->
             <section class="box features">
-              <h2 class="major"><span>Our goal</span></h2>
+              <h2 class="major"><span>Nuestro objetivo</span></h2>
               <div>
                 <div class="row">
                   <div class="col-6 col-6-medium col-12-small">
                     <!-- Feature -->
                     <section class="box feature">
-                      <video controls poster="images/SymptomsDemo-source.png"
+                      <video controls poster="../images/SymptomsDemo-source.png"
                         style="display:block; width: 100%; border-radius: 8px;">
-                        <source src="images/SymptomsDemo.mp4" type="video/mp4">
+                        <source src="../images/SymptomsDemo.mp4" type="video/mp4">
                       </video>
                       <!--   <a class="image featured"><img src="images/goal.png" alt="" /></a> -->
                     </section>
@@ -88,10 +83,9 @@
                     <!-- Feature -->
                     <section class="box feature" style="vertical-align: middle;">
                       <p style=" vertical-align: middle;">
-                        Our goal is to facilitate the creation of apps that
-                        use the advanced features of smartphones, allowing
-                        to generate applications according to each type of
-                        disorder without the need for technical knowledge
+                        Nuestro objetivo es la creación de aplicaciones que usen las características avanzadas
+                        de los teléfonos móviles inteligentes, permitiendo configurar las aplicaciones según cada tipo
+                        de transorno without the need of technical knowledge.
                       </p>
                     </section>
                   </div>
@@ -101,50 +95,49 @@
           <div class="col-12">
             <!-- Features -->
             <section class="box features">
-              <h2 class="major"><span>End User Tools</span></h2>
+              <h2 class="major"><span>Aplicaciones para el usuario final</span></h2>
               <div>
                 <div class="row">
                   <div class="col-4 section-title-web">
-                    <h2>For Patients</h2>
+                    <h2>Para pacientes</h2>
                   </div>
                   <div class="col-8 section-title-web">
-                    <h2>For Therapists</h2>
+                    <h2>Para terapistas</h2>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-4 col-6-medium col-12-small">
                     <!-- Feature -->
                     <section class="box feature">
-                      <a class="image featured"><img src="images/mobile-app.png" alt="" /></a>
-                      <h3>Android App</h3>
+                      <a class="image featured"><img src="../images/mobile-app.png" alt="" /></a>
+                      <h3>Aplicación Android</h3>
                       <p>
-                        Has configurable features depending on treatment <br />
-                        Monitors the patient progress through sensors <br />
-                        EEMs and IEMs deliveries.
+                        Tiene características configurables dependiendo del tratamiento.
+                        Monitorea el progreso del paciente a través de los sensores.
                       </p>
                     </section>
                   </div>
                   <div class="col-4 col-6-medium col-12-small">
                     <!-- Feature -->
                     <section class="box feature">
-                      <a class="image featured"><img src="images/config.png" alt="" /></a>
-                      <h3>Management Web App</h3>
+                      <a class="image featured"><img src="../images/config.png" alt="" /></a>
+                      <h3>Aplicación Web para la Gestión</h3>
                       <p>
-                        It allows to manage centers, psycologists and patients, it also allows to define the
-                        configuration of the mobile app for each patient, adjusted to the needs of
-                        each mental disorder and treatment.
+                        Permite gestionar los centro, psicólogos y pacientes, también permite definir la configuración
+                        de la aplicación móvil para cada paciente, ajustada a las necesidades de cada transtorno mental
+                        y tratamiento.
                       </p>
                     </section>
                   </div>
                   <div class="col-4 col-6-medium col-12-small">
                     <!-- Feature -->
                     <section class="box feature">
-                      <a class="image featured"><img src="images/web-visualizator.png" alt="" /></a>
-                      <h3>Visualizator Web App</h3>
+                      <a class="image featured"><img src="../images/web-visualizator.png" alt="" /></a>
+                      <h3>Aplicación Web de visualización de datos</h3>
                       <p>
-                        It allows to track the patient progress, analysing the data reported by them, it has a map view
-                        to track exposures to predefined locations. <br />
-                        View the evaluations sent by each patient and the interventions received.
+                        Permite hacer un seguimiento del progreso del paciente y analizar los datos reportados, tiene
+                        una vista de mapa para visualizar las exposiciones a unas localizaciones predefinidas.<br />
+                        Permite visualizar las evaluaciones enviadas por cada paciente y las intervenciones recibidas.
                       </p>
                     </section>
                   </div>
@@ -153,21 +146,21 @@
                   <div class="col-4">
                     <ul class="actions">
                       <a href="https://play.google.com/store/apps/details?id=com.geotec.nacho.mensajesgeolocalizados&hl=es_419"
-                        class="button large" style="text-align: center;" target="_blank">Download Mobile App</a>
+                        class="button large" style="text-align: center;" target="_blank">Descargar la aplicación móvil</a>
                     </ul>
 
                   </div>
                   <div class="col-4">
 
                     <ul class="actions">
-                      <a class="button large">Demo under construction</a>
+                      <a class="button large">Demo en construcción</a>
                     </ul>
 
                   </div>
                   <div class="col-4">
 
                     <ul class="actions">
-                      <a class="button large">Demo under construction</a>
+                      <a class="button large">Demo en construcción</a>
                     </ul>
 
                   </div>
@@ -177,13 +170,13 @@
           </div>
           <div class="col-12">
             <!-- Features -->
-       <!--      <section class="box features">
+        <!--     <section class="box features">
               <h2 class="major"><span>Developer tools</span></h2>
               <div>
                 <div class="row">
                   <div class="col-4 col-6-medium col-12-small">
                     <section class="box feature">
-                      <a class="image featured"><img src="images/mobile-app.png" alt="" /></a>
+                      <a class="image featured"><img src="../images/mobile-app.png" alt="" /></a>
                       <h3>Lorem ipsum</h3>
                       <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam egestas dolor id tincidunt
@@ -196,7 +189,7 @@
                   </div>
                   <div class="col-4 col-6-medium col-12-small">
                     <section class="box feature">
-                      <a class="image featured"><img src="images/config.png" alt="" /></a>
+                      <a class="image featured"><img src="../images/config.png" alt="" /></a>
                       <h3>Lorem ipsum</h3>
                       <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam egestas dolor id tincidunt
@@ -209,7 +202,7 @@
                   </div>
                   <div class="col-4 col-6-medium col-12-small">
                     <section class="box feature">
-                      <a class="image featured"><img src="images/web-visualizator.png" alt="" /></a>
+                      <a class="image featured"><img src="../images/web-visualizator.png" alt="" /></a>
                       <h3>Lorem ipsum</h3>
                       <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam egestas dolor id tincidunt
@@ -255,21 +248,20 @@
         <div class="row gtr-200">
           <div class="col-12">
             <!-- About -->
-            <section>
-              <p>
-                SyMptOMS is being developed by
-                <a href="http://geotec.uji.es">GEOTEC</a> with the
-                contribution of
-                <a href="http://www.labpsitec.uji.es/esp/index.php">LABPSITEC</a>
-                and funding by Ministerio de Ciencia, Innovación y
-                Universidades
-              </p>
-            </section>
+          <section>
+            <p>
+              SyMptOMS es un desarrollo de
+              <a href="http://geotec.uji.es">GEOTEC</a>
+              con la colaboración de
+              <a href="http://www.labpsitec.uji.es/esp/index.php">LABPSITEC</a>
+              y financiado por el Ministerio de Ciencia, Innovación y Universidades.
+            </p>
+          </section>
           </div>
           <div class="col-12">
             <!-- Contact -->
             <section>
-              <h2 class="major"><span>Get in touch</span></h2>
+              <h2 class="major"><span>Contacto</span></h2>
               <ul class="contact">
                 <li>
                   <a class="icon brands fa-facebook-f" href="#"><span class="label">Facebook</span></a>
@@ -282,8 +274,8 @@
                   <a class="icon brands fa-instagram" href="#"><span class="label">Instagram</span></a>
                 </li>
                 <li>
-                  <a class="icon brands fa-dribbble" target="_blank"
-                    href="http://geotec.uji.es/projects/symptoms/"><span class="label">Dribbble</span></a>
+                  <a class="icon brands fa-dribbble" target="_blank" href="http://geotec.uji.es/projects/symptoms/"><span
+                      class="label">Dribbble</span></a>
                 </li>
                 <li>
                   <a class="icon brands fa-linkedin-in" target="_blank"
@@ -298,7 +290,7 @@
         <!-- Copyright -->
         <div id="copyright">
           <ul class="menu">
-            <li>&copy; Untitled. All rights reserved</li>
+            <li>&copy; SyMptOMS. All rights reserved</li>
             <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
           </ul>
         </div>
@@ -307,13 +299,13 @@
   </div>
 
   <!-- Scripts -->
-  <script src="assets/js/jquery.min.js"></script>
-  <script src="assets/js/jquery.dropotron.min.js"></script>
-  <script src="assets/js/jquery.scrolly.min.js"></script>
-  <script src="assets/js/browser.min.js"></script>
-  <script src="assets/js/breakpoints.min.js"></script>
-  <script src="assets/js/util.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/jquery.dropotron.min.js"></script>
+  <script src="../assets/js/jquery.scrolly.min.js"></script>
+  <script src="../assets/js/browser.min.js"></script>
+  <script src="../assets/js/breakpoints.min.js"></script>
+  <script src="../assets/js/util.js"></script>
+  <script src="../assets/js/main.js"></script>
 </body>
 
 </html>

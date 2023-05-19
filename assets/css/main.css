@@ -222,7 +222,7 @@ h6 {
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #6b7770;
+  color: #1F525E;
   margin: 0 0 0.5em 0;
   line-height: 1.3;
 }
@@ -275,7 +275,7 @@ a:hover {
 b,
 strong {
   font-weight: 700;
-  color: #6b7770;
+  color: #1F525E;
 }
 
 i,
@@ -1900,7 +1900,7 @@ button,
   font-weight: 700;
   text-transform: uppercase;
   text-decoration: none;
-  background: #b1ddab;
+  background: #2DC38A;
   color: #fff;
   border: 0;
   line-height: 1.25em;
@@ -2207,7 +2207,7 @@ form label {
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #6b7770;
+  color: #1F525E;
 }
 
 form input[type='text'],
@@ -2292,7 +2292,7 @@ table.default th {
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #6b7770;
+  color: #1F525E;
 }
 
 table.default thead {
@@ -2498,7 +2498,7 @@ body {
   position: relative;
   display: block;
   text-decoration: none;
-  color: #6b7770;
+  color: #1F525E;
   top: -6px;
   padding: 6px 1.5em 0.25em 1.5em;
   border-bottom-left-radius: 6px;
@@ -2524,13 +2524,13 @@ body {
 }
 
 #nav li.current a {
-  background: #b1ddab;
+  background: #2DC38A;
   color: #fff;
 }
 
 .dropotron {
   list-style: none;
-  background: #6b7770;
+  background: #1F525E;
   color: #fff;
   border-radius: 6px;
   line-height: 2.75em;
@@ -2584,7 +2584,7 @@ body {
   left: 50%;
   margin-left: -1em;
   top: -0.65em;
-  border-bottom: solid 1em #6b7770;
+  border-bottom: solid 1em #1F525E;
   border-left: solid 1em transparent;
   border-right: solid 1em transparent;
 }
@@ -2656,7 +2656,7 @@ body {
 
 #main {
   background: #fff;
-  border-top: solid 5px #b1ddab;
+  border-top: solid 5px #2DC38A;
   border-bottom: solid 5px #c1cac5;
   border-top-width: 35px;
   border-bottom-width: 10px;
@@ -2946,7 +2946,7 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    background: #b1ddab;
+    background: #2DC38A;
     width: 44px;
     height: 44px;
     content: '\f0c9';

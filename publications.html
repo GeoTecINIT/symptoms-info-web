@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<!--
+	TXT by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+  <title>SyMptOMS Info</title>
+  <meta charset="utf-8" />
+  <meta name="description" content="Symptoms project info website">
+  <meta property="og:title" content="SyMptOMS Sensor- and Mobile -based Mental Health Solution">
+  <meta property="og:description" content="SyMptOMS is a research project that marries the technical expertise of the GeoSpatial Technologies
+                Research Lab (GEOTEC)
+                with the knowledge in experimental psychology of the Laboratory of Psychology and Technology (LABPSITEC)
+                to develop
+                innovative solutions for the diagnosis, treatment, and relapse prevention of mental health disorders.">
+  <meta property="og:image" content="images/logo-symptoms.png">
+  <meta property="og:url" content="https://symptoms-web.web.app">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/custom.css" />
+
+  <script>
+
+    // publications with tag Symptoms
+    getText("https://symptoms-web-default-rtdb.europe-west1.firebasedatabase.app/publications.json");
+
+    async function getText(file) {
+      let myObject = await fetch(file);
+      let pubs = await myObject.json();
+
+      let pubs_html = "";
+
+      pubs.entries.forEach(pub => {
+        pubs_html += "<div class='hide " + pub.EntryType + "'><h6>" + pub.EntryType + "</h6>";
+        pubs_html += pub.Fields.author + "<br>  <a href='" + pub.Fields.doi + "' target='_blank'>" + pub.Fields.title + " </a> <br>";
+
+        if (pub.Fields.journal) {
+          pubs_html += pub.Fields.journal;
+          pubs_html += pub.Fields.pages ? " pp. " + pub.Fields.pages + ", " : "";
+          pubs_html += pub.Fields.volume ? " vol. " + pub.Fields.volume + " " : "";
+          pubs_html += pub.Fields.number ? " (" + pub.Fields.number + "), " : "";
+          pubs_html += pub.Fields.year + ", ";
+        }
+
+        pubs_html += pub.Fields.booktitle ? pub.Fields.booktitle + " pp. " + pub.Fields.pages + ", " + pub.Fields.publisher + ", " + pub.Fields.year + ", " : "";
+        pubs_html += pub.Fields.issn ? "ISSN: " + pub.Fields.issn : pub.Fields.isbn ? "ISBN: " + pub.Fields.isbn : "";
+        pubs_html += pub.Fields.abstract ? "<p>" + pub.Fields.abstract + "</p>" : "<p> </p>";
+        pubs_html += "</div>"
+      });
+
+      document.getElementById("symptoms_publications").innerHTML = pubs_html;
+
+      filterSelection("all")
+
+    }
+
+  </script>
+
+
+</head>
+
+<body class="homepage ">
+  <div id="page-wrapper">
+    <!-- Header -->
+    <header id="header">
+      <div class="logo container">
+        <div>
+          <h1>
+            <a href="index.html" id="logo"><img style="width:15%; height:15%; vertical-align: middle;"
+                src="images/logo-symptoms.png" alt="Logo symptoms" /></a>
+          </h1>
+          <p>Sensor- and Mobile -based Mental Health Solution</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Nav -->
+    <nav id="nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="research-lines.html">Research Lines</a></li>
+        <li><a href="use-cases.html">Use Cases</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li class="current"><a href="publications.html">Publications</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="about.html">About us</a></li>
+
+        <!--  <li><a href="symptoms-platform.html">Platform</a></li> -->
+
+        <span class="menu-lang">
+          <li class="item-lang lang-disabled"><a href="publications.html">EN</a></li>
+          <li class="item-lang lang"><a href="es/publications.html">ES</a> </li>
+        </span>
+      </ul>
+    </nav>
+
+    <!-- Banner -->
+    <!--        <section id="banner">
+        <div class="content">
+          <h2>Welcome to TXT by HTML5 UP</h2>
+          <p>
+            A free responsive site template built on HTML5, CSS3, and some other
+            stuff
+          </p>
+          <a href="#main" class="button scrolly">Alright let's go</a>
+        </div>
+      </section>  -->
+
+    <!-- Main -->
+    <!-- Main -->
+    <section id="main">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="content">
+              <!-- Content -->
+              <article class="box page-content">
+                <header>
+                  <h2>SyMptoMS Publications</h2>
+                </header>
+                <section>
+                  <p>
+                  </p>
+                </section>
+              </article>
+            </div>
+          </div>
+          <div class="col-12">
+
+            <div class="box feature" id="myBtnContainer">
+              <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+              <button class="btn" onclick="filterSelection('article')"> Articles</button>
+              <button class="btn" onclick="filterSelection('conference')"> Conferences</button>
+              <button class="btn" onclick="filterSelection('inproceedings')"> Inproceedings</button>
+              <button class="btn" onclick="filterSelection('phdthesis')"> Phd Thesis</button>
+              <button class="btn" onclick="filterSelection('mastersthesis')"> Master Thesis</button>
+            </div>
+
+            <div id="symptoms_publications">
+
+            </div>
+
+          </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="container">
+        <div class="row gtr-200">
+          <div class="col-12">
+            <!-- About -->
+            <section>
+              <p>
+                SyMptOMS is being developed by
+                <a href="http://geotec.uji.es">GEOTEC</a> with the
+                contribution of
+                <a href="http://www.labpsitec.uji.es/esp/index.php">LABPSITEC</a>
+                and funding by Ministerio de Ciencia, Innovación y
+                Universidades
+              </p>
+            </section>
+          </div>
+          <div class="col-12">
+            <!-- Contact -->
+            <section>
+              <h2 class="major"><span>Get in touch</span></h2>
+              <ul class="contact">
+                <li>
+                  <a class="icon brands fa-facebook-f" href="#"><span class="label">Facebook</span></a>
+                </li>
+                <li>
+                  <a class="icon brands fa-twitter" target="_blank" href="https://twitter.com/geotecUJI"><span
+                      class="label">Twitter</span></a>
+                </li>
+                <li>
+                  <a class="icon brands fa-instagram" href="#"><span class="label">Instagram</span></a>
+                </li>
+                <li>
+                  <a class="icon brands fa-dribbble" target="_blank"
+                    href="http://geotec.uji.es/projects/symptoms/"><span class="label">Dribbble</span></a>
+                </li>
+                <li>
+                  <a class="icon brands fa-linkedin-in" target="_blank"
+                    href="https://www.linkedin.com/company/geotec-geospatial-technologies-research-group---universitat-jaume-i/about/"><span
+                      class="label">LinkedIn</span></a>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </div>
+
+        <!-- Copyright -->
+        <div id="copyright">
+          <ul class="menu">
+            <li>&copy; Untitled. All rights reserved</li>
+            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.dropotron.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+
+
+
+    function filterSelection(c) {
+      var x, i;
+      x = document.getElementsByClassName("hide");
+      if (c == "all") c = "";
+      for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "show");
+        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+      }
+    }
+
+    function w3AddClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        if (arr1.indexOf(arr2[i]) == -1) { element.className += " " + arr2[i]; }
+      }
+    }
+
+    function w3RemoveClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        while (arr1.indexOf(arr2[i]) > -1) {
+          arr1.splice(arr1.indexOf(arr2[i]), 1);
+        }
+      }
+      element.className = arr1.join(" ");
+    }
+
+
+    // Add active class to the current button (highlight it)
+    var btnContainer = document.getElementById("myBtnContainer");
+    var btns = btnContainer.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+.text-small {
+  font-size: small;
+}
+
+.wp-block-image img {
+  display: block;
+  width: 100%;
+}
+
+figcaption {
+  font-size: small;
+  font-style: italic;
+}
+
+li a {
+  text-decoration: none;
+}
+
+div.hide {
+  display: none;
+}
+
+div.show {
+  display: block;
+}
+
+li.lang a {
+  color: grey !important;
+}
+
+li.lang a:hover {
+  color: white !important;
+}
+
+li.lang-disabled a {
+  color: #2DC38A !important;
+  pointer-events: none !important;
+}
+
+li.lang-disabled a:hover {
+  color: #2DC38A !important;
+  background-color: inherit !important;
+  pointer-events: none !important;
+}
+
+li.lang-disabled:hover {
+  color: #2DC38A !important;
+  background-color: inherit !important;
+  pointer-events: none !important;
+}
+
+.col-6.image-middle {
+  vertical-align: middle;
+  margin: auto;
+}
+
+p {
+  text-align: justify;
+  font-size: 12px;
+}
+
+.menu-lang {
+  margin-left: 8vw;
+  margin-right: -8vw;
+}
+
+.item-lang {
+  padding: 0;
+  margin: 0 !important;
+}
+
+.hide {
+  display: none;
+  /* Hide all elements by default */
+}
+
+/* The "show" class is added to the filtered elements */
+.show {
+  display: block;
+}

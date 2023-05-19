@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<!--
+	TXT by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>SyMptOMS Info</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="../assets/css/main.css" />
+	<link rel="stylesheet" href="../assets/css/custom.css" />
+
+	<script>
+
+		// posts with tag Symptoms
+		getText("https://symptoms-web-default-rtdb.europe-west1.firebasedatabase.app/.json");
+
+		let last_displayed_post = 0;
+
+		async function getText(file) {
+			let myObject = await fetch(file);
+			let posts = await myObject.json();
+
+
+			/*
+		   const req = new XMLHttpRequest();
+		   req.addEventListener("load", req);
+		   req.open("GET", file);
+		   req.send();
+
+		   let posts = JSON.parse(req.responseText);
+
+		   */
+
+			let posts_summary_html = "";
+			let posts_html = "";
+			let more_posts = "";
+
+			let last_displayed_post = posts.geotecblog[0].id;
+
+			let i = 0;
+
+			posts.geotecblog.forEach(p => {
+
+				let d = new Date(p.date);
+
+				// left sidebar, load last 3 posts
+				if (i < 4) {
+					posts_summary_html = posts_summary_html +
+						'<li> <a onclick="displayPost(' + p.id + ')" href="#">' +
+						'<article class="box post-summary">' +
+						'<h3> ' + p.title.rendered + '</h3>' +
+						'<div class="text-small">' + p.excerpt.rendered + '</div>' +
+						'<ul class="meta">' +
+						'<li class="icon fa-clock">' + d.toDateString() + '</li>' +
+						'</ul>' +
+						'</article>' +
+						'</a> </li>';
+				}
+
+				i++;
+
+
+				posts_html = posts_html + '<div id=' + p.id + ' class="hide"><header>' +
+					'<h2>' + p.title.rendered + '</h2>' +
+					'<ul class="meta">' +
+					'<li class="icon fa-clock">' + d.toDateString() + '</li>' +
+					'<li class="icon fa-comments">';
+				;
+
+				p._embedded['wp:term'][1].forEach(tag => {
+					posts_html = posts_html + tag.name + '; ';
+				})
+
+				let title_image = p._embedded['wp:featuredmedia'][0].title ? p._embedded['wp:featuredmedia'][0].title.rendered : '';
+
+				if (p.imgurl) {
+
+					posts_html = posts_html + '</li>' +
+						'<li class="icon fa-link"> <a href="' + p.link + '" target= "_blank"> See original post</a></li>' +
+						'</ul>' +
+						'</header>' +
+						'' +
+						'<section>' +
+						'<span class="image featured"><img src="' + p.imgurl + '" alt="' + title_image + '" /></span>' +
+						'<p>' + p.content.rendered + '</p>' +
+						'</section> </div>';
+
+					more_posts = more_posts + '<div class="col-3 col-6-medium col-12-small">' +
+						'<section class="box feature">' +
+						'<span class="image featured"><img src="' + p.imgurl + '" alt="' + title_image + '" /></span>' +
+						'<h3><a href="#" onclick="displayPost(' + p.id + ')">' + p.title.rendered + '</a></h3>' +
+						'<p>' + p.excerpt.rendered + '</p>' +
+						'</section>' +
+						'<ul class="actions">' +
+						'<li>' +
+						'<a href="#" onclick="displayPost(' + p.id + ')" class="button large" style="background-color: #1F525E;"> Read more </a>' +
+						'</li>' +
+						'</ul>' +
+						'</div>';
+
+				} else {
+					posts_html = posts_html + '</a></li>' +
+						'</ul>' +
+						'</header>' +
+						'' +
+						'<section>' +
+						'<p>' + p.content.rendered + '</p>' +
+						'</section> </div>';
+
+					more_posts = more_posts + '<div class="col-3 col-6-medium col-12-small">' +
+						'<section class="box feature">' +
+						'<h3><a href="#" onclick="displayPost(' + p.id + ')">' + p.title.rendered + '</a></h3>' +
+						'<p>' + p.excerpt.rendered + '</p>' +
+						'</section>' +
+						'<ul class="actions">' +
+						'<li>' +
+						'<a href="#" onclick="displayPost(' + p.id + ')" class="button large" style="background-color: #1F525E;"> Read more </a>' +
+						'</li>' +
+						'</ul>' +
+						'</div>';
+				}
+
+			});
+
+			document.getElementById("posts-summary").innerHTML = posts_summary_html;
+			document.getElementById("last_post").innerHTML = posts_html;
+			document.getElementById("more_posts").innerHTML = more_posts;
+
+			console.log(posts);
+
+			// show last post
+			displayPost(last_displayed_post);
+
+		}
+
+		function displayPost(idPost) {
+			hidePost(last_displayed_post);
+			last_displayed_post = idPost;
+			document.getElementById(idPost).className = "show";
+		}
+
+		function hidePost(idPost) {
+			if (idPost != 0) {
+				document.getElementById(idPost).className = "hide";
+			}
+		}
+
+	</script>
+</head>
+
+<body class="homepage ">
+	<div id="page-wrapper">
+		<!-- Header -->
+		<header id="header">
+			<div class="logo container">
+				<div>
+					<h1>
+						<a href="index.html" id="logo"><img style="width:15%; height:15%; vertical-align: middle;"
+								src="../images/logo-symptoms.png" alt="Logo symptoms" /></a>
+					</h1>
+					<p>Sensor- and Mobile -based Mental Health Solution</p>
+				</div>
+			</div>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul>
+		<li><a href="index.html">Inicio</a></li>
+		<li><a href="research-lines.html">Lineas de investigación</a></li>
+		<li><a href="use-cases.html">Casos de Uso</a></li>
+		<li><a href="tools.html">Herramientas</a></li>
+		<li><a href="publications.html">Publicaciones</a></li>
+		<li class="current"><a href="blog.html">Blog</a></li>
+		<li><a href="about.html">Sobre nosotros</a></li>
+		
+		<!--  <li><a href="symptoms-platform.html">Platform</a></li> -->
+		<span class="menu-lang">
+			<li class="item-lang lang"><a href="../blog.html">EN</a></li>
+			<li class="item-lang lang-disabled"><a href="blog.html">ES</a> </li>
+		</span>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<section id="main">
+			<div class="container">
+				<div class="row">
+					<div class="col-3 col-12-medium">
+						<div class="sidebar">
+
+							<!-- Sidebar -->
+
+							<!-- Recent Posts -->
+							<section>
+								<h2 class="major"><span>Posts Recientes</span></h2>
+								<ul class="divided" id="posts-summary">
+								</ul>
+								<a href="#" class="button alt">Archivo</a>
+							</section>
+
+						</div>
+					</div>
+					<div class="col-9 col-12-medium imp-medium">
+						<div class="content">
+
+							<!-- Content -->
+							<article id="last_post" class="box page-content">
+
+							</article>
+
+						</div>
+					</div>
+					<div class="col-12">
+
+						<!-- Features -->
+						<section class="box features">
+							<h2 class="major"><span>See more Symptoms posts</span></h2>
+							<div>
+								<div id="more_posts" class="row">
+
+									<div class="col-12">
+										<ul class="actions">
+											<li><a href="#" class="button large">Do Something</a></li>
+											<li><a href="#" class="button alt large">Think About It</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</section>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="container">
+				<div class="row gtr-200">
+					<div class="col-12">
+						<!-- About -->
+						<section>
+							<p>
+								SyMptOMS es un desarrollo de
+								<a href="http://geotec.uji.es">GEOTEC</a>
+								con la colaboración de
+								<a href="http://www.labpsitec.uji.es/esp/index.php">LABPSITEC</a>
+								y financiado por el Ministerio de Ciencia, Innovación y Universidades.
+							</p>
+						</section>
+						</div>
+						<div class="col-12">
+							<!-- Contact -->
+							<section>
+								<h2 class="major"><span>Contacto</span></h2>
+								<ul class="contact">
+									<li>
+										<a class="icon brands fa-facebook-f" href="#"><span class="label">Facebook</span></a>
+									</li>
+									<li>
+										<a class="icon brands fa-twitter" target="_blank" href="https://twitter.com/geotecUJI"><span
+												class="label">Twitter</span></a>
+									</li>
+									<li>
+										<a class="icon brands fa-instagram" href="#"><span class="label">Instagram</span></a>
+									</li>
+									<li>
+										<a class="icon brands fa-dribbble" target="_blank" href="http://geotec.uji.es/projects/symptoms/"><span
+												class="label">Dribbble</span></a>
+									</li>
+									<li>
+										<a class="icon brands fa-linkedin-in" target="_blank"
+											href="https://www.linkedin.com/company/geotec-geospatial-technologies-research-group---universitat-jaume-i/about/"><span
+												class="label">LinkedIn</span></a>
+									</li>
+								</ul>
+							</section>
+					</div>
+				</div>
+
+				<!-- Copyright -->
+				<div id="copyright">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved</li>
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/jquery.dropotron.min.js"></script>
+	<script src="../assets/js/jquery.scrolly.min.js"></script>
+	<script src="../assets/js/browser.min.js"></script>
+	<script src="../assets/js/breakpoints.min.js"></script>
+	<script src="../assets/js/util.js"></script>
+	<script src="../assets/js/main.js"></script>
+
+</body>
+
+</html>
