@@ -69,3 +69,12 @@ p {
   margin: 0 !important;
 }
 
+.hide {
+  display: none;
+  /* Hide all elements by default */
+}
+
+/* The "show" class is added to the filtered elements */
+.show {
+  display: block;
+}
