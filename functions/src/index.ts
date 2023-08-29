@@ -80,7 +80,7 @@ exports.scheduledSaveBlogPosts = functions.pubsub.schedule("every 24 hours").onR
                         .file("img/" + postImage.slug + ".jpg")
                         .getSignedUrl({
                             action: "read",
-                            expires: "12-01-2025",
+                            expires: "12-01-2045",
                         })
                         .then((results: any[]) => {
                             const signedUrl = results[0];
@@ -141,7 +141,7 @@ exports.saveBlogPostsImgs = functions.database.ref("/geotecblog/{blogIndex}/cont
                     .file("postimg/post" + context.params.blogIndex + "-" + noExtName + ".jpg")
                     .getSignedUrl({
                         action: "read",
-                        expires: "12-01-2025",
+                        expires: "12-01-2045",
                     })
                     .then((results: any[]) => {
                         const signedUrl = results[0];
