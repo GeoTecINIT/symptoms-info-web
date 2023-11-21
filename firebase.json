@@ -20,7 +20,7 @@
   },
   "hosting": {
     "public": "./",
-    "site" : "symptoms-web-test",
+    "site" : "symptoms-web",
     "ignore": [
       "firebase.json",
       "**/.*",
