@@ -169,6 +169,15 @@ textarea {
   margin: 0 0 2em 0;
 }
 
+.photo-groups {
+  height: 180px;
+  border-radius: 8px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0 0 2em 0;
+}
+
 .section-title-mobile {
   visibility: hidden;
 }
