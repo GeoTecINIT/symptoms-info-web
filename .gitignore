@@ -66,6 +66,9 @@ node_modules/
 # dotenv environment variables file
 .env
 
+# node version info file
+.nvmrc
+
 # Firebase functions
 functions/node_modules/**
 functions/lib/**

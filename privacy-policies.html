@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<!--
+  TXT by HTML5 UP
+  html5up.net | @ajlkn
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+  <head>
+    <title>Privacy Policies</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+  </head>
+
+  <body>
+    <div id="page-wrapper">
+      <!-- Header -->
+      <header id="header">
+        <div class="logo container">
+          <div>
+            <h1>
+              <a href="index.html" id="logo">
+                <img
+                  style="width: 15%; height: 15%; vertical-align: middle"
+                  src="images/logo-symptoms.png"
+                  alt="Logo symptoms"
+                />
+              </a>
+            </h1>
+            <p>Sensor- and Mobile -based Mental Health Solution</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Nav -->
+      <nav id="nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="research-lines.html">Research Lines</a></li>
+          <li><a href="use-cases.html">Use Cases</a></li>
+          <li><a href="tools.html">Tools</a></li>
+          <li><a href="publications.html">Publications</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="about.html">About us</a></li>
+          <li class="current">
+            <a href="privacy-policies.html">Privacy Policies</a>
+          </li>
+
+          <span class="menu-lang">
+            <li class="item-lang lang-disabled">
+              <a href="privacy-policies.html">EN</a>
+            </li>
+            <li class="item-lang lang">
+              <a href="es/privacy-policies.html">ES</a>
+            </li>
+          </span>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <section id="main">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="content">
+                <!-- Privacy Policy Article -->
+                <article class="box page-content">
+                  <header>
+                    <h2>Privacy Policies</h2>
+                    <p class="text-small">
+                      <strong>Symptoms Mobile App</strong> (Last updated:
+                      17/01/2025)
+                    </p>
+                  </header>
+
+                  <!-- 1. Introduction -->
+                  <section>
+                    <h3>1. Introduction</h3>
+                    <p>
+                      Welcome to Symptoms, an application developed by Grupo
+                      Geotec (“we,” “our”). This Privacy Policy describes how we
+                      collect, use, and protect user information (“you,” “user”)
+                      within the application.
+                      <br />
+                      By using Symptoms, you agree to the terms outlined in this
+                      Privacy Policy. If you do not agree with any of these
+                      terms, please do not use the application.
+                    </p>
+                  </section>
+
+                  <!-- 2. Developer Information -->
+                  <section>
+                    <h3>2. Developer Information</h3>
+                    <p><strong>Company/Developer:</strong> Grupo Geotec</p>
+                    <p>
+                      <strong>Contact Email:</strong>
+                      <a href="mailto:geotecuji@gmail.com"
+                        >geotecuji@gmail.com</a
+                      >
+                    </p>
+                    <p>
+                      <strong>Address:</strong><br />
+                      Universitat Jaume I<br />
+                      Edifici d’Investigació II<br />
+                      Avda. Sos Baynat, s/n<br />
+                      12071, Castellón de la Plana, Castellón, Spain
+                    </p>
+                  </section>
+
+                  <!-- 3. Description of the Application -->
+                  <section>
+                    <h3>3. Description of the Application</h3>
+                    <p>
+                      Symptoms is an application designed for psychological
+                      exposure therapy using geolocation. Access to the app is
+                      granted via a code provided by a qualified therapist. The
+                      application offers the possibility to record audio and
+                      collect location data during therapeutic exposure.
+                    </p>
+                  </section>
+
+                  <!-- 4. Data We Collect -->
+                  <section>
+                    <h3>4. Data We Collect</h3>
+                    <p>
+                      <strong>Access Code:</strong><br />
+                      This code is assigned by the therapist through a separate
+                      web tool. We do not collect personal data (such as name,
+                      email, phone number); we only handle this code to manage
+                      user access.
+                    </p>
+                    <p>
+                      <strong>Location Data:</strong><br />
+                      We collect location data only during exposure sessions,
+                      provided the user has granted the relevant permissions
+                      (e.g., ACCESS_FINE_LOCATION, ACCESS_BACKGROUND_LOCATION on
+                      Android). The application ceases to collect location data
+                      once the exposure session ends.
+                    </p>
+                    <p>
+                      <strong>Audio:</strong><br />
+                      During an exposure session, users can record audio, which
+                      is stored in Base64 format in BigQuery. These recordings
+                      are collected for therapeutic purposes and are linked only
+                      to the access code provided by the therapist.
+                    </p>
+                    <p>
+                      <strong>Device Data (minimal):</strong><br />
+                      We may collect some technical information necessary to
+                      ensure the app functions correctly (e.g., app version,
+                      operating system). The app also requires storage
+                      permissions to save and send data when an internet
+                      connection is detected.
+                    </p>
+                  </section>
+
+                  <!-- 5. How We Use the Data -->
+                  <section>
+                    <h3>5. How We Use the Data</h3>
+                    <p>
+                      <strong>Therapeutic Purposes:</strong><br />
+                      Location data and audio recordings are used so that the
+                      therapist can monitor exposures and provide better therapy
+                      follow-up. The therapist accesses this information through
+                      the associated web tool.
+                    </p>
+                    <p>
+                      <strong>Storage and Synchronization:</strong><br />
+                      Data is initially stored on the user’s device during
+                      sessions. Once the app detects an internet connection,
+                      data is uploaded to and stored in BigQuery. When the user
+                      logs out, local data is deleted from the device. When the
+                      user logs in, the app retrieves data stored in BigQuery.
+                    </p>
+                    <p>
+                      <strong>Third-Party Services:</strong><br />
+                      We use Firebase to manage user configurations (e.g.,
+                      exposure locations) and BigQuery to store data. These
+                      providers may collect and process information according to
+                      their own privacy policies. We encourage you to review
+                      those to understand their data handling practices.
+                    </p>
+                  </section>
+
+                  <!-- 6. Permissions Requested -->
+                  <section>
+                    <h3>6. Permissions Requested</h3>
+                    <p>
+                      Our <code>AndroidManifest.xml</code> includes the
+                      following permissions:
+                    </p>
+                    <ul>
+                      <li>
+                        android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                      </li>
+                      <li>android.permission.ACCESS_FINE_LOCATION</li>
+                      <li>android.permission.ACCESS_BACKGROUND_LOCATION</li>
+                      <li>android.permission.READ_EXTERNAL_STORAGE</li>
+                      <li>android.permission.WRITE_EXTERNAL_STORAGE</li>
+                      <li>android.permission.INTERNET</li>
+                      <li>android.permission.CALL_PHONE</li>
+                      <li>android.permission.RECORD_AUDIO</li>
+                      <li>android.permission.POST_NOTIFICATIONS</li>
+                    </ul>
+                    <p>
+                      <strong>Purposes:</strong><br />
+                      Location: to track geolocation during exposure
+                      sessions.<br />
+                      Storage: to temporarily store data (audio) and then upload
+                      to BigQuery.<br />
+                      Microphone: to record audio during exposure sessions.<br />
+                      Notifications: to send alerts or reminders related to
+                      therapy (if implemented).
+                    </p>
+                  </section>
+
+                  <!-- 7. Data Storage and Security -->
+                  <section>
+                    <h3>7. Data Storage and Security</h3>
+                    <p>
+                      <strong>Local Storage:</strong> Data is temporarily stored
+                      on the device during exposure sessions.
+                    </p>
+                    <p>
+                      <strong>Cloud Storage:</strong> Once the app detects an
+                      internet connection, data is synchronized and uploaded to
+                      BigQuery.
+                    </p>
+                    <p>
+                      <strong>Security:</strong> We strive to protect your data
+                      via encryption methods and security protocols. However,
+                      information transmitted over the internet is not entirely
+                      secure, and we cannot guarantee absolute security.
+                    </p>
+                  </section>
+
+                  <!-- 8. User Rights -->
+                  <section>
+                    <h3>8. User Rights</h3>
+                    <p>
+                      Although we do not collect personally identifiable
+                      information, users have the right to:
+                    </p>
+                    <ul>
+                      <li>
+                        <strong>Access the data</strong> linked to their access
+                        code through their therapist.
+                      </li>
+                      <li>
+                        <strong>Delete data:</strong> If the user decides to
+                        discontinue therapy, they can request the therapist to
+                        remove their records from BigQuery.
+                      </li>
+                      <li>
+                        <strong>Opt out:</strong> Users may stop using the
+                        application at any time if they do not agree with
+                        location or audio recording practices.
+                      </li>
+                    </ul>
+                  </section>
+
+                  <!-- 9. Use by Minors -->
+                  <section>
+                    <h3>9. Use by Minors</h3>
+                    <p>
+                      This application is intended for adult users. However, in
+                      exceptional cases it may be used by minors under the
+                      supervision of a therapist or legal guardian. We do not
+                      knowingly collect personal information from minors without
+                      consent.
+                    </p>
+                  </section>
+
+                  <!-- 10. Possible data collection from third-party apps-->
+                  <section class="third-party-services">
+                    <h3>
+                      10. Possible Data Collection from Third-Party Services
+                    </h3>
+                    <p>
+                      While using our Service, we do not require you to provide
+                      personally identifiable information. However, the app
+                      integrates certain third-party services that may collect
+                      information used to identify you. We recommend reviewing
+                      each service’s privacy policy to understand their data
+                      collection and usage practices.
+                    </p>
+                    <p>
+                      The third-party service providers used by the app include:
+                    </p>
+                    <ul>
+                      <li>
+                        <a href="https://policies.google.com/privacy"
+                          >Google Play services</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="https://marketingplatform.google.com/about/analytics/terms/gb/"
+                          >Google Analytics for Firebase</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="https://firebase.google.com/support/privacy?hl=es"
+                          >Firebase Crashlytics</a
+                        >
+                      </li>
+                      <li>
+                        <a href="https://www.mapbox.com/legal/privacy"
+                          >Mapbox</a
+                        >
+                      </li>
+                      <li>
+                        <a href="https://www.couchbase.com/privacy-policy/"
+                          >Couchbase</a
+                        >
+                      </li>
+                      <li>
+                        <a href="https://www.akylas.fr/privacy"
+                          >Akylas nativescript package</a
+                        >
+                      </li>
+                    </ul>
+                    <p>
+                      These services may collect data such as device
+                      information, app usage statistics, or other diagnostic
+                      information. By using our app, you acknowledge that these
+                      third parties may process your data according to their
+                      respective privacy policies.
+                    </p>
+                  </section>
+
+                  <!-- 11. Changes to This Privacy Policy -->
+                  <section>
+                    <h3>11. Changes to This Privacy Policy</h3>
+                    <p>
+                      We reserve the right to update or modify this Privacy
+                      Policy at any time. When changes are made, we will notify
+                      users via:
+                    </p>
+                    <ul>
+                      <li>A notice within the app.</li>
+                      <li>Our website or associated web tool.</li>
+                      <li>
+                        An email to the responsible therapist, if applicable.
+                      </li>
+                    </ul>
+                    <p>
+                      The date of the last update is indicated at the top of
+                      this document.
+                    </p>
+                  </section>
+
+                  <!-- 12. Contact -->
+                  <section>
+                    <h3>12. Contact</h3>
+                    <p>
+                      If you have any questions, concerns, or wish to exercise
+                      any of your rights regarding this Privacy Policy, please
+                      contact us at:
+                      <br />
+                      <strong>Email:</strong>
+                      <a href="mailto:geotecuji@gmail.com"
+                        >geotecuji@gmail.com</a
+                      >
+                    </p>
+                    <p></p>
+                  </section>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer id="footer">
+        <div class="container">
+          <div class="row gtr-200">
+            <div class="col-12">
+              <!-- About -->
+              <section>
+                <p>
+                  SyMptOMS is being developed by
+                  <a href="http://geotec.uji.es">GEOTEC</a> with the
+                  contribution of
+                  <a href="http://www.labpsitec.uji.es/esp/index.php"
+                    >LABPSITEC</a
+                  >
+                  and funding by Ministerio de Ciencia, Innovación y
+                  Universidades
+                </p>
+              </section>
+            </div>
+            <div class="col-12">
+              <!-- Contact -->
+              <section>
+                <h2 class="major"><span>Get in touch</span></h2>
+                <ul class="contact">
+                  <li>
+                    <a class="icon brands fa-facebook-f" href="#"
+                      ><span class="label">Facebook</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="icon brands fa-twitter"
+                      target="_blank"
+                      href="https://twitter.com/geotecUJI"
+                      ><span class="label">Twitter</span></a
+                    >
+                  </li>
+                  <li>
+                    <a class="icon brands fa-instagram" href="#"
+                      ><span class="label">Instagram</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="icon brands fa-dribbble"
+                      target="_blank"
+                      href="http://geotec.uji.es/projects/symptoms/"
+                      ><span class="label">Dribbble</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="icon brands fa-linkedin-in"
+                      target="_blank"
+                      href="https://www.linkedin.com/company/geotec-geospatial-technologies-research-group---universitat-jaume-i/about/"
+                    >
+                      <span class="label">LinkedIn</span>
+                    </a>
+                  </li>
+                </ul>
+              </section>
+            </div>
+          </div>
+          <!-- Copyright -->
+          <div id="copyright">
+            <ul class="menu">
+              <li>&copy; Untitled. All rights reserved</li>
+              <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.dropotron.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

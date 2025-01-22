@@ -12,8 +12,31 @@ figcaption {
   font-style: italic;
 }
 
+article.box.page-content section:nth-of-type(n + 1) {
+  margin-bottom: 50px;
+}
+
+li {
+  font-size: 12px;
+  font-family: inherit;
+  text-align: justify;
+}
+
+nav li {
+  font-size: inherit;
+  text-align: initial;
+}
+
+ul {
+  margin-bottom: 0;
+}
+
 li a {
   text-decoration: none;
+}
+
+.third-party-services li a {
+  text-decoration: underline !important;
 }
 
 div.hide {
@@ -33,18 +56,18 @@ li.lang a:hover {
 }
 
 li.lang-disabled a {
-  color: #2DC38A !important;
+  color: #2dc38a !important;
   pointer-events: none !important;
 }
 
 li.lang-disabled a:hover {
-  color: #2DC38A !important;
+  color: #2dc38a !important;
   background-color: inherit !important;
   pointer-events: none !important;
 }
 
 li.lang-disabled:hover {
-  color: #2DC38A !important;
+  color: #2dc38a !important;
   background-color: inherit !important;
   pointer-events: none !important;
 }
@@ -57,11 +80,13 @@ li.lang-disabled:hover {
 p {
   text-align: justify;
   font-size: 12px;
+  padding: 0;
+  margin: 0 0 20px 0;
 }
 
 .menu-lang {
-  margin-left: 8vw;
-  margin-right: -8vw;
+  float: right;
+  margin: 0;
 }
 
 .item-lang {
