@@ -1,5 +1,5 @@
-@import url('fontawesome-all.min.css');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic|Open+Sans+Condensed:700');
+@import url("fontawesome-all.min.css");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic|Open+Sans+Condensed:700");
 
 /*
 	TXT by HTML5 UP
@@ -128,7 +128,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
+  content: "";
   content: none;
 }
 
@@ -215,7 +215,7 @@ body,
 input,
 textarea,
 select {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: 400;
   color: #6b7770;
   font-size: 13pt;
@@ -228,10 +228,10 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #1F525E;
+  color: #1f525e;
   margin: 0 0 0.5em 0;
   line-height: 1.3;
 }
@@ -284,7 +284,7 @@ a:hover {
 b,
 strong {
   font-weight: 700;
-  color: #1F525E;
+  color: #1f525e;
 }
 
 i,
@@ -344,7 +344,7 @@ article:last-child {
 
 header > p {
   display: block;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   color: #c1cac5;
@@ -1861,13 +1861,13 @@ header > p {
 }
 
 .image:before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background: url('images/overlay.png');
+  /* background: url("images/overlay.png"); */
   border-radius: 8px;
 }
 
@@ -1898,18 +1898,18 @@ header > p {
 }
 /* Button */
 
-input[type='button'],
-input[type='submit'],
-input[type='reset'],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
 button,
 .button {
   -webkit-appearance: none;
   display: inline-block;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   text-decoration: none;
-  background: #2DC38A;
+  background: #2dc38a;
   color: #fff;
   border: 0;
   line-height: 1.25em;
@@ -1927,49 +1927,49 @@ button,
   vertical-align: middle;
 }
 
-input[type='button']:hover,
-input[type='submit']:hover,
-input[type='reset']:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
 button:hover,
 .button:hover {
   background: #c1edbb;
 }
 
-input[type='button']:active,
-input[type='submit']:active,
-input[type='reset']:active,
+input[type="button"]:active,
+input[type="submit"]:active,
+input[type="reset"]:active,
 button:active,
 .button:active {
   background: #a1cd9b;
 }
 
-input[type='button'].alt,
-input[type='submit'].alt,
-input[type='reset'].alt,
+input[type="button"].alt,
+input[type="submit"].alt,
+input[type="reset"].alt,
 button.alt,
 .button.alt {
   background: #c1cac5;
 }
 
-input[type='button'].alt:hover,
-input[type='submit'].alt:hover,
-input[type='reset'].alt:hover,
+input[type="button"].alt:hover,
+input[type="submit"].alt:hover,
+input[type="reset"].alt:hover,
 button.alt:hover,
 .button.alt:hover {
   background: #ccd5d0;
 }
 
-input[type='button'].alt:active,
-input[type='submit'].alt:active,
-input[type='reset'].alt:active,
+input[type="button"].alt:active,
+input[type="submit"].alt:active,
+input[type="reset"].alt:active,
 button.alt:active,
 .button.alt:active {
   background: #b1bab5;
 }
 
-input[type='button'].large,
-input[type='submit'].large,
-input[type='reset'].large,
+input[type="button"].large,
+input[type="submit"].large,
+input[type="reset"].large,
 button.large,
 .button.large {
   font-size: 1.25em;
@@ -2213,15 +2213,15 @@ ul.menu li:first-child {
 form label {
   display: block;
   margin: 0 0 1em 0;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #1F525E;
+  color: #1f525e;
 }
 
-form input[type='text'],
-form input[type='email'],
-form input[type='password'],
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
 form select,
 form textarea {
   -webkit-appearance: none;
@@ -2231,17 +2231,17 @@ form textarea {
   border: solid 2px #e7eae8;
 }
 
-form input[type='text']:focus,
-form input[type='email']:focus,
-form input[type='password']:focus,
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
 form select:focus,
 form textarea:focus {
   border-color: #a1cd9b;
 }
 
-form input[type='text'],
-form input[type='email'],
-form input[type='password'],
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
 form select {
   line-height: 3em;
   padding: 0 1em;
@@ -2298,10 +2298,10 @@ table.default th {
   text-align: left;
   padding: 0.5em 1em 0.5em 1em;
   margin: 0 0 1em 0;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #1F525E;
+  color: #1f525e;
 }
 
 table.default thead {
@@ -2392,7 +2392,7 @@ table.default thead {
   text-rendering: auto;
   line-height: 1;
   text-transform: none !important;
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: 400;
 }
 
@@ -2409,7 +2409,7 @@ table.default thead {
 }
 
 .icon.brands:before {
-  font-family: 'Font Awesome 5 Brands';
+  font-family: "Font Awesome 5 Brands";
 }
 
 /* Page Wrapper */
@@ -2423,7 +2423,7 @@ table.default thead {
 #header {
   text-align: center;
   font-size: 2em;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   padding: 1em 0;
@@ -2464,13 +2464,13 @@ body {
   top: 0;
   left: 0;
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.95);
-  background-image: url('images/overlay.png');
+  background-color: rgba(255, 255, 255, 1);
+  /* background-image: url("images/overlay.png"); */
   width: 100%;
   height: 3.25em;
   line-height: 3.25em;
   text-align: center;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   cursor: default;
@@ -2507,7 +2507,7 @@ body {
   position: relative;
   display: block;
   text-decoration: none;
-  color: #1F525E;
+  color: #1f525e;
   top: -6px;
   padding: 6px 1.5em 0.25em 1.5em;
   border-bottom-left-radius: 6px;
@@ -2533,18 +2533,18 @@ body {
 }
 
 #nav li.current a {
-  background: #2DC38A;
+  background: #2dc38a;
   color: #fff;
 }
 
 .dropotron {
   list-style: none;
-  background: #1F525E;
+  background: #1f525e;
   color: #fff;
   border-radius: 6px;
   line-height: 2.75em;
   text-align: center;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   padding: 1em 0;
@@ -2588,12 +2588,12 @@ body {
 }
 
 .dropotron.level-0:before {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%;
   margin-left: -1em;
   top: -0.65em;
-  border-bottom: solid 1em #1F525E;
+  border-bottom: solid 1em #1f525e;
   border-left: solid 1em transparent;
   border-right: solid 1em transparent;
 }
@@ -2602,8 +2602,8 @@ body {
 
 #banner {
   position: relative;
-  background-image: url('images/overlay.png'), url('images/overlay.png'),
-    url('../../images/banner.jpg');
+  /* background-image: url("images/overlay.png"), url("images/overlay.png"), */
+  /* url("../../images/banner.jpg"); */
   background-position: top left, top left, center center;
   background-repeat: repeat, repeat, no-repeat;
   background-size: auto, auto, cover;
@@ -2613,8 +2613,8 @@ body {
 
 #banner .content {
   position: relative;
-  background-color: rgba(21, 28, 23, 0.85);
-  background-image: url('images/overlay.png'), url('images/highlight.png');
+  background-color: rgba(21, 28, 23, 1);
+  /* background-image: url("images/overlay.png"), url("images/highlight.png"); */
   background-position: top left, center center;
   background-size: auto, 100% 250%;
   background-repeat: repeat, no-repeat;
@@ -2631,7 +2631,7 @@ body {
 
 #banner .content p {
   display: block;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   color: #575d59;
@@ -2665,7 +2665,7 @@ body {
 
 #main {
   background: #fff;
-  border-top: solid 5px #2DC38A;
+  border-top: solid 5px #2dc38a;
   border-bottom: solid 5px #c1cac5;
   border-top-width: 35px;
   border-bottom-width: 10px;
@@ -2909,14 +2909,14 @@ body {
     top: 0;
     width: 100%;
     z-index: 10001;
-    background-image: url('images/overlay.png');
+    /* background-image: url("images/overlay.png"); */
     background-color: #fff;
   }
 
   #titleBar .title {
     display: block;
     position: relative;
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: "Open Sans Condensed", sans-serif;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 1.25em;
@@ -2945,7 +2945,7 @@ body {
     text-rendering: auto;
     line-height: 1;
     text-transform: none !important;
-    font-family: 'Font Awesome 5 Free';
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
   }
 
@@ -2955,10 +2955,10 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    background: #2DC38A;
+    background: #2dc38a;
     width: 44px;
     height: 44px;
-    content: '\f0c9';
+    content: "\f0c9";
     color: #fff;
     text-align: center;
     line-height: 44px;
@@ -2991,17 +2991,17 @@ body {
     width: 275px;
     z-index: 10002;
     background-color: #353c37;
-    background-image: url('images/overlay.png'),
+    /* background-image: url("images/overlay.png"),
       -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-    background-image: url('images/overlay.png'),
+    background-image: url("images/overlay.png"),
       -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-    background-image: url('images/overlay.png'),
+    background-image: url("images/overlay.png"),
       -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-    background-image: url('images/overlay.png'),
-      linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+    background-image: url("images/overlay.png"),
+      linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)); */
     background-repeat: repeat, no-repeat;
     background-size: auto, 100% 100%;
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: "Open Sans Condensed", sans-serif;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 1.25em;
@@ -3115,9 +3115,9 @@ body {
 
   /* Button */
 
-  input[type='button'],
-  input[type='submit'],
-  input[type='reset'],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
   button,
   .button {
     display: inline-block;
@@ -3125,9 +3125,9 @@ body {
     width: 100%;
   }
 
-  input[type='button'].large,
-  input[type='submit'].large,
-  input[type='reset'].large,
+  input[type="button"].large,
+  input[type="submit"].large,
+  input[type="reset"].large,
   button.large,
   .button.large {
     font-size: 1em;
