@@ -1,0 +1,269 @@
+{
+  "_siteUrlNote": "The canonical origin. Canonical links, hreflang, og:url and sitemap.xml are all built from it. symptoms-app.com was chosen on 2026-09-14: it is the domain GEOTEC's project page links to, it carries its own Google-issued certificate for the apex and www, and www already redirects to it. symptoms-web.web.app serves the identical site and is consolidated by the canonical tags.",
+  "siteUrl": "https://symptoms-app.com",
+
+  "locales": {
+    "en": { "dir": "", "lang": "en", "ogLocale": "en_US" },
+    "es": { "dir": "es", "lang": "es", "ogLocale": "es_ES" }
+  },
+
+  "nav": [
+    { "page": "index", "label": { "en": "Home", "es": "Inicio" } },
+    {
+      "page": "research-lines",
+      "label": { "en": "Research Lines", "es": "Investigación" }
+    },
+    {
+      "page": "use-cases",
+      "label": { "en": "Use Cases", "es": "Casos de Uso" }
+    },
+    { "page": "tools", "label": { "en": "Tools", "es": "Herramientas" } },
+    {
+      "page": "publications",
+      "label": { "en": "Publications", "es": "Publicaciones" }
+    },
+    { "page": "blog", "label": { "en": "Blog", "es": "Blog" } },
+    { "page": "about", "label": { "en": "About us", "es": "Sobre nosotros" } },
+    {
+      "page": "privacy-policies",
+      "label": { "en": "Privacy Policies", "es": "Privacidad" }
+    }
+  ],
+
+  "_socialLinksNote": "style is the Font Awesome family: 'brands' for a company mark, 'solid' for a generic glyph. label is the accessible name -- main.css hides it visually (.icon > .label { display: none }), so it is all a screen reader gets. Facebook and Instagram were removed on 2026-09-10: both were href='#'.",
+
+  "socialLinks": [
+    {
+      "icon": "fa-twitter",
+      "style": "brands",
+      "href": "https://twitter.com/geotecUJI",
+      "label": "GEOTEC on Twitter",
+      "external": true
+    },
+    {
+      "icon": "fa-globe",
+      "style": "solid",
+      "href": "https://geotec.uji.es/projects/symptoms/",
+      "label": "GEOTEC project page",
+      "external": true
+    },
+    {
+      "icon": "fa-linkedin-in",
+      "style": "brands",
+      "href": "https://www.linkedin.com/company/geotec-geospatial-technologies-research-group---universitat-jaume-i/about/",
+      "label": "GEOTEC on LinkedIn",
+      "external": true
+    }
+  ],
+
+  "_stylesheetsNote": "Order matters: fonts.css and fontawesome-all.min.css used to be @imported at the top of main.css (removed 2026-09-14), so they come first to keep the same cascade.",
+  "stylesheets": [
+    "assets/css/fonts.css",
+    "assets/css/fontawesome-all.min.css",
+    "assets/css/main.css",
+    "assets/css/custom.css"
+  ],
+
+  "scripts": [
+    "assets/js/jquery.min.js",
+    "assets/js/jquery.dropotron.min.js",
+    "assets/js/jquery.scrolly.min.js",
+    "assets/js/browser.min.js",
+    "assets/js/breakpoints.min.js",
+    "assets/js/util.js",
+    "assets/js/main.js"
+  ],
+
+  "strings": {
+    "en": {
+      "taglineTop": "Sensor- and Mobile-based",
+      "taglineBottom": "Mental Health Solution",
+      "logoAlt": "SyMptOMS home page",
+      "getInTouch": "Get in touch",
+      "footerAbout": "SyMptOMS is being developed by\n<a href=\"https://geotec.uji.es\">GEOTEC</a> with the\ncontribution of\n<a href=\"https://www.labpsitec.uji.es/esp/index.php\">LABPSITEC</a>\nand funding by Ministerio de Ciencia, Innovación y\nUniversidades",
+      "copyright": "&copy; 2026 GEOTEC &middot; Universitat Jaume I",
+      "designCredit": "Design: <a href=\"https://html5up.net\">HTML5 UP</a>",
+
+      "blogLoading": "Loading posts…",
+      "blogEmpty": "There are no posts to show yet.",
+      "blogError": "The posts could not be loaded right now. You can read them on the GEOTEC blog:",
+      "blogErrorLink": "geotec.uji.es/blog",
+      "blogFallbackUrl": "https://geotec.uji.es/blog",
+      "blogSeeOriginal": "See original post",
+      "blogReadMore": "Read more",
+
+      "pubsLoading": "Loading publications…",
+      "pubsEmpty": "There are no publications to show yet.",
+      "pubsError": "The publications could not be loaded right now. You can browse them on the GEOTEC site:",
+      "pubsErrorLink": "geotec.uji.es",
+      "pubsFallbackUrl": "https://geotec.uji.es/publications/",
+      "pubsTypeArticle": "Article",
+      "pubsTypeInproceedings": "Conference paper",
+      "pubsTypePhdThesis": "PhD thesis",
+      "pubsTypeMasterThesis": "Master thesis",
+      "pubsAbstract": "Abstract",
+
+      "shareImageAlt": "SyMptOMS logo"
+    },
+    "es": {
+      "taglineTop": "Soluciones de salud mental",
+      "taglineBottom": "basadas en sensores y móviles",
+      "logoAlt": "Página de inicio de SyMptOMS",
+      "getInTouch": "Contacto",
+      "footerAbout": "SyMptOMS es un desarrollo de\n<a href=\"https://geotec.uji.es\">GEOTEC</a> con la\ncolaboración de\n<a href=\"https://www.labpsitec.uji.es/esp/index.php\">LABPSITEC</a>\ny financiado por el Ministerio de Ciencia, Innovación y\nUniversidades.",
+      "copyright": "&copy; 2026 GEOTEC &middot; Universitat Jaume I",
+      "designCredit": "Diseño: <a href=\"https://html5up.net\">HTML5 UP</a>",
+
+      "blogLoading": "Cargando publicaciones…",
+      "blogEmpty": "Todavía no hay publicaciones que mostrar.",
+      "blogError": "No se han podido cargar las publicaciones en este momento. Puedes leerlas en el blog de GEOTEC:",
+      "blogErrorLink": "geotec.uji.es/blog",
+      "blogFallbackUrl": "https://geotec.uji.es/blog",
+      "blogSeeOriginal": "Ver publicación original",
+      "blogReadMore": "Leer más",
+
+      "pubsLoading": "Cargando publicaciones…",
+      "pubsEmpty": "Todavía no hay publicaciones que mostrar.",
+      "pubsError": "No se han podido cargar las publicaciones en este momento. Puedes consultarlas en la web de GEOTEC:",
+      "pubsErrorLink": "geotec.uji.es",
+      "pubsFallbackUrl": "https://geotec.uji.es/publications/",
+      "pubsTypeArticle": "Artículo",
+      "pubsTypeInproceedings": "Contribución a congreso",
+      "pubsTypePhdThesis": "Tesis doctoral",
+      "pubsTypeMasterThesis": "Tesis de máster",
+      "pubsAbstract": "Resumen",
+
+      "shareImageAlt": "Logotipo de SyMptOMS"
+    }
+  },
+
+  "_shareNote": "Link-preview image for every page. 1200x630 is the ratio Facebook, LinkedIn and X expect; the old image was the 1000x221 wordmark, which previews cropped to the middle letters. Generated by tools/make-icons.mjs.",
+  "share": {
+    "siteName": "SyMptOMS",
+    "image": "images/og-symptoms.png",
+    "imageWidth": 1200,
+    "imageHeight": 630,
+    "twitterCard": "summary_large_image"
+  },
+
+  "_sitemapExtraNote": "Files in src/standalone/ that belong in sitemap.xml. Templated pages are added automatically.",
+  "sitemapExtra": ["symptoms-infography.html"],
+
+  "_pagesNote": "title: the browser tab and search-result title. description: search snippet and link preview, required for every indexable page -- keep it to ~160 characters and to claims the page itself makes. locales: restrict a page to some locales (default: all). noindex: keep a page out of search and the sitemap. rootRelative: root-absolute asset paths and links, for a page served at arbitrary depths.",
+
+  "pages": {
+    "index": {
+      "bodyClass": "homepage wide-measure",
+      "title": {
+        "en": "SyMptOMS - Home",
+        "es": "SyMptOMS - Inicio"
+      },
+      "description": {
+        "en": "A GEOTEC and LABPSITEC research project at Universitat Jaume I developing smartphone- and sensor-based solutions for mental health diagnosis and treatment.",
+        "es": "Proyecto de investigación de GEOTEC y LABPSITEC en la Universitat Jaume I que desarrolla soluciones basadas en smartphones y sensores para la salud mental."
+      }
+    },
+    "research-lines": {
+      "bodyClass": "homepage",
+      "title": {
+        "en": "Research lines - SyMptOMS",
+        "es": "Líneas de investigación - SyMptOMS"
+      },
+      "description": {
+        "en": "SyMptOMS research lines: mobile devices, wearables and mobile games, with smartphone sensors that detect patients’ movement to or from predefined places.",
+        "es": "Líneas de investigación de SyMptOMS: móviles, dispositivos portátiles y videojuegos, con sensores que detectan desplazamientos a lugares predefinidos."
+      }
+    },
+    "use-cases": {
+      "bodyClass": "homepage",
+      "title": {
+        "en": "Use cases - SyMptOMS",
+        "es": "Casos de uso - SyMptOMS"
+      },
+      "description": {
+        "en": "A randomized controlled trial for anxiety disorder and published case studies on panic disorder with agoraphobia and gambling problems, all built on SyMptOMS.",
+        "es": "Un ensayo controlado aleatorizado sobre trastorno de ansiedad y casos publicados de trastorno de pánico con agorafobia y juego patológico, con SyMptOMS."
+      }
+    },
+    "tools": {
+      "bodyClass": "",
+      "title": {
+        "en": "Platform and tools - SyMptOMS",
+        "es": "Plataforma y herramientas - SyMptOMS"
+      },
+      "description": {
+        "en": "The SyMptOMS platform: an Android app for patients, a web app for configuring each patient's treatment, and a web app for tracking their progress.",
+        "es": "La plataforma SyMptOMS: una app Android para pacientes, una aplicación web para configurar cada tratamiento y otra para seguir la evolución del paciente."
+      }
+    },
+    "publications": {
+      "bodyClass": "homepage wide-measure",
+      "scripts": ["assets/js/publications.js"],
+      "title": {
+        "en": "Publications - SyMptOMS",
+        "es": "Publicaciones - SyMptOMS"
+      },
+      "description": {
+        "en": "Journal articles, conference papers and theses published by the SyMptOMS research project.",
+        "es": "Artículos en revistas, contribuciones a congresos y tesis del proyecto de investigación SyMptOMS."
+      }
+    },
+    "blog": {
+      "bodyClass": "homepage wide-measure",
+      "scripts": ["assets/js/sanitize-html.js", "assets/js/blog.js"],
+      "title": { "en": "Blog - SyMptOMS", "es": "Blog - SyMptOMS" },
+      "description": {
+        "en": "News and updates on the SyMptOMS project from the GEOTEC research group at Universitat Jaume I.",
+        "es": "Noticias y novedades del proyecto SyMptOMS, del grupo de investigación GEOTEC de la Universitat Jaume I."
+      }
+    },
+    "about": {
+      "bodyClass": "page-about",
+      "title": {
+        "en": "About us - SyMptOMS",
+        "es": "Sobre nosotros - SyMptOMS"
+      },
+      "description": {
+        "en": "The interdisciplinary team behind SyMptOMS: developers and clinical psychologists from GEOTEC and LABPSITEC at Universitat Jaume I.",
+        "es": "El equipo interdisciplinario detrás de SyMptOMS: desarrolladores y especialistas en psicología clínica de GEOTEC y LABPSITEC, en la Universitat Jaume I."
+      }
+    },
+    "privacy-policies": {
+      "bodyClass": "wide-measure",
+      "title": {
+        "en": "Privacy policies - SyMptOMS",
+        "es": "Políticas de privacidad - SyMptOMS"
+      },
+      "description": {
+        "en": "How the SyMptOMS mobile application, developed by GEOTEC, collects, uses and protects user information.",
+        "es": "Cómo la aplicación móvil SyMptOMS, desarrollada por GEOTEC, recopila, usa y protege la información de los usuarios."
+      }
+    },
+
+    "rct": {
+      "nav": null,
+      "bodyClass": "wide-measure page-rct",
+      "title": {
+        "en": "SyMptOMS-JIT randomized controlled trial",
+        "es": "SyMptOMS-JIT: ensayo controlado aleatorizado"
+      },
+      "description": {
+        "en": "A randomized controlled trial of SyMptOMS-JIT, a sensor-based, smartphone-guided in vivo exposure therapy using just-in-time interventions for anxiety disorder.",
+        "es": "Ensayo controlado aleatorizado de SyMptOMS-JIT, una terapia de exposición in vivo guiada por smartphone y basada en sensores, con intervenciones just-in-time."
+      }
+    },
+
+    "404": {
+      "_note": "Served by Firebase Hosting for any missing path, at any depth -- hence rootRelative. English only, with a Spanish line in the body, because there is one 404 file for the whole site.",
+      "locales": ["en"],
+      "nav": null,
+      "rootRelative": true,
+      "noindex": true,
+      "bodyClass": "",
+      "title": { "en": "Page not found - SyMptOMS" },
+      "description": {
+        "en": "The page you were looking for could not be found."
+      }
+    }
+  }
+}

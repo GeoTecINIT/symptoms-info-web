@@ -1,0 +1,36 @@
+<!-- Footer -->
+<footer id="footer">
+  <div class="container">
+    <div class="row gtr-200">
+      <div class="col-12">
+        <!-- About -->
+        <section>
+          <p>
+            {{strings.footerAbout}}
+          </p>
+        </section>
+      </div>
+      <div class="col-12">
+        <!-- Contact -->
+        <section>
+          <h2 class="major"><span>{{strings.getInTouch}}</span></h2>
+          <ul class="contact">
+            {{#each socialLinks}}
+            <li>
+              <a class="icon {{style}} {{icon}}"{{#if external}} target="_blank" rel="noopener noreferrer"{{/if}} href="{{href}}"><span class="label">{{label}}</span></a>
+            </li>
+            {{/each}}
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div id="copyright">
+      <ul class="menu">
+        <li>{{strings.copyright}}</li>
+        <li>{{strings.designCredit}}</li>
+      </ul>
+    </div>
+  </div>
+</footer>

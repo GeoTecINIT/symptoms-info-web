@@ -1,6 +1,9 @@
 {
   "rules": {
-    ".read": "true",
-    ".write": "auth !== null"
+    ".read": false,
+    ".write": false,
+    "geotecblog": { ".read": true },
+    "publications": { ".read": true },
+    "lastUpdated": { ".read": true }
   }
 }

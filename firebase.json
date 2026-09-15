@@ -16,15 +16,10 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "./",
+    "public": "dist",
     "site": "symptoms-web",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+    "predeploy": ["node build.mjs"],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   },
   "emulators": {
     "functions": {

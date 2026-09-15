@@ -1,0 +1,55 @@
+<!-- Main -->
+<section id="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-3 col-12-medium">
+        <div class="sidebar">
+          <!-- Sidebar -->
+
+          <!-- Recent Posts -->
+          <section>
+            <h2 class="major"><span>Posts Recientes</span></h2>
+            <ul class="divided" id="posts-summary"></ul>
+          </section>
+        </div>
+      </div>
+      <div class="col-9 col-12-medium imp-medium">
+        <div class="content">
+          <!-- Content -->
+          <article id="last_post" class="box page-content"></article>
+        </div>
+      </div>
+      <div class="col-12">
+        <!-- Features -->
+        <section class="box features">
+          <h2 class="major"><span>Ver más posts de SyMptOMS</span></h2>
+          <div>
+            <div id="more_posts" class="row"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- @scripts -->
+<script>
+  // Rendering lives in assets/js/blog.js -- one copy for both locales.
+  // Fetch /geotecblog, not the database root: database.rules.json scopes .read
+  // to the three public nodes, and RTDB refuses a request for any path the
+  // caller cannot read in full rather than filtering it.
+  initBlog({
+    endpoint: "https://symptoms-web-default-rtdb.europe-west1.firebasedatabase.app/geotecblog.json",
+    lang: "{{lang}}",
+    fallbackUrl: "{{strings.blogFallbackUrl}}",
+    strings: {
+      loading: "{{strings.blogLoading}}",
+      empty: "{{strings.blogEmpty}}",
+      error: "{{strings.blogError}}",
+      errorLinkText: "{{strings.blogErrorLink}}",
+      seeOriginal: "{{strings.blogSeeOriginal}}",
+      readMore: "{{strings.blogReadMore}}"
+    }
+  });
+</script>
+<!-- /@scripts -->

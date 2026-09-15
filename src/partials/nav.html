@@ -1,0 +1,16 @@
+<!-- Nav. Two lists: the pages, and the language switcher. They were one <ul>
+     with the switcher as a <span> inside it, which is invalid HTML and made it
+     impossible to lay the two out independently. main.js builds the mobile
+     panel from every #nav anchor in document order, so the order is unchanged. -->
+<nav id="nav">
+  <ul class="menu-main">
+    {{#each nav}}
+    <li{{#if current}} class="current"{{/if}}><a href="{{href}}">{{label}}</a></li>
+    {{/each}}
+  </ul>
+  <ul class="menu-lang">
+    {{#each langs}}
+    <li class="item-lang {{cls}}"><a href="{{href}}">{{code}}</a></li>
+    {{/each}}
+  </ul>
+</nav>

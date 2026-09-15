@@ -1,0 +1,31 @@
+<!-- Main -->
+<!-- One 404 page serves every missing path in both locales, so it carries both
+     languages. Links and assets use {{prefix}}, which is "/" here because the
+     page is rootRelative: it can be served at /es/anything/missing.html, where
+     a relative path would resolve against the missing URL. -->
+<section id="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="content">
+          <article class="box page-content">
+            <header>
+              <h2>Page not found</h2>
+              <p lang="es">Página no encontrada</p>
+            </header>
+            <section>
+              <p>
+                The page you were looking for does not exist or has moved.
+                <a href="{{prefix}}index.html">Go to the SyMptOMS home page</a>.
+              </p>
+              <p lang="es">
+                La página que buscas no existe o ha cambiado de dirección.
+                <a href="{{prefix}}es/index.html">Ir a la página de inicio de SyMptOMS</a>.
+              </p>
+            </section>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+<!-- Main -->
+<section id="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="content">
+          <!-- Content -->
+          <article class="box page-content">
+            <header>
+              <h2>Publicaciones SyMptOMS</h2>
+            </header>
+          </article>
+        </div>
+      </div>
+      <div class="col-12">
+
+        <!-- The filter is wired up by assets/js/publications.js from
+             data-filter; there are no inline onclick handlers. -->
+        <div class="box feature" id="myBtnContainer">
+          <button type="button" class="btn active" data-filter="all">Mostrar todo</button>
+          <button type="button" class="btn" data-filter="article">Artículos</button>
+          <button type="button" class="btn" data-filter="inproceedings">Contribuciones a congresos</button>
+          <button type="button" class="btn" data-filter="phdthesis">Tesis Phd</button>
+          <button type="button" class="btn" data-filter="mastersthesis">Tesis Máster</button>
+        </div>
+
+        <div id="symptoms_publications"></div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- @scripts -->
+<script>
+  // Rendering and filtering live in assets/js/publications.js -- one copy for
+  // both locales.
+  initPublications({
+    endpoint: "https://symptoms-web-default-rtdb.europe-west1.firebasedatabase.app/publications.json",
+    fallbackUrl: "{{strings.pubsFallbackUrl}}",
+    strings: {
+      loading: "{{strings.pubsLoading}}",
+      empty: "{{strings.pubsEmpty}}",
+      error: "{{strings.pubsError}}",
+      errorLinkText: "{{strings.pubsErrorLink}}",
+      abstract: "{{strings.pubsAbstract}}",
+      types: {
+        article: "{{strings.pubsTypeArticle}}",
+        inproceedings: "{{strings.pubsTypeInproceedings}}",
+        phdthesis: "{{strings.pubsTypePhdThesis}}",
+        mastersthesis: "{{strings.pubsTypeMasterThesis}}"
+      }
+    }
+  });
+</script>
+<!-- /@scripts -->

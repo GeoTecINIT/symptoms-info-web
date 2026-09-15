@@ -1,0 +1,25 @@
+<meta name="description" content="{{meta.description}}">
+{{#if meta.indexable}}
+<link rel="canonical" href="{{meta.canonical}}">
+{{#each meta.alternates}}
+<link rel="alternate" hreflang="{{hreflang}}" href="{{href}}">
+{{/each}}
+{{else}}
+<meta name="robots" content="noindex">
+{{/if}}
+<meta property="og:site_name" content="{{share.siteName}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{meta.ogTitle}}">
+<meta property="og:description" content="{{meta.description}}">
+<meta property="og:locale" content="{{meta.ogLocale}}">
+{{#each meta.ogLocaleAlternates}}
+<meta property="og:locale:alternate" content="{{value}}">
+{{/each}}
+{{#if meta.indexable}}
+<meta property="og:url" content="{{meta.canonical}}">
+{{/if}}
+<meta property="og:image" content="{{meta.ogImage}}">
+<meta property="og:image:width" content="{{share.imageWidth}}">
+<meta property="og:image:height" content="{{share.imageHeight}}">
+<meta property="og:image:alt" content="{{meta.ogImageAlt}}">
+<meta name="twitter:card" content="{{share.twitterCard}}">
