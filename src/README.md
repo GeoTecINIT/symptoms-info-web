@@ -162,11 +162,12 @@ Two things those files build that the page sources do not contain:
   chips stack five rows deep. Add a filter by adding a chip — never write the
   `<option>`s by hand, or the two controls will disagree between locales.
 - **The blog's whole page furniture.** `blog.js` sorts posts newest first,
-  drops duplicate ids, builds the index cards, the sticky post rail in
-  `#post-rail`, each article's meta row (date, reading time, tags, source),
-  its outline when the post has two or more headings, and the `#post-<id>`
-  history handling. The page source is three empty containers and the
-  `initBlog(…)` call.
+  drops duplicate ids, builds the index cards and their pager in
+  `#post-pager` (three cards a page), the sticky post rail in `#post-rail`,
+  each article's meta row (date, reading time, tags, source), its outline when
+  the post has two or more headings, and the `#post-<id>` history handling.
+  The page source is four empty containers, one `<hr class="blog-split">` and
+  the `initBlog(…)` call.
 
 ## Template syntax
 
@@ -216,6 +217,12 @@ bare filenames; the build works out the language-switcher hrefs itself.
   in the page source is the sticky box; the `<nav>` inside it is built by JS
   and would have only its own height to travel in. Keep the wrapper, and keep
   its column stretched — no `align-self` on `blog-side`.
+- **A bare `<button>` gets the site's big green button styling**, including
+  `width: 100%` at 736px and below, because main.css's button rule matches the
+  element and not just `.button`. Anything that is a control but not a call to
+  action — the publications filter chips, the blog pager — has to undo that at
+  id strength: section 0 restates the fill on `button:hover` and
+  `button:active`, which beat a plain class.
 - **Buttons: use `.button` and nothing else.** Every button on the site is white
   on `--button` (`#3cb486`) with no border, in every state -- a deliberate
   choice that fails WCAG AA at 2.60:1. Do not add inline colours to a button, and do not

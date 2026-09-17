@@ -47,6 +47,13 @@
  *  - A post is addressable: `#post-<id>` opens it, Back returns to the
  *    previous one. Until now no post on this site could be linked to at all.
  *
+ * 2026-09-17: the index is paged, three cards at a time (POSTS_PER_PAGE).
+ * Nine cards filled the screen and pushed the article the reader had just
+ * picked below the fold. The card nodes are built once and moved between
+ * pages, never rebuilt, so their listeners and their `is-current` mark
+ * survive; the index opens on the page holding whatever is being read, and
+ * after that the pager belongs to the reader.
+ *
  * Requires sanitize-html.js to be loaded first.
  */
 (function (global) {
@@ -61,6 +68,11 @@
 
   // Below this, an outline is noise: it would repeat most of the post.
   var MIN_HEADINGS_FOR_OUTLINE = 2;
+
+  // Nine cards filled the screen and pushed the article the reader had just
+  // chosen below the fold (owner, 2026-09-17). Three is one full row from
+  // 981px up, and the number the owner asked for.
+  var POSTS_PER_PAGE = 3;
 
   function el(tag, className, text) {
     var node = document.createElement(tag);
@@ -192,12 +204,17 @@
     var postEl = document.getElementById(options.postId || 'last_post');
     var indexEl = document.getElementById(options.indexId || 'more_posts');
     var railEl = document.getElementById(options.railId || 'post-rail');
+    var pagerEl = document.getElementById(options.pagerId || 'post-pager');
     if (!postEl) return;
 
     var strings = options.strings || {};
     var lang = options.lang || 'en';
     var articles = {};   // post id -> the full <article> node
     var railLinks = {};  // post id -> its link in the rail
+    var cardsFor = {};   // post id -> its column in the index grid
+    var cards = [];      // every column, in the order the grid shows them
+    var pageButtons = [];
+    var currentPage = 0;
 
     function hashFor(id) {
       return '#post-' + id;
@@ -228,6 +245,18 @@
         railLinks[key].className = current ? 'post-rail-link is-current' : 'post-rail-link';
         if (current) railLinks[key].setAttribute('aria-current', 'true');
         else railLinks[key].removeAttribute('aria-current');
+      });
+      // The card is marked too, not just the rail: the rail is hidden below
+      // 981px, so on a phone the card is the only thing that can say which
+      // post the article underneath belongs to.
+      Object.keys(cardsFor).forEach(function (key) {
+        var current = key === id;
+        var section = cardsFor[key].firstChild;
+        section.className = current
+          ? 'box feature has-link post-card is-current'
+          : 'box feature has-link post-card';
+        if (current) section.setAttribute('aria-current', 'true');
+        else section.removeAttribute('aria-current');
       });
 
       if (scroll && postEl.scrollIntoView) postEl.scrollIntoView({ block: 'start' });
@@ -312,6 +341,101 @@
 
       col.appendChild(section);
       return col;
+    }
+
+    /* --- paging the index ---------------------------------------------------
+       The card nodes are built once and moved in and out of the grid, so a
+       card's listeners, and the `is-current` mark showPost() puts on it,
+       survive every page change. Rebuilding them per page would rewire nine
+       listeners for every click and drop the mark on the way. */
+
+    function pageCount() {
+      return Math.ceil(cards.length / POSTS_PER_PAGE);
+    }
+
+    function pageOfPost(id) {
+      var index = -1;
+      for (var i = 0; i < cards.length; i++) {
+        if (cards[i] === cardsFor[String(id)]) { index = i; break; }
+      }
+      return index < 0 ? 0 : Math.floor(index / POSTS_PER_PAGE);
+    }
+
+    function showPage(page) {
+      var last = pageCount() - 1;
+      currentPage = Math.max(0, Math.min(page, last));
+
+      indexEl.textContent = '';
+      var frag = document.createDocumentFragment();
+      var start = currentPage * POSTS_PER_PAGE;
+      for (var i = start; i < start + POSTS_PER_PAGE && i < cards.length; i++) {
+        frag.appendChild(cards[i]);
+      }
+      indexEl.appendChild(frag);
+
+      pageButtons.forEach(function (button) {
+        if (button.dataset.role === 'step') {
+          // Disabled rather than hidden: a control that vanishes at the ends
+          // makes the row jump and moves the other buttons under the cursor.
+          button.disabled =
+            button.dataset.dir === 'prev' ? currentPage === 0 : currentPage >= last;
+          return;
+        }
+        var current = Number(button.dataset.page) === currentPage;
+        button.className = current ? 'post-pager-page is-current' : 'post-pager-page';
+        // aria-current="page" is what a screen reader reads back as "current
+        // page" in a pagination list; it is the whole announcement, so the
+        // control needs no live region.
+        if (current) button.setAttribute('aria-current', 'page');
+        else button.removeAttribute('aria-current');
+      });
+    }
+
+    function buildPager(pagerEl) {
+      var total = pageCount();
+      // One page of three or fewer is not a pager, it is three cards.
+      if (total < 2) return;
+
+      var nav = el('nav', 'post-pager');
+      nav.setAttribute('aria-label', strings.pagerLabel || '');
+
+      function step(dir, label) {
+        var button = el('button', 'post-pager-step', label);
+        button.type = 'button';
+        button.dataset.role = 'step';
+        button.dataset.dir = dir;
+        button.addEventListener('click', function () {
+          showPage(currentPage + (dir === 'prev' ? -1 : 1));
+        });
+        pageButtons.push(button);
+        return button;
+      }
+
+      nav.appendChild(step('prev', strings.pagerPrev || ''));
+
+      var list = el('ul', 'post-pager-list');
+      for (var i = 0; i < total; i++) {
+        (function (page) {
+          var item = document.createElement('li');
+          var button = el('button', 'post-pager-page', String(page + 1));
+          button.type = 'button';
+          button.dataset.role = 'page';
+          button.dataset.page = String(page);
+          // The visible label is a bare numeral; the accessible name says
+          // what the numeral means.
+          button.setAttribute('aria-label', String(strings.pagerPage || '').replace('{n}', page + 1));
+          button.addEventListener('click', function () {
+            showPage(page);
+          });
+          pageButtons.push(button);
+          item.appendChild(button);
+          list.appendChild(item);
+        })(i);
+      }
+      nav.appendChild(list);
+
+      nav.appendChild(step('next', strings.pagerNext || ''));
+      pagerEl.appendChild(nav);
     }
 
     /** The rail: every post, one line each, the open one marked. */
@@ -425,6 +549,7 @@
     notice(postEl, strings.loading || '');
     if (indexEl) indexEl.textContent = '';
     if (railEl) railEl.textContent = '';
+    if (pagerEl) pagerEl.textContent = '';
 
     fetch(options.endpoint)
       .then(function (response) {
@@ -453,26 +578,40 @@
         }
         if (!posts.length) throw new Error('no usable posts in payload');
 
-        var indexFrag = document.createDocumentFragment();
         var postsFrag = document.createDocumentFragment();
 
         posts.forEach(function (post) {
           var article = fullPost(post);
           articles[String(post.id)] = article;
           postsFrag.appendChild(article);
-          indexFrag.appendChild(card(post));
+          var col = card(post);
+          cardsFor[String(post.id)] = col;
+          cards.push(col);
         });
 
         postEl.textContent = '';
         postEl.appendChild(postsFrag);
-        if (indexEl) indexEl.appendChild(indexFrag);
         if (railEl) railEl.appendChild(buildRail(posts));
+
+        // Without a pager element there is nothing to page with, so the grid
+        // shows everything rather than silently hiding six posts behind a
+        // control that does not exist.
+        if (indexEl && pagerEl) buildPager(pagerEl);
+        else if (indexEl) cards.forEach(function (col) { indexEl.appendChild(col); });
 
         // A `#post-<id>` in the address bar wins over "the newest one", so a
         // shared link opens what it says and scrolls to it. An id that is no
         // longer in the feed falls back rather than showing nothing.
         var wanted = idFromHash();
-        if (!wanted || !showPost(wanted, true)) showPost(posts[0].id, false);
+        var opened = wanted && articles[wanted] ? wanted : String(posts[0].id);
+
+        // The index opens on the page holding whatever is being read, so a
+        // deep link does not land with three unrelated cards above it. After
+        // that the pager is the reader's: picking a post never moves it,
+        // because a grid that jumped under the cursor on every rail click
+        // would be worse than one that stays put.
+        if (indexEl && pagerEl) showPage(pageOfPost(opened));
+        showPost(opened, opened === wanted);
 
         // Back and forward between posts, and a hash pasted into the bar.
         global.addEventListener('hashchange', function () {

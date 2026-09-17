@@ -95,6 +95,10 @@
       "blogInThisPost": "In this post",
       "blogReadingTime": "{n} min read",
       "blogBackToPosts": "Back to all posts",
+      "blogPagerLabel": "Blog post pages",
+      "blogPagerPrev": "Newer",
+      "blogPagerNext": "Older",
+      "blogPagerPage": "Page {n}",
 
       "pubsLoading": "Loading publications…",
       "pubsEmpty": "There are no publications to show yet.",
@@ -130,6 +134,10 @@
       "blogInThisPost": "En este post",
       "blogReadingTime": "{n} min de lectura",
       "blogBackToPosts": "Volver a todos los posts",
+      "blogPagerLabel": "Páginas de posts del blog",
+      "blogPagerPrev": "Más recientes",
+      "blogPagerNext": "Más antiguos",
+      "blogPagerPage": "Página {n}",
 
       "pubsLoading": "Cargando publicaciones…",
       "pubsEmpty": "Todavía no hay publicaciones que mostrar.",

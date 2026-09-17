@@ -2379,3 +2379,150 @@ body.wide-measure #main .post-body p {
     text-decoration: underline;
   }
 }
+
+/* --- paging the index, and the split between browsing and reading ----------
+   2026-09-17, the owner: nine cards at once is "too much, and it doesn't
+   allow to see what's underneath (the selected blog post)". So the grid shows
+   three at a time -- exactly one row from 981px up -- and a rule marks where
+   the index stops and the reader starts.
+
+   Measured at 1440px: the grid went from 1,733px to 338px, the whole index
+   block -- heading, cards and pager -- is 475px, the rule falls at y=635 and
+   the article's title at y=687. All of it is on screen at once on a 1080p
+   display, which is what the complaint was.
+
+   The pager's buttons are real <button>s, which means main.css's button rule
+   applies to them: 1.25em type, 0.85em padding, the brand fill, and
+   `width: 100%` at 736px and below. Every one of those has to be undone
+   here, the same way `#myBtnContainer .btn` undoes them for the publications
+   filter -- and at id strength, because section 0 restates the fill on
+   `button:hover` and `button:active`, which are (0,1,1) and would beat a
+   plain class. */
+.post-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em 1em;
+  margin-top: 1.5em;
+}
+
+.post-pager-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4em;
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+#post-pager .post-pager-list li {
+  padding-left: 0;
+}
+
+#post-pager .post-pager-page,
+#post-pager .post-pager-step {
+  width: auto;
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  font-family: "Open Sans Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: clamp(0.8rem, 0.75rem + 0.2vw, 0.9rem);
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+/* A numbered page is the same chip as a publications filter, selected and
+   unselected, because it is the same control in the same house style. */
+#post-pager .post-pager-page,
+#post-pager .post-pager-page:hover,
+#post-pager .post-pager-page:active {
+  min-width: 44px;
+  padding: 0.6em 0.75em;
+  background: #c1cac5;
+  color: var(--ink);
+}
+
+#post-pager .post-pager-page.is-current,
+#post-pager .post-pager-page.is-current:hover,
+#post-pager .post-pager-page.is-current:active {
+  background: var(--button);
+  color: #fff;
+}
+
+/* Newer / Older are text controls, not chips: two more filled buttons either
+   side of the numbers would compete with the one that says where you are. */
+#post-pager .post-pager-step,
+#post-pager .post-pager-step:hover,
+#post-pager .post-pager-step:active {
+  padding: 0.6em 0.25em;
+  background: none;
+  color: var(--green-ink);
+}
+
+#post-pager .post-pager-step[disabled],
+#post-pager .post-pager-step[disabled]:hover,
+#post-pager .post-pager-step[disabled]:active {
+  background: none;
+  color: var(--muted);
+  cursor: default;
+}
+
+/* On a phone the three parts do not fit on one line -- "Más recientes" and
+   "Más antiguos" are wide, and the Spanish pager wrapped with "Más antiguos"
+   stranded alone under the numbers. Two deliberate lines instead of one
+   accidental one: the numbers centred on their own row, the two steps spread
+   to the edges beneath them. `order` works because all three are flex items
+   of the same container. */
+@media screen and (max-width: 480px) {
+  .post-pager {
+    justify-content: space-between;
+    column-gap: 0.5em;
+  }
+
+  .post-pager-list {
+    order: -1;
+    flex-basis: 100%;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #post-pager .post-pager-page:not(.is-current):hover {
+    background: #ccd5d0;
+  }
+
+  #post-pager .post-pager-step:not([disabled]):hover {
+    text-decoration: underline;
+  }
+}
+
+/* Press feedback matches every other button on the site (section 16): the
+   fill never changes, it darkens. */
+#post-pager .post-pager-page:active,
+#post-pager .post-pager-step:not([disabled]):active {
+  filter: brightness(0.9);
+}
+
+/* The card of the post being read. On a phone this is the only marker there
+   is -- the rail that carries it on a desktop is hidden below 981px.
+
+   `outline`, not a border or an inset shadow: a border would shift the card's
+   layout by a pixel, and an inset shadow is wiped by the lift shadow section
+   16 puts on the same card under a pointer. An outline collides with
+   nothing, and the focus ring in section 13 still wins over it, which is the
+   right order. */
+#more_posts .post-card.is-current {
+  outline: 2px solid var(--green);
+  outline-offset: -2px;
+}
+
+/* The split. main.css already draws `hr` as a 2px #e7eae8 rule; the margins
+   go so that the gap is the grid's own -- 50px of column padding above and
+   below it at desktop widths -- rather than that plus the template's 3em. */
+.blog-split {
+  margin: 0;
+}

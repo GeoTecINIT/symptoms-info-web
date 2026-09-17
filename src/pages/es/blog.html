@@ -3,13 +3,20 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <!-- Features -->
+        <!-- The index. assets/js/blog.js builds the cards and the pager and
+             shows three cards at a time; nine at once pushed the article the
+             reader had just chosen off the bottom of the screen. -->
         <section class="box features">
           <h2 class="major"><span>Posts de SyMptOMS</span></h2>
           <div>
             <div id="more_posts" class="row"></div>
+            <div id="post-pager"></div>
           </div>
         </section>
+      </div>
+      <div class="col-12">
+        <!-- Browsing above, reading below. -->
+        <hr class="blog-split">
       </div>
       <div class="col-3 col-12-medium blog-side">
         <!-- The post switcher, filled by assets/js/blog.js: every post as one
@@ -45,6 +52,10 @@
       error: "{{strings.blogError}}",
       errorLinkText: "{{strings.blogErrorLink}}",
       seeOriginal: "{{strings.blogSeeOriginal}}",
+      pagerLabel: "{{strings.blogPagerLabel}}",
+      pagerPrev: "{{strings.blogPagerPrev}}",
+      pagerNext: "{{strings.blogPagerNext}}",
+      pagerPage: "{{strings.blogPagerPage}}",
       readMore: "{{strings.blogReadMore}}",
       allPosts: "{{strings.blogAllPosts}}",
       inThisPost: "{{strings.blogInThisPost}}",
