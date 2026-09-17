@@ -26,6 +26,7 @@
     16. Hover and press feedback (pointer and touch)
     17. Home page: tagline and link to the RCT
     18. Tools page
+    19. Blog: the index, the rail and the reader
    ========================================================================== */
 
 /* ==========================================================================
@@ -202,11 +203,6 @@ button.alt:active,
   font-size: small;
 }
 
-.wp-block-image img {
-  display: block;
-  width: 100%;
-}
-
 figcaption {
   font-size: small;
   font-style: italic;
@@ -227,12 +223,25 @@ ul {
   margin-bottom: 0;
 }
 
-li a {
-  text-decoration: none;
-}
+/* This was a blanket `li a { text-decoration: none }` until 2026-09-16. It is
+   aimed at the chrome lists -- the nav, the footer's copyright menu, the icon
+   chips -- but at (0,0,2) it also beat `a { text-decoration: underline }` for
+   every link inside every list, including the lists inside WordPress post
+   bodies. A bare URL in one of those then rendered as ordinary text in a
+   colour four shades from the body grey: the "GEOTEC in the media" post is a
+   <ul> of thirty such links and not one of them was underlined. The
+   `.third-party-services li a { ... !important }` patch on privacy-policies
+   was the same fault, worked around locally.
 
-.third-party-services li a {
-  text-decoration: underline !important;
+   The chrome lists that need no underline all declare it themselves in
+   main.css -- `#nav li a`, `.dropotron li > a`, `#navPanel .link`, `.button`
+   and `.icon` -- so what is left here is the three that do not. Anything new
+   that must not be underlined names itself; do not put the blanket back. */
+ul.meta li a, /* blog and publication meta rows: date, tags, source link */
+#copyright .menu li a, /* the footer's copyright line */
+#post-rail .post-rail-link {
+  /* the blog's post switcher: a two-line block, not a run of prose */
+  text-decoration: none;
 }
 
 li.lang a {
@@ -964,7 +973,6 @@ video {
 
 #last_post,
 #more_posts,
-#posts-summary,
 #symptoms_publications {
   overflow-wrap: break-word;
   word-break: break-word;
@@ -972,7 +980,6 @@ video {
 
 #last_post a,
 #more_posts a,
-#posts-summary a,
 #symptoms_publications a {
   overflow-wrap: anywhere;
 }
@@ -986,8 +993,7 @@ video {
   overflow-x: auto;
 }
 
-#last_post img,
-#more_posts img {
+#last_post img {
   height: auto;
 }
 
@@ -1149,6 +1155,73 @@ video {
   background: var(--button);
   color: #fff;
   border: 0;
+}
+
+/* --- the same filter as a <select> on a phone (2026-09-16) ------------------
+   The chips are <button>s, and main.css gives every button `width: 100%` at
+   736px and below, so each filter took a row of its own: five rows, 247px at
+   360px and 249px at 736px, measured, before a single publication. The
+   <select> is one 44px row instead, and publications.js builds it from the
+   buttons so the two can never disagree.
+
+   The breakpoint is 736px because that is where main.css widens the buttons;
+   from 737px up the five chips fit on one 44px line in both languages and the
+   desktop control is left exactly as it was.
+
+   It is styled as the *selected* chip -- --button, white, no border, 8px, the
+   condensed uppercase face -- because that is what it is: the filter that is
+   currently applied. So the control reads the same on a phone as the active
+   button does on a desktop, which is the point. The white-on---button pair is
+   the deliberate 2.60:1 exception in section 0; this is a button, so it is
+   inside that exception and not a new one.
+
+   main.css's reset already sets `appearance: none` on every <select>, so the
+   native arrow is gone whatever we do here and the chevron has to be drawn.
+   It is a background gradient pair rather than an SVG data URI: two 2px bars
+   rotated into a V, the same shape the publications abstract uses, with no
+   asset to keep in step. `padding-right` keeps the label clear of it. */
+.pubs-filter-select {
+  display: none;
+}
+
+@media screen and (max-width: 736px) {
+  #myBtnContainer {
+    display: none;
+  }
+
+  .pubs-filter-select {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin: 0 0 2em 0;
+    padding: 0.6em 2.75em 0.6em 1.1em;
+    background-color: var(--button);
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+    font-family: "Open Sans Condensed", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(0.8rem, 0.75rem + 0.2vw, 0.9rem);
+    line-height: 1.25;
+    cursor: pointer;
+
+    /* the chevron: two bars crossing at the right-hand edge */
+    background-image: linear-gradient(45deg, transparent 50%, #fff 50%),
+      linear-gradient(135deg, #fff 50%, transparent 50%);
+    background-position: calc(100% - 1.3em) center, calc(100% - 1em) center;
+    background-size: 0.42em 0.42em;
+    background-repeat: no-repeat;
+  }
+
+  /* The options are drawn by the platform, not by this stylesheet: on most
+     desktop browsers they inherit the control's colours, which would be white
+     on white once the list opens. Name both. */
+  .pubs-filter-select option {
+    background: #fff;
+    color: var(--ink);
+    text-transform: none;
+  }
 }
 
 /* Stacked buttons should fill the column rather than sit as narrow slivers. */
@@ -1411,11 +1484,50 @@ video {
    ========================================================================== */
 
 #footer {
-  padding-block: clamp(2.5rem, 6vw, 6rem);
+  padding-block: clamp(2rem, 4vw, 3.5rem);
 }
 
 #main {
   padding-bottom: clamp(2.5rem, 6vw, 6rem);
+}
+
+/* --- the footer's own internal spacing (2026-09-16) -------------------------
+   Compressing the band's outer padding alone left the inside as airy as
+   before: the footer is a .row.gtr-200, whose columns carry a 100px top
+   padding above 1280px (80px below it), so the "about" paragraph and the
+   "Get in touch" block sat 100px apart, with another 2em of the paragraph's
+   own margin under it and a 4em margin over the copyright pill. Measured at
+   1440px the whole footer was 544px tall for four lines of text.
+
+   One variable drives the gap between the footer's stacked blocks, because
+   .gtr-200 pairs a negative row margin with an equal column padding and the
+   two must always agree -- change one on its own and the first block moves
+   instead of the gap. #footer wins on specificity (1,2,0 vs 0,2,0), so this
+   holds at every breakpoint, including the >=1681px override in section 4. */
+#footer {
+  --footer-row-gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+#footer .row.gtr-200 {
+  margin-top: calc(-1 * var(--footer-row-gap));
+}
+
+#footer .row.gtr-200 > * {
+  padding-top: var(--footer-row-gap);
+}
+
+/* The about paragraph is the last thing in its block, so its 2em bottom
+   margin only ever added to the gap that --footer-row-gap now sets. */
+#footer p:last-child {
+  margin-bottom: 0;
+}
+
+#footer h2.major {
+  margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+#copyright {
+  margin-top: clamp(1.25rem, 3vw, 2rem);
 }
 
 /* ==========================================================================
@@ -1728,8 +1840,25 @@ ul.meta li a:focus-visible {
    card's axis like the image and the button, rather than justified; and the
    "For Patients" / "For Therapists" titles are centred over the cards they
    head -- the col-8 title spans exactly the two therapist cards, so centring
-   it puts it midway between them. Those titles are hidden below 980px by
-   main.css, where the cards no longer line up under them anyway.
+   it puts it midway between them.
+
+   Grouping below 981px (2026-09-16). main.css used to hide those titles with
+   `.section-title-web { display: none }` at <=980px, on the reasoning that
+   the cards no longer line up under them -- but section 11 above sets
+   `display: flex` on every card-grid column, and at (0,3,0) that beat the
+   hide at (0,0,1) at every width. So both titles showed on a phone, stacked
+   together at the top: "Patients", "Therapists", and only then all three
+   cards. That rule and its class are gone; these titles are `tool-group-title`
+   now and are meant to be visible everywhere.
+
+   Showing the titles is right -- they say who each tool is for -- but each
+   one has to sit with its own cards: Patients / Android app, then Therapists
+   / the two web apps. That needs the titles and the cards in ONE flex
+   container, because `order` cannot move an item between containers, which
+   is why the two .rows in the markup are now one .row.tool-grid.
+
+   Above 981px nothing changes: `order` is not set, so the row wraps into the
+   same two lines as before, col-4 + col-8 over col-4 + col-4 + col-4.
    ========================================================================== */
 
 .box.features.goal .row.goal-row > [class*="col-"] {
@@ -1745,14 +1874,508 @@ ul.meta li a:focus-visible {
 /* Section 11 makes every card-grid column a flex container, so the title is a
    flex item shrunk to its own text: text-align alone centres nothing. The
    column has to centre its content. */
-.box.features.tool-cards .section-title-web {
+.box.features.tool-cards .tool-group-title {
   justify-content: center;
 }
 
-.box.features.tool-cards .section-title-web h2 {
+.box.features.tool-cards .tool-group-title h2 {
   text-align: center;
 }
 
 .box.features.tool-cards .box.feature p {
   text-align: center;
+}
+
+/* Merging the two rows into one gave the card line the 50px top padding that
+   .row puts on every column and only cancels for its first line -- 40-50px of
+   new space between a title and the cards it heads, which the two-row markup
+   never had. Zeroed so the desktop layout is byte-for-byte what it was. */
+@media screen and (min-width: 981px) {
+  .box.features.tool-cards .tool-grid > .tool-card {
+    padding-top: 0;
+  }
+}
+
+/* --- below 981px: one group at a time -------------------------------------
+   Visual order becomes title, its card(s), the next title, its cards. The
+   titles are col-12-medium, so each one takes a line of its own and the
+   cards after it wrap under it; at 737-980px the two therapist cards are
+   col-6-medium and share their line, and at <=736px everything is full width.
+
+   The gutter is handled here rather than left to the template. .row pairs a
+   50px top padding on its columns with an equal negative margin on itself,
+   which cancels the first line only -- every wrapped line after it keeps the
+   full 50px, and a wrapped line is now what separates a title from its own
+   cards. Both are zeroed and replaced with one row-gap, so the spacing does
+   not depend on how many lines the row happens to wrap into. */
+@media screen and (max-width: 980px) {
+  .box.features.tool-cards .tool-grid {
+    margin-top: 0;
+    row-gap: 1.5rem;
+  }
+
+  .box.features.tool-cards .tool-grid > [class*="col-"] {
+    padding-top: 0;
+  }
+
+  .box.features.tool-cards .tool-grid > .tool-title-patients {
+    order: 1;
+  }
+
+  .box.features.tool-cards .tool-grid > .tool-card-1 {
+    order: 2;
+  }
+
+  /* A new group needs more air above it than a card needs above its title. */
+  .box.features.tool-cards .tool-grid > .tool-title-therapists {
+    order: 3;
+    margin-top: 1.25rem;
+  }
+
+  .box.features.tool-cards .tool-grid > .tool-card-2 {
+    order: 4;
+  }
+
+  .box.features.tool-cards .tool-grid > .tool-card-3 {
+    order: 5;
+  }
+}
+
+/* ==========================================================================
+   19. Blog: the index, the rail and the reader
+
+   The page used to carry the same nine posts three times -- a grid of cards
+   with full excerpts and a green button, a "Recent Posts" sidebar with four
+   of them and the same excerpts again, and the article -- and still gave a
+   reader no way to change post without leaving the one they were on. The
+   owner's words on 2026-09-16: the posts are "too lengthy and not
+   attractively styled to read", and "I don't like that I can only look at the
+   cards for different posts or look at the actual post."
+
+   So the page is now two things that do different jobs:
+
+     - the INDEX, the card grid at the top: image, date, title, three clamped
+       lines. Three per row instead of two, and no button, because the card is
+       already one link (section 11). It is for finding a post.
+     - the READER, the article plus a sticky RAIL of every post beside it. It
+       is for reading one, and for moving to the next without scrolling back.
+
+   The rail is desktop only. Below 981px the columns stack and the grid is
+   directly above the article, so a second list of the same titles would be
+   two screens of duplicate navigation; the article carries the way back out
+   instead (.post-footer).
+
+   Measured at 1440px before and after: the grid was 2,948px tall and is now
+   1,373px; the article's paragraphs ran 115 characters and now run ~70.
+   ========================================================================== */
+
+/* --- the index -------------------------------------------------------------
+   main.css centres .box.feature, which suits a three-line marketing card and
+   not a clamped paragraph of someone else's prose: centred ragged text in a
+   narrow column reads as a blob. The index cards are left-aligned, alone
+   among the site's card grids, because they carry running prose. */
+#more_posts .post-card {
+  text-align: left;
+}
+
+/* Post titles are sentences someone else wrote -- with hashtags, @handles and
+   sub-clauses -- and the template sets every heading in condensed uppercase.
+   "@GEOTECUJI'S TOOL BOOSTS SYSTEMATIC DATA COLLECTION FOR MENTAL HEALTH
+   TREATMENTS" is three lines of shouting with no word shapes left to read.
+   The condensed bold face stays; only the casing goes, and only on the two
+   places a post title appears. */
+#more_posts .post-card h3,
+#last_post .post-header h2 {
+  text-transform: none;
+}
+
+.post-card-date {
+  font-family: "Open Sans Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 0 0 0.25em 0;
+  text-align: left;
+  hyphens: manual;
+}
+
+#more_posts .post-card h3 {
+  margin: 0 0 0.5em 0;
+  line-height: 1.3;
+}
+
+/* Three lines of excerpt, whatever the post. `-webkit-line-clamp` is the only
+   cross-browser way to do this (Chrome, Safari, Firefox and Edge all support
+   the -webkit- prefixed box, and `line-clamp` proper is not yet everywhere);
+   where it is not honoured the paragraph simply shows in full, which is what
+   the card did before, so there is nothing to fall back to.
+
+   `min-height` holds three lines' worth even when the excerpt is shorter, so
+   the titles and cues of a row line up. Every WordPress excerpt here is the
+   same 55 words, so in practice it always fills. */
+.post-card-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(3 * 1.75em);
+  text-align: left;
+  hyphens: auto;
+  margin: 0 0 1em 0;
+}
+
+/* The card's only call to action, and deliberately not a link: the whole card
+   already goes to the post (section 11) and a second link to the same place
+   is a second tab stop announcing the same destination. blog.js marks it
+   aria-hidden for the same reason. */
+.post-card-cue {
+  margin-top: auto;
+  font-family: "Open Sans Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+  color: var(--green-ink);
+}
+
+.post-card-cue::after {
+  content: " \2192";
+}
+
+/* --- the rail --------------------------------------------------------------
+   Sticky, so it survives a 13,000px post; and scrollable inside its own box,
+   so a feed that grows to thirty posts cannot push its own foot off screen.
+   `top` clears the sticky masthead (section 5) with room to breathe. */
+/* The sticky element is the column's own child from the page source, not the
+   <nav> that blog.js builds inside it: a sticky box travels within its
+   PARENT, and the parent of the nav is a wrapper that is exactly as tall as
+   the nav itself, so it stuck for 0px and scrolled away with the page. The
+   wrapper's parent is the grid column, which .row stretches to the article's
+   full height -- that is the travel the rail needs.
+
+   For the same reason there is no `align-self: start` on .blog-side, however
+   much the column wants it: shrinking the column to its content would take
+   the travel away again.
+
+   `top` clears the sticky masthead, which measures 71-79px tall scrolled at
+   981px and up (section 5); 6rem leaves ~17px of air under it at the
+   worst case. */
+#post-rail {
+  position: sticky;
+  top: 6rem;
+}
+
+.post-rail {
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  border-top: 2px solid #e7eae8;
+  padding-top: 1em;
+}
+
+.post-rail-title {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0 0 0.75em 0;
+}
+
+.post-rail-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* Section 2 justifies `#main li`, which is right for prose and wrong for a
+   two-line navigation label: "@GeoTecUJI opens the #IPIN2021 conference with
+   an Android scheduling tutorial" was stretched across the rail with word
+   gaps wide enough to read as separate columns. */
+/* `#main li` wins the id, so this needs one of its own: `.post-rail-list li`
+   is (0,1,1) against (1,0,1) and lost silently. */
+#post-rail .post-rail-list li {
+  padding-left: 0;
+  text-align: left;
+  hyphens: manual;
+}
+
+.post-rail-link {
+  display: block;
+  padding: 0.55em 0 0.55em 0.85em;
+  border-left: 3px solid transparent;
+  color: var(--ink);
+}
+
+.post-rail-link-title {
+  display: block;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  hyphens: auto;
+}
+
+.post-rail-link-date {
+  display: block;
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* The post on screen. A rule and a weight rather than a fill, because the
+   rail sits on white beside white and a green block would read as a button.
+   --green-ink, not --green: this is text (4.96:1). */
+.post-rail-link.is-current {
+  border-left-color: var(--green);
+  color: var(--green-ink);
+  font-weight: 700;
+}
+
+.post-rail-link.is-current .post-rail-link-date {
+  color: var(--green-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .post-rail-link:hover {
+    border-left-color: #c1cac5;
+  }
+
+  .post-rail-link.is-current:hover {
+    border-left-color: var(--green);
+  }
+}
+
+/* Below 981px the grid above the article is the switcher. */
+@media screen and (max-width: 980px) {
+  .blog-side {
+    display: none;
+  }
+}
+
+/* --- the article -----------------------------------------------------------
+   Everything below is about one complaint: the posts are hard to read. They
+   are not authored here, so the fix is the frame around them. */
+
+/* Anything scrolled to -- the article when a card is clicked, a heading when
+   the outline is used -- has to clear the sticky masthead or it lands under
+   the band. */
+#last_post,
+.post-body h2,
+.post-body h3 {
+  scroll-margin-top: 6.5rem;
+}
+
+.post-header {
+  margin: 0 0 1.5em 0;
+}
+
+/* main.css sizes .box.page-content h2 at 3em, which is right for a page title
+   and too loud for a post title stacked under one. */
+#last_post .post-header h2 {
+  font-size: 2em;
+  line-height: 1.15;
+  margin: 0 0 0.5em 0;
+}
+
+/* The meta row wraps on a phone, so it needs its own leading and a gap
+   instead of main.css's `margin-left: 1em` between inline items. */
+#last_post .post-header ul.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35em 1.25em;
+  line-height: 1.6;
+  margin: 0;
+}
+
+#last_post .post-header ul.meta li {
+  margin-left: 0;
+}
+
+/* .icon:before asks for "Font Awesome 5 Free" at weight 400, which is the
+   Regular face -- and Regular is a ~150-icon subset. fa-clock and fa-comments
+   are in it; fa-book-open and fa-link are Solid only, so at 400 they render
+   nothing at all and leave a gap where an icon should be. fa-link has been
+   blank in this meta row since the row existed; a missing glyph is silent,
+   which is the same trap the socialLinks `style` field documents. */
+#last_post .post-header .fa-book-open::before,
+#last_post .post-header .fa-link::before {
+  font-weight: 900;
+}
+
+/* --- the outline -----------------------------------------------------------
+   Built by blog.js from the post's own h2/h3, and only when there are at
+   least two. One post needs it today -- "GEOTEC in the media", 1,806 words in
+   five sections -- and it is the one the complaint was about. */
+.post-toc {
+  border-left: 3px solid var(--green);
+  padding: 0.25em 0 0.25em 1.25em;
+  margin: 0 0 2em 0;
+}
+
+.post-toc-title {
+  font-family: "Open Sans Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 0.4em 0;
+}
+
+.post-toc-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+#last_post .post-toc-list li {
+  padding-left: 0;
+  font-size: var(--body-size);
+  line-height: 1.7;
+  text-align: left;
+  hyphens: manual;
+}
+
+#last_post .post-toc-h3 {
+  padding-left: 1em;
+}
+
+/* --- the post body ---------------------------------------------------------
+   Measure first. The page carries `wide-measure`, which caps a paragraph at
+   100ch; in the col-9 article that was 100 characters of justified text, well
+   past the 45-75 band section 2 explains. 72ch, in the same unit section 2
+   uses, so it needs no breakpoint and follows the reader's own font size.
+
+   The cap is on the body rather than on `p`, so figures, lists and quotes
+   hold the same column as the prose instead of hanging out to the right of
+   it -- and `font-size` is restated here because `ch` resolves against the
+   element's own size: without it the cap would be 72 characters of main.css's
+   16px body text, which is 76 characters of the 15.2px prose inside. */
+.post-body {
+  font-size: var(--body-size);
+  max-width: 72ch;
+}
+
+body.wide-measure #main .post-body p {
+  max-width: none;
+}
+
+/* The template sizes h2 and h4 only (see the note in the project's own docs),
+   so a post's own h2/h3 would render at 3em and 1em respectively -- the second
+   smaller than the text under it. Scoped here, not globally.
+
+   Casing goes for the same reason it goes on the post title: these are the
+   author's own sentences, and the outline above the body lists them in
+   sentence case, so leaving the headings in caps made the two disagree. */
+.post-body h2,
+.post-body h3,
+.post-body h4,
+.post-body h5,
+.post-body h6 {
+  line-height: 1.25;
+  margin: 2em 0 0.6em 0;
+  text-transform: none;
+}
+
+.post-body h2 {
+  font-size: 1.45em;
+}
+
+.post-body h3 {
+  font-size: 1.2em;
+}
+
+.post-body h4,
+.post-body h5,
+.post-body h6 {
+  font-size: 1.05em;
+}
+
+.post-body > *:first-child {
+  margin-top: 0;
+}
+
+/* custom.css section 1 zeroes `ul`'s bottom margin for the template's chrome
+   lists, which left a post's own lists running straight into the paragraph
+   after them. main.css's 3em is too much at this size; 1.5em is the
+   paragraph's own rhythm plus a little. */
+.post-body ul,
+.post-body ol {
+  margin: 0 0 1.5em 0;
+}
+
+#last_post .post-body li {
+  margin-bottom: 0.35em;
+  text-align: left;
+  hyphens: auto;
+}
+
+/* WordPress wraps every image in a <figure>. The sanitiser strips the class
+   it carries, so this has to match the element. */
+.post-body figure {
+  margin: 2em 0;
+}
+
+.post-body figure img,
+.post-body > p > img {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.post-body figcaption {
+  margin-top: 0.5em;
+  color: var(--muted);
+  text-align: left;
+}
+
+.post-body .image.featured {
+  display: block;
+  margin: 0 0 2em 0;
+}
+
+.post-body .image.featured img {
+  border-radius: 8px;
+}
+
+/* main.css's blockquote is a pale grey rule; in a post body it disappears. */
+.post-body blockquote {
+  border-left-color: var(--green);
+  border-left-width: 3px;
+  margin: 0 0 1.5em 0;
+}
+
+.post-body hr {
+  margin: 2em 0;
+}
+
+/* --- the way out -----------------------------------------------------------
+   The end of a post is the other place a reader needs the index, and on a
+   phone it is the only one: the rail is hidden there. */
+.post-footer {
+  margin-top: 2.5em;
+  padding-top: 1.25em;
+  border-top: 2px solid #e7eae8;
+}
+
+.post-back {
+  font-family: "Open Sans Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  color: var(--green-ink);
+  text-decoration: none;
+  display: inline-block;
+  min-height: 44px;
+  line-height: 44px;
+}
+
+.post-back::before {
+  content: "\2191  ";
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .post-back:hover {
+    color: var(--green-ink-hover);
+    text-decoration: underline;
+  }
 }

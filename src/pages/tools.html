@@ -47,16 +47,19 @@
         <section class="box features tool-cards">
           <h2 class="major"><span>End User Tools</span></h2>
           <div>
-            <div class="row">
-              <div class="col-4 section-title-web">
+            <!-- One row, not two. The group titles and the cards they head have to
+                 interleave once the cards stack, and flex `order` can only reorder
+                 items inside the same flex container. custom.css section 18 does the
+                 reordering below 981px; above it the row wraps into the same two
+                 lines it always had. -->
+            <div class="row tool-grid">
+              <div class="col-4 col-12-medium tool-group-title tool-title-patients">
                 <h2>For Patients</h2>
               </div>
-              <div class="col-8 section-title-web">
+              <div class="col-8 col-12-medium tool-group-title tool-title-therapists">
                 <h2>For Therapists</h2>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-4 col-6-medium col-12-small">
+              <div class="col-4 col-6-medium col-12-small tool-card tool-card-1">
                 <!-- Feature -->
                 <section class="box feature has-link">
                   <span class="image featured"><img src="{{prefix}}images/mobile-app.png" alt="The SyMptOMS Android app on a phone, showing an encouraging message and a progress bar for times out of home" width="2250" height="1500" /></span>
@@ -71,7 +74,7 @@
                   </ul>
                 </section>
               </div>
-              <div class="col-4 col-6-medium col-12-small">
+              <div class="col-4 col-6-medium col-12-small tool-card tool-card-2">
                 <!-- Feature -->
                 <section class="box feature has-link">
                   <span class="image featured"><img src="{{prefix}}images/config.png" alt="Management web app: configuring a patient view with a map of places and route, and charts of time spent out of home" loading="lazy" decoding="async" width="2250" height="1500" /></span>
@@ -86,7 +89,7 @@
                   </ul>
                 </section>
               </div>
-              <div class="col-4 col-6-medium col-12-small">
+              <div class="col-4 col-6-medium col-12-small tool-card tool-card-3">
                 <!-- Feature -->
                 <section class="box feature has-link">
                   <span class="image featured"><img src="{{prefix}}images/web-visualizator.png" alt="Visualization web app: a patient's route on a map of eastern Spain, with charts of hours at home and times out of home" loading="lazy" decoding="async" width="2250" height="1500" /></span>

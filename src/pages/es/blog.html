@@ -2,31 +2,28 @@
 <section id="main">
   <div class="container">
     <div class="row">
-      <div class="col-3 col-12-medium">
-        <div class="sidebar">
-          <!-- Sidebar -->
-
-          <!-- Recent Posts -->
-          <section>
-            <h2 class="major"><span>Posts Recientes</span></h2>
-            <ul class="divided" id="posts-summary"></ul>
-          </section>
-        </div>
-      </div>
-      <div class="col-9 col-12-medium imp-medium">
-        <div class="content">
-          <!-- Content -->
-          <article id="last_post" class="box page-content"></article>
-        </div>
-      </div>
       <div class="col-12">
         <!-- Features -->
         <section class="box features">
-          <h2 class="major"><span>Ver más posts de SyMptOMS</span></h2>
+          <h2 class="major"><span>Posts de SyMptOMS</span></h2>
           <div>
             <div id="more_posts" class="row"></div>
           </div>
         </section>
+      </div>
+      <div class="col-3 col-12-medium blog-side">
+        <!-- The post switcher, filled by assets/js/blog.js: every post as one
+             line, the open one marked, sticky beside the article so a reader
+             can change post without leaving the one they are on. Hidden below
+             981px, where the card grid sits right above the article and does
+             the same job. -->
+        <div id="post-rail"></div>
+      </div>
+      <div class="col-9 col-12-medium blog-main">
+        <div class="content">
+          <!-- Content -->
+          <article id="last_post" class="box page-content"></article>
+        </div>
       </div>
     </div>
   </div>
@@ -48,7 +45,11 @@
       error: "{{strings.blogError}}",
       errorLinkText: "{{strings.blogErrorLink}}",
       seeOriginal: "{{strings.blogSeeOriginal}}",
-      readMore: "{{strings.blogReadMore}}"
+      readMore: "{{strings.blogReadMore}}",
+      allPosts: "{{strings.blogAllPosts}}",
+      inThisPost: "{{strings.blogInThisPost}}",
+      readingTime: "{{strings.blogReadingTime}}",
+      backToPosts: "{{strings.blogBackToPosts}}"
     }
   });
 </script>

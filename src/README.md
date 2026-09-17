@@ -154,6 +154,20 @@ same init block works in both locales. Do not put rendering back inline: it was
 duplicated per language for years and the copies drifted (the Spanish blog was
 rendering two English strings).
 
+Two things those files build that the page sources do not contain:
+
+- **The publications filter `<select>`.** The page source has only the five
+  `.btn` chips; `publications.js` derives a `<select>` from them for screens
+  736px and narrower, where main.css makes every `<button>` full width and the
+  chips stack five rows deep. Add a filter by adding a chip — never write the
+  `<option>`s by hand, or the two controls will disagree between locales.
+- **The blog's whole page furniture.** `blog.js` sorts posts newest first,
+  drops duplicate ids, builds the index cards, the sticky post rail in
+  `#post-rail`, each article's meta row (date, reading time, tags, source),
+  its outline when the post has two or more headings, and the `#post-<id>`
+  history handling. The page source is three empty containers and the
+  `initBlog(…)` call.
+
 ## Template syntax
 
 A deliberately small subset — see the top half of `build.mjs`:
@@ -190,6 +204,18 @@ bare filenames; the build works out the language-switcher hrefs itself.
   `<a class="card-link" href="…">`; the title is stretched over the whole card,
   and hover/press feedback comes with it. Do not wrap the image in a link. Cards
   that go nowhere just omit both classes. See `use-cases.html` or `tools.html`.
+- **Block order can change with the viewport, and it lives in CSS.**
+  `tools.html` puts each group title with its own cards below 981px (one
+  `.row.tool-grid`, classes `tool-title-*` / `tool-card-*`, custom.css section
+  18). `blog.html` hides its rail column (`blog-side`) below 981px, where the
+  card grid above the article already does that job. If you reorder or
+  reclass anything in those two, check the page at 390px as well as on a
+  desktop. **Do not use the template's `imp-medium` on either** — it is
+  `order: -1` below 980px and will jump a column over everything above it.
+- **The blog rail is sticky, and the sticky is on the wrapper.** `#post-rail`
+  in the page source is the sticky box; the `<nav>` inside it is built by JS
+  and would have only its own height to travel in. Keep the wrapper, and keep
+  its column stretched — no `align-self` on `blog-side`.
 - **Buttons: use `.button` and nothing else.** Every button on the site is white
   on `--button` (`#3cb486`) with no border, in every state -- a deliberate
   choice that fails WCAG AA at 2.60:1. Do not add inline colours to a button, and do not

@@ -91,6 +91,10 @@
       "blogFallbackUrl": "https://geotec.uji.es/blog",
       "blogSeeOriginal": "See original post",
       "blogReadMore": "Read more",
+      "blogAllPosts": "All posts",
+      "blogInThisPost": "In this post",
+      "blogReadingTime": "{n} min read",
+      "blogBackToPosts": "Back to all posts",
 
       "pubsLoading": "Loading publications…",
       "pubsEmpty": "There are no publications to show yet.",
@@ -102,6 +106,7 @@
       "pubsTypePhdThesis": "PhD thesis",
       "pubsTypeMasterThesis": "Master thesis",
       "pubsAbstract": "Abstract",
+      "pubsFilterLabel": "Filter by type",
 
       "shareImageAlt": "SyMptOMS logo"
     },
@@ -121,6 +126,10 @@
       "blogFallbackUrl": "https://geotec.uji.es/blog",
       "blogSeeOriginal": "Ver publicación original",
       "blogReadMore": "Leer más",
+      "blogAllPosts": "Todos los posts",
+      "blogInThisPost": "En este post",
+      "blogReadingTime": "{n} min de lectura",
+      "blogBackToPosts": "Volver a todos los posts",
 
       "pubsLoading": "Cargando publicaciones…",
       "pubsEmpty": "Todavía no hay publicaciones que mostrar.",
@@ -132,6 +141,7 @@
       "pubsTypePhdThesis": "Tesis doctoral",
       "pubsTypeMasterThesis": "Tesis de máster",
       "pubsAbstract": "Resumen",
+      "pubsFilterLabel": "Filtrar por tipo",
 
       "shareImageAlt": "Logotipo de SyMptOMS"
     }

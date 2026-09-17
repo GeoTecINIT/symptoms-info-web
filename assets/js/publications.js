@@ -18,6 +18,10 @@
  *    text, so they are set with textContent. `Fields.doi` was interpolated
  *    straight into an href and rendered `href='undefined'` on the 5 of 28
  *    entries that have no DOI; it is now validated and the link omitted.
+ *
+ * Added 2026-09-16: the same filter as a <select> for narrow screens, built
+ * from the buttons so the two controls cannot drift. Five chips wrapped to
+ * four rows on a phone and cost ~200px above the first publication.
  */
 (function (global) {
   'use strict';
@@ -156,18 +160,45 @@
 
     if (btnContainer) {
       var buttons = btnContainer.querySelectorAll('.btn');
+
+      // The same filter as a <select>, for narrow screens. It is built from
+      // the buttons rather than written into both page sources: one list of
+      // filters, in one language file, and no way for the two controls to
+      // drift apart. custom.css section 9 shows exactly one of them at any
+      // width, so a screen reader is never offered both.
+      var select = document.createElement('select');
+      select.className = 'pubs-filter-select';
+      select.setAttribute('aria-label', strings.filterLabel || '');
+      Array.prototype.forEach.call(buttons, function (btn) {
+        var option = document.createElement('option');
+        option.value = btn.dataset.filter || 'all';
+        option.textContent = btn.textContent.trim();
+        option.selected = btn.classList.contains('active');
+        select.appendChild(option);
+      });
+
+      function setFilter(type) {
+        Array.prototype.forEach.call(buttons, function (b) {
+          var on = (b.dataset.filter || 'all') === type;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        select.value = type;
+        applyFilter(type);
+      }
+
       Array.prototype.forEach.call(buttons, function (btn) {
         btn.addEventListener('click', function () {
-          Array.prototype.forEach.call(buttons, function (b) {
-            b.classList.remove('active');
-            b.setAttribute('aria-pressed', 'false');
-          });
-          btn.classList.add('active');
-          btn.setAttribute('aria-pressed', 'true');
-          applyFilter(btn.dataset.filter || 'all');
+          setFilter(btn.dataset.filter || 'all');
         });
         btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
       });
+
+      select.addEventListener('change', function () {
+        setFilter(select.value);
+      });
+
+      btnContainer.parentNode.insertBefore(select, btnContainer);
     }
 
     notice(container, strings.loading || '');
