@@ -12,10 +12,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   {{> head-meta}}
   {{> head-icons}}
-  <!-- The two fonts every page renders above the fold: body copy and the
-       condensed headings / nav. Preloaded so they start downloading with the
-       HTML instead of after the CSS is parsed. crossorigin is required for
-       fonts even from the same origin, or the preload is fetched twice. -->
+  <!-- The two above-the-fold faces, preloaded so they start with the HTML
+       rather than after the CSS. crossorigin is required even same-origin,
+       or the preload is fetched twice. -->
   <link rel="preload" href="{{prefix}}assets/webfonts/open-sans/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="{{prefix}}assets/webfonts/open-sans/open-sans-condensed-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   {{#each stylesheets}}
@@ -29,9 +28,8 @@
 
 <body{{bodyAttr}}>
   <div id="page-wrapper">
-    <!-- The masthead: logo, nav and language switcher in one band, with the
-         green rule as its bottom edge. The prelude (the home page's study CTA)
-         lives inside it so it can hang just below that rule. -->
+    <!-- Logo, nav and switcher in one band, the green rule its bottom edge.
+         The prelude sits inside it so it can hang just below that rule. -->
     <div id="masthead">
       {{> header}}
       {{> nav}}

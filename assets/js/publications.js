@@ -1,43 +1,21 @@
 /*
  * publications.js -- renders /publications from the Realtime Database and
- * drives the entry-type filter.
- *
- * Extracted from duplicated inline scripts in publications.html and
- * es/publications.html. Call initPublications() from the
- * page; every user-visible string is passed in, so this file holds no English.
- *
- * What changed on extraction:
- *  - The filter used to add a `show` class without ever removing `hide`,
- *    so every card carried `class="hide show article"` and only rendered
- *    because `.show` happened to sit after `.hide` in custom.css. It now
- *    toggles the `hidden` property, which no stylesheet can reorder.
- *  - There was no try/catch, no response.ok check and no empty state; a
- *    failed fetch left a blank page and a console error. Now the page
- *    always ends in one of: list, empty notice, or error notice.
- *  - Every BibTeX field was concatenated into an HTML string. They are all
- *    text, so they are set with textContent. `Fields.doi` was interpolated
- *    straight into an href and rendered `href='undefined'` on the 5 of 28
- *    entries that have no DOI; it is now validated and the link omitted.
- *
- * Added 2026-09-16: the same filter as a <select> for narrow screens, built
- * from the buttons so the two controls cannot drift. Five chips wrapped to
- * four rows on a phone and cost ~200px above the first publication.
+ * drives the entry-type filter, which is chips on a desktop and a <select>
+ * on a phone. One copy for both locales; the page passes in every string.
  */
 (function (global) {
   'use strict';
 
   var toText = function (v) {
-    // sanitize-html is not loaded on this page: BibTeX fields carry no markup,
-    // but a few do carry entities (&amp;), so decode via a detached element.
+    // sanitize-html is not loaded here; BibTeX carries entities but no markup
     var el = document.createElement('textarea');
     el.innerHTML = String(v == null ? '' : v);
     return el.value.trim();
   };
 
   /**
-   * BibTeX `doi` arrives in two shapes in this feed: a bare `10.xxxx/yyy`
-   * (6 entries) and a full https URL (17). Anything else, or nothing at all
-   * (5 entries), yields null and the title simply is not linked.
+   * `doi` arrives as a bare `10.xxxx/yyy` or as a full URL. Anything else,
+   * or nothing at all, yields null and the title is simply not linked.
    */
   function doiHref(raw) {
     var doi = toText(raw);
@@ -113,11 +91,9 @@
     var cite = citationLine(F);
     if (cite) card.appendChild(el('p', 'publication-cite', cite));
 
-    // The abstract is collapsed behind a native <details>, so the list
-    // scans as titles and citations. It opens and closes with no JS, is
-    // keyboard-operable, and its toggle is announced as expandable. 19 of the
-    // 28 entries have one, and expanded they made the page ~20,000px tall on a
-    // phone.
+    // A native <details>, so the list scans as titles and citations and the
+    // toggle is keyboard-operable with no JS. Expanded, the abstracts made
+    // the page ~20,000px tall on a phone.
     var abstract = toText(F.abstract);
     if (abstract) {
       var details = el('details', 'publication-abstract');
@@ -153,7 +129,7 @@
 
     function applyFilter(type) {
       for (var i = 0; i < entries.length; i++) {
-        // One property, no class juggling and no source-order dependency.
+        // one property; no class juggling, no source-order dependency
         entries[i].hidden = !(type === 'all' || entries[i].dataset.entryType === type);
       }
     }
@@ -161,11 +137,9 @@
     if (btnContainer) {
       var buttons = btnContainer.querySelectorAll('.btn');
 
-      // The same filter as a <select>, for narrow screens. It is built from
-      // the buttons rather than written into both page sources: one list of
-      // filters, in one language file, and no way for the two controls to
-      // drift apart. custom.css section 9 shows exactly one of them at any
-      // width, so a screen reader is never offered both.
+      // Built from the buttons rather than written into both page sources,
+      // so the two controls cannot drift. custom.css section 9 shows exactly
+      // one of them at any width.
       var select = document.createElement('select');
       select.className = 'pubs-filter-select';
       select.setAttribute('aria-label', strings.filterLabel || '');
@@ -217,8 +191,7 @@
           : null;
         if (!list) throw new Error('unexpected payload shape');
 
-        // As in blog.js: an empty feed and an unusable one are different
-        // problems and must not report the same reassuring message.
+        // as in blog.js: an empty feed and an unusable one are different
         var usable = list.filter(function (p) {
           return p && typeof p === 'object' && p.Fields;
         });

@@ -228,6 +228,11 @@ bare filenames; the build works out the language-switcher hrefs itself.
   choice that fails WCAG AA at 2.60:1. Do not add inline colours to a button, and do not
   give one a hover colour; hover and press feedback come from custom.css
   section 16.
+- **The language switcher carries a globe**, drawn as a `::before` on
+  `ul.menu-lang` (custom.css section 1) so that the two copies `main.js` makes
+  — the mobile title bar and the foot of the panel — get it for free. Do not
+  add an element for it, and do not drop its `font-weight: 900`: `fa-globe`
+  lives only in Font Awesome's Solid face and renders nothing without it.
 - **The header tagline is two strings**, `taglineTop` and `taglineBottom`, one
   per line, inside the same home link as the logo. **Keep nav labels short.**
   Changing a label, either tagline string or the logo changes the width the

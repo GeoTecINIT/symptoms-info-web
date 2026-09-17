@@ -43,12 +43,8 @@
 
   // Nav.
 
-  //Title Bar.
-  // The logo is a link home here too (it used to be a bare copy of the image,
-  // so tapping it did nothing), and the language switcher is copied into the
-  // right-hand corner so it is reachable without opening the panel. Both are
-  // built from the desktop markup, so the hrefs and the current-language
-  // class come from the build as everywhere else.
+  // Title bar. Logo and language switcher are copied from the desktop markup,
+  // so their hrefs and the current-language class come from the build.
   var $logo = $('#logo');
 
   $(
@@ -63,11 +59,8 @@
       '</div>'
   ).appendTo($body);
 
-  // Panel.
-  // The pages and the language switcher are built into two groups, so the
-  // languages can sit apart at the foot of the panel (custom.css section 6).
-  // Main links first, then languages: the same document order as #nav, which
-  // the class re-application below relies on.
+  // Panel. Two groups, so the languages can sit at the foot of it. Main links
+  // first, in #nav's document order, which the class re-application relies on.
   var $navPanel = $(
     '<div id="navPanel">' +
       '<nav>' +
@@ -88,10 +81,8 @@
       visibleClass: 'navPanel-visible'
     });
 
-  // navList() rebuilds the panel from the anchors' text alone and drops
-  // every class, so on a phone neither the current page nor the active
-  // language was distinguishable. Re-apply both: navList() emits one link
-  // per #nav anchor in document order, so the lists line up by index.
+  // navList() drops every class, so re-apply the two that matter. It emits
+  // one link per #nav anchor in document order, so the lists line up by index.
   var $navLinks = $nav.find('a'),
     $panelLinks = $navPanel.find('a.link');
 
@@ -104,13 +95,10 @@
     if ($item.hasClass('lang-disabled')) $target.addClass('lang-current');
   });
 
-  // Panel width: as wide as the longest label plus its padding, not the
-  // template's fixed 275px (custom.css section 6). CSS cannot size the panel to
-  // its content AND slide the page by that same amount, so it is measured here
-  // and handed to the stylesheet as --nav-panel-width. Measured again once the
-  // webfonts have loaded (the condensed face is much narrower than the
-  // fallback), and on resize, because the panel is display:none above 980px and
-  // measures 0 there.
+  // Panel width: CSS can size the panel to its content but cannot then slide
+  // the page by that same amount, so it is measured here and handed over as
+  // --nav-panel-width. Re-measured after the webfonts load and on resize,
+  // where the panel is display:none above 980px and measures 0.
   function sizeNavPanel() {
     var panel = $navPanel[0];
     panel.style.width = 'max-content';
@@ -123,10 +111,7 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeNavPanel);
   $window.on('resize', sizeNavPanel);
 
-  // Press feedback on touch screens. Cards and buttons show a brief press-in
-  // through CSS :active (custom.css section 16), which is the only feedback a
-  // phone gets -- it has no hover. iOS Safari does not apply :active at all
-  // unless a touchstart listener exists; an empty passive one is enough and
-  // costs nothing, since it never blocks scrolling.
+  // iOS Safari does not apply :active -- the only press feedback a phone gets
+  // -- unless a touchstart listener exists. An empty passive one is enough.
   document.addEventListener('touchstart', function() {}, { passive: true });
 })(jQuery);

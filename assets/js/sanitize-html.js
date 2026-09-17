@@ -1,40 +1,22 @@
 /*
- * sanitize-html.js -- a small allowlist sanitiser for the WordPress content
- * rendered on blog.html.
+ * sanitize-html.js -- allowlist sanitiser for the WordPress content rendered
+ * on blog.html, which used to go straight into innerHTML.
  *
- * Why this exists: blog post bodies, excerpts and titles
- * come from geotec.uji.es over the Realtime Database and used to be pasted
- * straight into innerHTML by string concatenation. WordPress is trusted today,
- * so that was a latent rather than an active hole -- but a single malicious or
- * compromised post would have executed script on this origin.
+ *   toText(html)      decodes entities and drops all markup -- titles, tag
+ *                     names, BibTeX fields. Use with textContent.
+ *   toFragment(html)  keeps allowlisted elements and attributes -- post
+ *                     bodies and excerpts, which genuinely are HTML.
  *
- * Two entry points, because the data needs two different treatments:
- *
- *   toText(html)      -- for anything that is *not* meant to carry markup:
- *                        post titles, tag names, BibTeX fields. Decodes the
- *                        entities WordPress emits (&#8217;, &amp;) and throws
- *                        every tag away. Use with textContent.
- *
- *   toFragment(html)  -- for post bodies and excerpts, which genuinely are
- *                        HTML. Walks the parsed tree and keeps only allowlisted
- *                        elements and attributes.
- *
- * No dependencies, per the standing rule for this repo -- DOMPurify would be
- * the obvious choice otherwise and is worth revisiting if this ever needs to
- * handle untrusted input rather than merely careless input.
- *
- * Parsing note: DOMParser with "text/html" builds an inert document. Scripts in
- * it never run and <img onerror> never fires, so it is safe to *parse* hostile
- * markup here -- what matters is that nothing hostile survives into the live
- * document, which is what the allowlist below is for.
+ * No dependencies, per the standing rule for this repo; DOMPurify would be
+ * the obvious choice if this ever had to handle hostile rather than careless
+ * input. DOMParser builds an inert document, so parsing is safe either way.
  */
 (function (global) {
   'use strict';
 
-  // Kept deliberately tight: this is what GEOTEC's posts actually use, checked
-  // against the live feed, plus the obvious relatives. Anything not listed is
-  // unwrapped (children kept, element dropped) rather than deleted, so an
-  // unexpected wrapper cannot silently swallow a paragraph of text.
+  // What GEOTEC's posts actually use, plus the obvious relatives. Anything
+  // not listed is unwrapped rather than deleted, so an unexpected wrapper
+  // cannot silently swallow a paragraph of text.
   var ALLOWED_TAGS = {
     A: ['href', 'title'],
     ABBR: ['title'],
@@ -71,13 +53,9 @@
   }
 
   /**
-   * Decode entities and drop all markup.
-   *
-   * The DROP_ENTIRELY elements are removed before reading textContent, not for
-   * safety -- the result is only ever assigned to textContent and cannot
-   * execute -- but for correctness: textContent happily returns the *contents*
-   * of a <script> or <style>, so without this a title containing markup would
-   * render its own source code as visible text.
+   * Decode entities and drop all markup. DROP_ENTIRELY goes first for
+   * correctness, not safety: textContent returns the *contents* of a <script>
+   * or <style>, which would render as visible source.
    */
   function toText(html) {
     var body = parse(html).body;
@@ -87,9 +65,8 @@
   }
 
   /**
-   * A URL is safe if it resolves to http(s) or is a plain relative path.
-   * Blocks javascript:, data: and vbscript: including the whitespace- and
-   * entity-obfuscated spellings, because the URL constructor normalises them.
+   * Safe if it resolves to http(s). The URL constructor normalises the
+   * obfuscated spellings of javascript:, data: and vbscript: too.
    */
   function safeUrl(value) {
     if (!value) return null;

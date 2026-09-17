@@ -1,65 +1,13 @@
-/* ==========================================================================
-   Project overrides for the HTML5 UP "TXT" template.
-
-   Loaded after main.css on every page (see src/site.config.json -> stylesheets).
-   main.css is the source of truth for the template and is hand-edited in
-   places, so nothing here should ever be merged back into it: keep all
-   project styling in this file.
-
-   Sections:
-     0. Palette: colour tokens and contrast fixes
-     1. Component overrides (pre-existing)
-     2. Typography
-     3. Media never overflows its column
-     4. Grid: bare col-* classes stack on small screens
-     5. The masthead: logo, nav and language switcher in one band
-     6. Mobile chrome (title bar, panel, top offset)
-     7. Study CTA banner
-     8. Injected content (WordPress blog / BibTeX publications)
-     9. Controls and tap targets
-    10. Page-specific figures
-    11. Card grids line up, card surfaces, whole-card links
-    12. Vertical rhythm
-    13. Keyboard focus is visible
-    14. The green rule under the masthead
-    15. Funding entries (home)
-    16. Hover and press feedback (pointer and touch)
-    17. Home page: tagline and link to the RCT
-    18. Tools page
-    19. Blog: the index, the rail and the reader
-   ========================================================================== */
+/* Project overrides for the HTML5 UP "TXT" template, loaded after main.css.
+   Keep project styling here; main.css is the template's own file and is
+   hand-edited in places. Twenty numbered sections. */
 
 /* ==========================================================================
    0. Palette: colour tokens and contrast fixes
 
-   Measured with a WCAG contrast audit over every text-bearing element on all
-   nine pages, at 1440px and 360px. Seventeen distinct failures, the worst of
-   them structural rather than incidental:
-
-     #c1cac5 as text on white          1.68:1   the tagline and every standfirst
-     white on #c1cac5                  1.68:1   secondary buttons, filter chips
-     white on #c1edbb (.button:hover)  1.30:1   the worst on the site
-     #2dc38a as text / behind white    2.26:1   active language, every button
-     #a1aaa5 blog meta on white        2.38:1
-     #8b9790 on the #e7eae8 pill       2.50:1   the copyright line
-     grey inactive language on white   3.95:1
-     #6b7770 on the #f2f5f3 footer     4.25:1
-
-   The last one is why the audit was worth running rather than trusting a
-   ratio checked in isolation: #6b7770 measures 4.67:1 and passes *on white*,
-   which is where it was checked, but the footer is #f2f5f3 and it fails there.
-   The hover states are invisible to any audit that does not simulate hover,
-   and .button:hover was the single worst colour pair on the site.
-
-   The strategy: #2dc38a stays as a decorative fill --
-   the accent band, rules, borders -- and anything that *is* text or *carries*
-   text moves to a darker green of the same hue. Two greys replace the pale
-   ones: --muted for text on white, --muted-tint for the two tinted surfaces,
-   which need a darker value to clear the same ratio.
-
-   Note --muted is #6d7973 and not the more obvious #6e7a74: that value
-   measures 4.47:1, which misses AA by 0.03. This is the lightest
-   value on the same hue that actually clears 4.5.
+   Replaces the template greys and greens that failed WCAG AA -- the worst
+   was white on #c1edbb at 1.30:1. --green stays decorative; anything that
+   is or carries text uses a darker value of the same hue.
    ========================================================================== */
 
 :root {
@@ -72,25 +20,15 @@
   --muted: #6d7973; /* 4.53:1 on white */
   --muted-tint: #5f6a64; /* 4.64:1 on #e7eae8, 5.13:1 on #f2f5f3 */
 
-  /* BUTTONS: a deliberate design exception to AA. Every button -- .button, the
-     study CTA, the current and hovered nav item, the selected publications
-     filter, the hamburger -- is WHITE text on --button with no border.
-     --button was --green (#2dc38a, 2.26:1) and moved to #3cb486 to get closer
-     to AA: it measures 2.60:1, still below AA's 4.5:1 for normal text and its
-     3:1 for large text. The selected language is still --green TEXT on the
-     white bar, 2.26:1 -- the change covered buttons, and it is not one.
-     Do not "fix" either without asking; do not extend them to prose. */
+  /* Deliberate AA exception: every button is white on --button (2.60:1) and
+     the selected language is --green text (2.26:1). The owner chose both
+     knowing the ratios. Do not "fix" them or extend them to prose. */
 
-  /* ~14px on a phone, ~15.2px from tablet up. Lives here so that anything
-     that has to match body copy -- the funding <dl> in section 15, say --
-     does not have to repeat the clamp. See section 2. */
+  /* ~14px on a phone, ~15.2px from tablet up */
   --body-size: clamp(0.875rem, 0.82rem + 0.25vw, 0.95rem);
 }
 
-/* --- pale text on white --------------------------------------------------
-   `header > p` is the standfirst under every section heading and
-   `#header .tagline` is the site tagline; both were #c1cac5, which is why they
-   read as though they had not finished loading. */
+/* the standfirst and the tagline were #c1cac5: 1.68:1 */
 header > p,
 #header .tagline {
   color: var(--muted);
@@ -101,9 +39,7 @@ ul.meta {
   color: var(--muted);
 }
 
-/* --- text on the two tinted surfaces -------------------------------------
-   Scoped to the elements that actually carry body text so that #footer's own
-   headings keep the colour the template gives them. */
+/* scoped to body text, so #footer's own headings keep the template's colour */
 #footer p,
 #footer .content a {
   color: var(--muted-tint);
@@ -115,18 +51,12 @@ ul.meta {
   color: var(--muted-tint);
 }
 
-/* The social icon chips are a white glyph on #c1cac5 -- 1.68:1, and an icon
-   needs 3:1 as non-text contrast. The glyph is a ::before, so no audit that
-   walks elements will report it. */
+/* the glyph is white on #c1cac5 (1.68:1); an icon needs 3:1 */
 ul.contact li a {
   background: var(--muted);
 }
 
-/* --- buttons: --button, white, no border -----------------------------------
-   A design decision -- see the note on the tokens above. The fill
-   stays --button in every state; hover and press feedback come from section 16
-   (lift and shadow for a mouse, a press-in and a slight darkening on tap),
-   so the colour itself never has to change. */
+/* --button fill in every state; hover and press feedback are in section 16 */
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
@@ -147,9 +77,7 @@ button:active,
   border: 0;
 }
 
-/* The secondary button keeps its pale grey surface and takes dark ink
-   instead, so the visual hierarchy against the primary button survives:
-   5.16 / 5.77 / 4.35:1 across the three states. */
+/* the secondary keeps its grey surface with dark ink: 5.16 / 5.77 / 4.35:1 */
 input[type="button"].alt,
 input[type="submit"].alt,
 input[type="reset"].alt,
@@ -168,12 +96,8 @@ button.alt:active,
   color: var(--ink);
 }
 
-/* nav buttons: the current page, and whichever item is hovered or pressed, is
-   a --button pill with white text and no edge. Hovered items used to be the
-   template's pale grey #c1cac5, with white text at 1.68:1; they are green now,
-   so every nav button looks like every other button on the site.
-
-   The language switcher is NOT a pill in any state: see below. */
+/* current and hovered nav items are --button pills; hover used to be white
+   on #c1cac5 at 1.68:1. The language switcher is never a pill -- see below. */
 #nav > ul > li:not(.item-lang).current a,
 #nav > ul > li:not(.item-lang):hover a,
 #nav > ul > li:not(.item-lang).active a {
@@ -182,8 +106,7 @@ button.alt:active,
   box-shadow: none;
 }
 
-/* language switcher: no background in any state, including the template's
-   grey hover pill. The selected language is --green text (section 1). */
+/* language switcher: no background in any state, in or out of hover */
 #nav li.item-lang a,
 #nav li.item-lang:hover a,
 #nav li.item-lang.active a {
@@ -191,9 +114,8 @@ button.alt:active,
   box-shadow: none;
 }
 
-/* The mobile panel is deliberately NOT in this list: it is a dark surface
-   (#346653 since 2026-09-14), where the dark greens would be harder to read,
-   not easier. Its current-page and current-language colour is in section 6. */
+/* Not the mobile panel: it is dark (#1e5d45), where these greens read worse.
+   Its current-page colour is in section 6. */
 
 /* ==========================================================================
    1. Component overrides
@@ -208,8 +130,7 @@ figcaption {
   font-style: italic;
 }
 
-/* Fluid rather than a fixed 50px: the upper bound is the old value, so
-   desktop is unchanged and only narrow screens tighten up. See section 12. */
+/* fluid; the upper bound is the template's old fixed 50px */
 article.box.page-content section:nth-of-type(n + 1) {
   margin-bottom: clamp(1.75rem, 3.5vw, 3.125rem);
 }
@@ -223,20 +144,9 @@ ul {
   margin-bottom: 0;
 }
 
-/* This was a blanket `li a { text-decoration: none }` until 2026-09-16. It is
-   aimed at the chrome lists -- the nav, the footer's copyright menu, the icon
-   chips -- but at (0,0,2) it also beat `a { text-decoration: underline }` for
-   every link inside every list, including the lists inside WordPress post
-   bodies. A bare URL in one of those then rendered as ordinary text in a
-   colour four shades from the body grey: the "GEOTEC in the media" post is a
-   <ul> of thirty such links and not one of them was underlined. The
-   `.third-party-services li a { ... !important }` patch on privacy-policies
-   was the same fault, worked around locally.
-
-   The chrome lists that need no underline all declare it themselves in
-   main.css -- `#nav li a`, `.dropotron li > a`, `#navPanel .link`, `.button`
-   and `.icon` -- so what is left here is the three that do not. Anything new
-   that must not be underlined names itself; do not put the blanket back. */
+/* Was a blanket `li a { text-decoration: none }`, which at (0,0,2) also beat
+   `a { text-decoration: underline }` for links inside WordPress post bodies.
+   Only the chrome lists that do not already declare it are listed here. */
 ul.meta li a, /* blog and publication meta rows: date, tags, source link */
 #copyright .menu li a, /* the footer's copyright line */
 #post-rail .post-rail-link {
@@ -253,9 +163,7 @@ li.lang a:hover {
   color: var(--ink) !important;
 }
 
-/* The selected language is --green text with no background (a design
-   decision: 2.26:1 on the white bar). It is not a link anywhere
-   useful, so it takes no pointer events. */
+/* the selected language is --green text with no background, and not a link */
 li.lang-disabled a,
 li.lang-disabled a:hover {
   color: var(--green) !important;
@@ -277,15 +185,47 @@ li.lang-disabled a:hover {
   margin: 0 !important;
 }
 
-/* `.hide` / `.show` were defined here twice over (as `div.hide`/`div.show` and
-   again bare) and the publications filter only rendered because `.show`
-   happened to follow `.hide` in source order at equal specificity -- reorder or
-   minify the file and every publication vanished. Both pairs were removed on
-   2026-09-10; the filter now toggles the `hidden` property, which no stylesheet
-   can override by accident (see assets/js/publications.js).
+/* One ::before for all three switchers: the build renders ul.menu-lang and
+   main.js copies it into the title bar and the panel. font-weight: 900 is
+   required -- fa-globe exists only in Font Awesome 5 Free's Solid face. */
+#nav > ul.menu-lang::before,
+#titleBar .title-lang::before,
+#navPanel .panel-lang::before {
+  content: "\f0ac";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1;
+}
 
-   `[hidden]` needs restating because main.css sets `display: block` on several
-   of the elements this now applies to, and that would otherwise win. */
+/* --muted is 4.53:1 on white; an icon needs 3:1 */
+#nav > ul.menu-lang::before {
+  align-self: center;
+  margin-right: 0.35em;
+  font-size: clamp(0.8rem, 1.1vw, 1rem);
+  color: var(--muted);
+}
+
+/* the list is align-items: stretch over a 44px bar, so centre the glyph */
+#titleBar .title-lang::before {
+  align-self: center;
+  margin-right: 0.2em;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* 4.40:1 on the panel; full white would compete with the labels under it */
+#navPanel .panel-lang::before {
+  display: block;
+  padding: 0.7em 1em 0.1em 1em;
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* main.css sets `display: block` on several of these, so this has to win. */
 [hidden] {
   display: none !important;
 }
@@ -293,22 +233,12 @@ li.lang-disabled a:hover {
 /* ==========================================================================
    2. Typography
 
-   Body copy used to be a hard 12px, justified. 12px is below the practical
-   reading floor on a phone and an absolute px value ignores the reader's own
-   font-size setting, so both are now relative and fluid: ~14px on a phone,
-   ~15.2px from tablet up.
-
-   Justification is kept on wide screens, where it is a deliberate part of the
-   look, but dropped below the template's `small` breakpoint: in a ~300px
-   column justified text opens rivers of whitespace and strands single words
-   on a line. `hyphens: auto` needs the `lang` attribute that the layout now
-   sets on <html>.
+   Body copy is fluid (~14px phone, ~15.2px tablet up) rather than a hard
+   12px. Justified above 736px, ragged below, where a ~300px column opens
+   rivers of whitespace. `hyphens: auto` needs the lang attribute on <html>.
    ========================================================================== */
 
-/* Scoped to body copy. This used to be a blanket `li` rule with a growing
-   list of `font-size: inherit` exceptions for the nav, the footer and the
-   mobile panel; targeting #main instead reaches page content only and leaves
-   every piece of template chrome at the size the template chose. */
+/* scoped to #main, so template chrome keeps the sizes the template chose */
 p,
 #main li {
   font-size: var(--body-size);
@@ -317,11 +247,9 @@ p,
   overflow-wrap: break-word;
 }
 
-/* No `line-height` here on purpose. main.css sets `line-height: 1.75em` on
-   `body`, which computes to a *length* (28px) and is inherited as that length
-   by everything, whatever its own font-size. An earlier version of this rule
-   set `line-height: 1.6`, which recomputed per element and blew the standfirst
-   under `.box.highlight h2` from 28px to 42px. Leading is the template's. */
+/* No line-height here. main.css sets 1.75em on `body`, which inherits as a
+   computed length (28px); a unitless value recomputes per element and blew
+   the .box.highlight standfirst from 28px to 42px. */
 
 p {
   padding: 0;
@@ -341,37 +269,20 @@ p {
   }
 }
 
-/* Measure. Left alone, a paragraph runs the full width of the 1200px
-   container: measured at 1440px that is 138 characters per line, against a
-   comfortable band of 45-75. Past roughly 90 the eye loses its place on the
-   return sweep to the start of the next line, which is what made the
-   text-heavy pages feel heavier than they are.
-
-   `ch` scales with the font, so the cap needs no media query and no new
-   breakpoint: a paragraph already inside a narrow column measures ~42ch and
-   never reaches it, so phones are untouched.
-
-   Applied to `#main p` rather than to a list of container classes because
-   `.content` and <article> exist on only 12 of the 18 pages, and neither
-   reaches the full-width RCT card on use-cases, which sits in a bare col-12. */
+/* Measure: unchecked, a paragraph runs 138 characters at 1440px against a
+   comfortable 45-75. `ch` scales with the font, so no breakpoint is needed.
+   On `#main p` because .content and <article> exist on only 12 of 18 pages. */
 #main p {
   max-width: 68ch;
 }
 
-/* Home, Publications, Blog and Privacy Policies read too narrow at 68ch:
-   at 1440px the home intro was a ~570px
-   column in a 1200px box. They carry `wide-measure` on <body>
-   (site.config.json -> pages.<id>.bodyClass) and get 100ch instead -- still a
-   cap, so it scales with the font and leaves phones and narrow columns
-   exactly as they were. */
+/* wide-measure (site.config.json -> pages.<id>.bodyClass) for the pages that
+   read too narrow at 68ch */
 body.wide-measure #main p {
   max-width: 100ch;
 }
 
-/* RCT page: its title and text are centred at the home page's width. It takes `wide-measure` above, and here the
-   article's heading is centred and its paragraphs sit centred in the column
-   like the home intro's. The text stays justified, as on the home page; the
-   video and the study button were already centred. */
+/* RCT: its title and text are centred at the home page's width */
 body.page-rct article.box.page-content > header {
   text-align: center;
 }
@@ -381,10 +292,8 @@ body.page-rct article.box.page-content p {
   margin-right: auto;
 }
 
-/* main.css centres two boxes (`text-align: center` on .box.highlight and
-   .box.feature); once the paragraph inside one is narrower than the box, it
-   has to be centred with it. Prose in .content and <article> is left-aligned
-   and deliberately stays hard against the start of its column. */
+/* main.css centres these two boxes, so a narrower paragraph must centre with
+   them. Prose in .content and <article> stays hard against its column. */
 .box.highlight p,
 .box.feature p {
   margin-left: auto;
@@ -394,8 +303,8 @@ body.page-rct article.box.page-content p {
 /* ==========================================================================
    3. Media never overflows its column
 
-   The template sizes .image img at width:100%, but plain <img>, <video> and
-   anything embedded by the blog feed is unconstrained.
+   The template sizes .image img, but a plain <img>, <video> or anything
+   the blog feed embeds is unconstrained.
    ========================================================================== */
 
 img,
@@ -415,15 +324,9 @@ video {
 /* ==========================================================================
    4. Grid: bare col-* classes stack on small screens
 
-   The template's 12-column grid only collapses when the markup asks for it
-   (`col-4 col-6-medium col-12-small`). Pages that use a bare `col-4` or
-   `col-6` therefore keep three or two columns all the way down to 320px,
-   which is what squeezed the funding grid on the home page into ~150px of
-   broken words.
-
-   These rules are a floor, not a policy: anything that declares its own
-   `-small` variant is left alone, so a page can still opt out by being
-   explicit. Same at the medium breakpoint for `-medium`.
+   The template only collapses columns the markup asks it to, so a bare
+   col-4/col-6 keeps its columns down to 320px. A floor, not a policy:
+   anything declaring its own -small or -medium variant is left alone.
    ========================================================================== */
 
 @media screen and (max-width: 736px) {
@@ -440,15 +343,9 @@ video {
   }
 }
 
-/* A .row cancels its columns' top padding with an equal negative margin. For
-   .gtr-200 main.css gets that right at every breakpoint *except the widest*:
-   above 1680px its base rule says `margin-top: -150px` against
-   `padding-top: 100px` on the columns (-100/100 at <=1680, -80/80 at <=1280;
-   the neighbouring .gtr-150 pairs -75/75). The 50px surplus pulled the first
-   row of the page up into #main's padding, and at 1920px the Research Lines
-   title sat 15px *over* the green accent band (found 2026-09-14). Scoped to
-   1681px and up: an unscoped rule would beat the template's -80px below
-   1280px. */
+/* .gtr-200 pairs margin-top: -150px with padding-top: 100px in its base rule,
+   so above 1680px the page's first row is pulled 50px up into #main. Every
+   narrower breakpoint cancels exactly, which is why this is min-width scoped. */
 @media screen and (min-width: 1681px) {
   .row.gtr-200 {
     margin-top: -100px;
@@ -458,64 +355,29 @@ video {
 /* ==========================================================================
    5. The masthead: logo, nav and language switcher in one band
 
-   Until 2026-09-14 the nav was a fixed 3.25em bar pinned to the top of the
-   viewport, and the logo and tagline sat centred in a separate #header row
-   below it, above the green rule. The design calls for:
+   A sticky three-column grid -- logo + tagline, nav, EN/ES -- whose bottom
+   border is the green rule (section 14). The outer columns share the spare
+   width, so the nav sits on the viewport's centre line; where the logo is
+   wider than its share the nav moves right rather than overlapping. #nav is
+   a subgrid over columns 2-3 holding the two <ul>s from nav.html.
 
-     - the logo top left, with the tagline to its right on two lines;
-     - the nav buttons centred on the page. They were visibly left of centre,
-       because the <ul> reserved 8.5em on its right for the language switcher
-       and only 0.5em on its left;
-     - the green rule directly under the nav, with the gap from the bottom of
-       a nav button to the rule equal to the gap from the top of the page to
-       the top of the button, and room for the logo and tagline in that band.
-
-   So the header and the nav share one sticky band, #masthead, whose bottom
-   border is the green rule (section 14). It is a three-column grid:
-
-       [ logo + tagline ]   [ nav buttons ]   [ EN ES ]
-          minmax(max-content, 1fr)  auto  minmax(max-content, 1fr)
-
-   The two outer columns share the spare width equally, so the nav sits on the
-   viewport's centre line, not the centre of whatever the logo leaves over.
-   When the logo column is wider than its half of the spare width, the grid
-   keeps the logo whole and moves the nav right just far enough -- never an
-   overlap. align-items: center plus equal block padding is what makes the
-   gap above a button equal the gap below it, whichever item is tallest.
-
-   The nav buttons and the language switcher are two <ul>s in #nav
-   (src/partials/nav.html); #nav is a subgrid spanning columns 2-3, so each
-   list lands in its own column without leaving the <nav> landmark.
-
-   Sticky rather than fixed: the band's height now depends on the logo, so it
-   has to take its own room in the flow instead of being compensated for with
-   a hard-coded body padding.
-
-   Where logo + nav + switcher do not fit on one line at all -- only the
-   narrowest desktop widths, see the block below -- the band falls back to two
-   rows: logo and switcher on top, the nav centred under them.
-
-   Mobile (<=980px): main.css hides #header and #nav, and main.js builds the
-   title bar -- logo link and language switcher -- and the panel from them.
-   See section 6.
+   Below 981px main.css hides it and main.js builds the title bar and panel
+   instead (section 6).
    ========================================================================== */
 
 @media screen and (min-width: 981px) {
-  /* main.css pads the body by the fixed nav's height; the sticky band takes
-     its own room */
+  /* the sticky band takes its own room; main.css padded for a fixed nav */
   body {
     padding-top: 0;
   }
 
   #masthead {
     --masthead-pad-y: 0.9rem;
-    /* The gap between the logo and the tagline, and also the band's side
-       padding: the page edge sits as far from the logo as the tagline does.
-       The switcher mirrors it on the right. */
+    /* the logo-tagline gap, and the band's side padding: the page edge sits as
+       far from the logo as the tagline does */
     --brand-gap: clamp(0.5rem, 0.8vw, 0.8rem);
     --masthead-pad-x: var(--brand-gap);
-    /* 8px since 2026-09-15 (was 6px). A bottom border grows downward, so the
-       rule's top edge stays put and the page below moves down with it. */
+    /* a bottom border grows downward, so the rule's top edge stays put */
     --rule: 8px;
     --logo-h: clamp(2rem, 2.6vw, 2.5rem);
     position: sticky;
@@ -549,18 +411,14 @@ video {
     text-align: left;
   }
 
-  /* main.css gives h1 an 8px bottom margin, which made the logo row 8px taller
-     than the logo -- enough to put the logo above centre on one row and to
-     break the stuck offset on two */
+  /* main.css's 8px h1 margin made the logo row taller than the logo itself */
   #header .logo h1 {
     display: block;
     margin: 0;
     line-height: 0;
   }
 
-  /* The logo and the tagline are one link home (2026-09-14: the tagline
-     should link too). One <a> rather than two, so it is one tab stop and one
-     accessible name. */
+  /* the logo and the tagline are one link home: one tab stop, one name */
   #header #logo {
     display: flex;
     align-items: center;
@@ -575,8 +433,7 @@ video {
     height: var(--logo-h);
   }
 
-  /* two fixed lines, never re-wrapped: the break is deliberate. line-height
-     is restated because the h1 around the link is line-height: 0. */
+  /* two fixed lines; line-height is restated because the h1 is line-height: 0 */
   #header .tagline {
     display: block;
     font-size: clamp(0.7rem, 0.85vw, 0.8rem);
@@ -636,11 +493,8 @@ video {
     padding-right: clamp(0.45em, 0.6vw, 1em);
   }
 
-  /* Rounded on all four corners. The template hangs each item off the top of
-     the bar (`top: -6px`, bottom corners only) so the top edge is cut off by
-     the viewport; a pill has to sit fully inside the band instead, which
-     means dropping that offset and the -6px/+3px hover shuffle that went with
-     it. 0.6em top and bottom ("a little taller", 2026-09-14). */
+  /* pills sit fully inside the band, so the template's -6px top offset and its
+     hover shuffle go with it */
   #nav li a {
     top: 0;
     padding-top: 0.6em;
@@ -656,28 +510,12 @@ video {
 }
 
 /* --- two rows only where one row does not fit -------------------------------
-   One row is the design; this is the fallback for the narrow desktop widths
-   where logo + nav + switcher would overflow and push the switcher off the
-   screen. Row 1: logo left, switcher right. Row 2: the nav, centred.
+   Row 1 logo + switcher, row 2 the nav. Measured fit plus ~25px of margin:
+   two rows up to 999px in English and 1139px in Spanish. Re-measure if a nav
+   label, the tagline or the logo changes.
 
-   History: the first version went to two rows wherever one row would put the
-   nav more than ~30px off centre -- up to 1280px in English and 1999px in
-   Spanish. Two rows looked bad, so the Spanish labels ("Investigación",
-   "Privacidad") and the Spanish tagline were shortened, and the band now uses
-   one row wherever it fits. A nav somewhat right of centre on a narrow window
-   is the accepted price.
-
-   Measured after that (fonts loaded, 15px scrollbar), the width one row needs
-   against the width available:
-     English: 956 of 966px at 981; fits at every desktop width
-     Spanish: 1083 of 1085px at 1100; overflows below that
-   The thresholds add ~25px of margin for font rendering that differs from
-   headless Chrome on Windows: two rows up to 999px in English and 1139px in
-   Spanish. Re-measure if a nav label, the tagline or the logo changes.
-
-   In two rows the band sticks with its logo row scrolled away: the negative
-   `top` is exactly the logo row plus the row gap, so what stays pinned is the
-   nav row with --masthead-pad-y above and below the buttons, and the rule. */
+   Stuck, the negative `top` is exactly the logo row plus the row gap, so what
+   stays pinned is the nav row and the rule. */
 @media screen and (min-width: 981px) and (max-width: 999px) {
   #masthead {
     --row-gap: 0.6rem;
@@ -733,11 +571,9 @@ video {
 /* ==========================================================================
    6. Mobile chrome
 
-   `body.homepage { padding-top: 0 }` in main.css exists for the template's
-   full-bleed #banner, which no page here has. The result was that the top
-   44px of five pages -- including the whole green accent rule above #main --
-   sat underneath the fixed title bar. No page uses #banner, so the offset is
-   restored for every page.
+   main.css zeroes body padding-top for `body.homepage`, for a full-bleed
+   #banner no page here has, which left the top 44px of five pages under
+   the fixed title bar.
    ========================================================================== */
 
 @media screen and (max-width: 980px) {
@@ -745,11 +581,7 @@ video {
     padding-top: 44px;
   }
 
-  /* The title bar's logo is a copy of the desktop logo image inside a link
-     home, built by main.js. Until 2026-09-14 it was a bare copy of the image,
-     so tapping it did nothing. The img used to carry an inline width:15% meant
-     for the old centred header, which rendered as a smudge here; the inline
-     style is gone and the desktop size lives in section 5. */
+  /* main.js wraps the logo image in a link home; it used to do nothing */
   #titleBar .title a {
     display: inline-block;
     line-height: 0;
@@ -762,12 +594,8 @@ video {
     vertical-align: middle;
   }
 
-  /* The language switcher, top right of the title bar (2026-09-14): before, it
-     was only reachable by opening the panel. main.js copies the desktop
-     .menu-lang items, so the selected language keeps its lang-disabled class
-     and its --green text from section 1, and the other keeps --muted. Each
-     link is the bar's full 44px tall, the minimum tap target. Stacked above
-     .title, which is a full-width block at z-index 1000. */
+  /* copied from .menu-lang by main.js, so the classes come from the build.
+     Each link is the bar's full 44px, the minimum tap target. */
   #titleBar .title-lang {
     position: absolute;
     top: 0;
@@ -803,11 +631,7 @@ video {
     line-height: 1.4;
   }
 
-  /* The language links sit at the foot of the panel, apart from the pages.
-     main.js builds them as two groups; the nav
-     fills the panel's height and the auto margin pushes the languages down.
-     On a screen too short for both, the groups stay separated by the main
-     group's bottom margin and the rule, and the panel scrolls as before. */
+  /* the languages sit at the foot of the panel, pushed down by an auto margin */
   #navPanel nav {
     display: flex;
     flex-direction: column;
@@ -823,17 +647,11 @@ video {
     border-top: 2px solid rgba(255, 255, 255, 0.2);
   }
 
-  /* The panel is as wide as its longest label plus the links' 1em padding
-     each side, instead of main.css's fixed 275px: "Sobre nosotros" in Spanish, "Privacy Policies" in English.
-     main.js measures it after the fonts load and sets --nav-panel-width;
-     275px is only the fallback until then, or without JS.
-
+  /* Width is measured by main.js from the longest label into --nav-panel-width.
      main.css hard-codes 275px in five places -- the panel's width, its
-     off-screen offset, and how far #page-wrapper and #titleBar slide when it
-     opens -- so all of them are restated here from the one variable. They must
-     agree, or the page slides further or less than the panel is wide.
-
-     Background #346653. White labels measure 6.62:1 on it. */
+     off-screen offset, and how far the page and title bar slide -- so all of
+     them are restated from that one variable, or they disagree.
+     Background #1e5d45; white labels measure 7.76:1. */
   #navPanel {
     width: min(var(--nav-panel-width, 275px), 85vw);
     transform: translateX(calc(-1 * min(var(--nav-panel-width, 275px), 85vw)));
@@ -849,10 +667,8 @@ video {
     transform: translateX(min(var(--nav-panel-width, 275px), 85vw));
   }
 
-  /* The hamburger is the phone's nav button, so it follows the nav buttons:
-     --button with a white glyph (a design decision; 2.60:1 against the 3:1 an
-     icon needs). main.css presses to a paler #a1cd9b; the fill stays
-     --button and darkens slightly instead, like every other button. */
+  /* the hamburger is the phone's nav button, so it follows them: --button with
+     a white glyph, darkening on press like every other button */
   #titleBar .toggle:before {
     background: var(--button);
     color: #fff;
@@ -864,13 +680,9 @@ video {
   }
 }
 
-/* The panel is built from #nav at runtime by assets/js/main.js, which drops
-   the class names; main.js re-applies these two so the current page and the
-   active language stay visible on a phone.
-
-   Pale mint, not the brand green: on the #346653 panel (2026-09-14) #2dc38a
-   text measures 2.93:1 and fails AA, where it passed on the old #353c37.
-   #b8f0d4 measures 5.19:1 and still reads as the green one. */
+/* main.js drops the class names when it builds the panel and re-applies these
+   two. #c4c4c4 on #1e5d45 measures 4.45:1 and misses AA by 0.05; left as the
+   owner set it (#c6c6c6 would clear it at 4.54:1). Do not change it silently. */
 #navPanel .link.current {
   color: #c4c4c4;
 }
@@ -882,25 +694,13 @@ video {
 /* ==========================================================================
    7. Study CTA banner
 
-   Was an inline position:fixed block at top:70px/right:15px with z-index 9999
-   on the home page. On a phone it covered the logo and the page heading with
-   no way to dismiss it.
-
-   Desktop keeps a floating badge. Since 2026-09-14 it is rendered inside
-   #masthead (the page's @prelude block) and hangs just below the green rule,
-   right-aligned: `top: 100%` is the bottom of the band's padding box, i.e. the
-   top of the rule, so the rule's width is added. Because the band is sticky
-   the badge stays with it on scroll, as it did when it was position:fixed,
-   and it follows the band when that grows to two rows. Below the template's
-   medium breakpoint it becomes a full-width bar in normal flow directly under
-   the title bar, so it covers nothing and scrolls away.
+   Was an inline position:fixed block that covered the logo and the page
+   heading on a phone. Now a badge below the rule inside #masthead, so it
+   follows the sticky band; below the medium breakpoint it is a full-width
+   bar in normal flow that scrolls away.
    ========================================================================== */
 
-/* Like every button: --button, white text, no border. It takes its shape
-   from the "Open the PDF"
-   button on symptoms-infography.html -- bold sentence case in the body face,
-   5px radius -- and that button follows the same colours, so the CTA and the
-   page it opens still match. Hover and press live in section 16. */
+/* shaped like the infography's "Open the PDF" button, so the two still match */
 .cta-study {
   display: inline-block;
   background: var(--button);
@@ -932,8 +732,7 @@ video {
 }
 
 @media screen and (max-width: 980px) {
-  /* Full-width bar in normal flow. The radius goes, because it would draw a
-     box against the edges of the screen. */
+  /* full-width bar: the radius would draw a box against the screen edges */
   .cta-study.cta-floating {
     position: static;
     display: block;
@@ -956,19 +755,10 @@ video {
 /* ==========================================================================
    8. Injected content
 
-   blog.html renders WordPress post bodies and publications.html renders
-   BibTeX fields. Since 2026-09-10 both are built as DOM nodes by
-   assets/js/blog.js and assets/js/publications.js rather than concatenated
-   into innerHTML, and post bodies pass through the allowlist sanitiser in
-   assets/js/sanitize-html.js -- but the *content* is still not authored here,
-   so it can still contain long unbroken URLs, wide tables and <pre> blocks.
-   Measured at 360px, a bare uji.es URL in a post body was 472px wide -- 112px
-   past the viewport, clipped and unreadable.
-
-   Note the sanitiser drops <iframe> entirely, so the rule for WordPress
-   embeds below is currently inert. No live post uses one. If an embed ever
-   needs to work, allow it in sanitize-html.js behind a host allowlist rather
-   than deleting the check.
+   WordPress post bodies and BibTeX fields, built as DOM nodes by blog.js
+   and publications.js and sanitised by sanitize-html.js. The content is
+   not authored here, so it still carries long unbroken URLs, wide tables
+   and <pre> blocks.
    ========================================================================== */
 
 #last_post,
@@ -997,14 +787,12 @@ video {
   height: auto;
 }
 
-/* WordPress embeds (YouTube, Vimeo, maps) arrive as fixed-size iframes. */
+/* inert while the sanitiser drops <iframe>; kept for when it does not */
 #last_post iframe {
   max-width: 100%;
 }
 
-/* Loading / empty / error states. Before these existed a
-   failed fetch left a blank container and a console message, which is
-   indistinguishable from "this project has no publications". */
+/* loading / empty / error states; a failed fetch used to leave a blank box */
 .data-notice {
   color: var(--muted);
   margin: 0;
@@ -1016,8 +804,7 @@ video {
   text-decoration: underline;
 }
 
-/* One publication entry. The old markup shouted the entry type as an <h6>;
-   it is a small label above the authors now. */
+/* the entry type shouted as an <h6>; it is a small label above the authors now */
 .publication {
   padding: 0 0 1.25em 0;
   margin: 0 0 1.25em 0;
@@ -1042,9 +829,7 @@ video {
   margin: 0 0 0.5em 0;
 }
 
-/* The template sizes h2 and h4 only, so a bare h3 renders at 1em -- smaller
-   than the text under it. Size it here rather than globally, which would
-   change every card title on research-lines, use-cases and about. */
+/* the template sizes h2 and h4 only, so a bare h3 renders at 1em */
 .publication-title {
   font-size: 1.1em;
   margin: 0 0 0.35em 0;
@@ -1059,11 +844,8 @@ video {
   color: var(--muted);
 }
 
-/* 2026-09-14: the abstract is a <details>, closed by default. The
-   toggle is a text control, so it uses --green-ink (4.96:1), not the button
-   green, and a 44px-tall tap target. The marker is replaced with a chevron
-   that turns when open, because the default triangle renders differently in
-   every browser and is easy to miss at this size. */
+/* the abstract is a closed <details>. --green-ink because the toggle is text,
+   and a drawn chevron because the default marker differs in every browser. */
 .publication-abstract {
   margin: 0.35em 0 0 0;
 }
@@ -1111,17 +893,12 @@ video {
   margin: 0.25em 0 0.5em 0;
 }
 
-/* The blog's "Read more" buttons were dark teal (`.button-ink`) until
-   2026-09-14, when every button on the site became --button. The class and its
-   rules are gone; blog.js no longer emits it. */
-
 /* ==========================================================================
    9. Controls and tap targets
    ========================================================================== */
 
-/* The publications filter buttons have no styling anywhere in the project --
-   .btn is not defined in main.css -- so they rendered as default UA buttons
-   with ~20px tap targets and no wrapping behaviour. */
+/* .btn is defined nowhere in the project, so these were UA buttons with
+   ~20px tap targets */
 #myBtnContainer {
   display: flex;
   flex-wrap: wrap;
@@ -1148,8 +925,7 @@ video {
   background: #ccd5d0;
 }
 
-/* the selected filter is a button like any other: --button, white, no border
-   (2026-09-14). Unselected chips keep their pale grey surface. */
+/* the selected filter is a button like any other; unselected keep their grey */
 #myBtnContainer .btn.active,
 #myBtnContainer .btn.active:hover {
   background: var(--button);
@@ -1157,29 +933,14 @@ video {
   border: 0;
 }
 
-/* --- the same filter as a <select> on a phone (2026-09-16) ------------------
-   The chips are <button>s, and main.css gives every button `width: 100%` at
-   736px and below, so each filter took a row of its own: five rows, 247px at
-   360px and 249px at 736px, measured, before a single publication. The
-   <select> is one 44px row instead, and publications.js builds it from the
-   buttons so the two can never disagree.
+/* --- the same filter as a <select> at 736px and below ------------------------
+   main.css gives every <button> width: 100% there, so the five chips took a
+   row each: 249px before a single publication. publications.js builds the
+   select from the chips, so the two cannot disagree, and it is styled as the
+   *selected* chip because that is what it is.
 
-   The breakpoint is 736px because that is where main.css widens the buttons;
-   from 737px up the five chips fit on one 44px line in both languages and the
-   desktop control is left exactly as it was.
-
-   It is styled as the *selected* chip -- --button, white, no border, 8px, the
-   condensed uppercase face -- because that is what it is: the filter that is
-   currently applied. So the control reads the same on a phone as the active
-   button does on a desktop, which is the point. The white-on---button pair is
-   the deliberate 2.60:1 exception in section 0; this is a button, so it is
-   inside that exception and not a new one.
-
-   main.css's reset already sets `appearance: none` on every <select>, so the
-   native arrow is gone whatever we do here and the chevron has to be drawn.
-   It is a background gradient pair rather than an SVG data URI: two 2px bars
-   rotated into a V, the same shape the publications abstract uses, with no
-   asset to keep in step. `padding-right` keeps the label clear of it. */
+   The chevron is two gradients rather than an SVG: main.css's reset already
+   sets `appearance: none`, so the native arrow is gone whatever we do. */
 .pubs-filter-select {
   display: none;
 }
@@ -1214,9 +975,7 @@ video {
     background-repeat: no-repeat;
   }
 
-  /* The options are drawn by the platform, not by this stylesheet: on most
-     desktop browsers they inherit the control's colours, which would be white
-     on white once the list opens. Name both. */
+  /* the platform draws these; without a colour they inherit white on white */
   .pubs-filter-select option {
     background: #fff;
     color: var(--ink);
@@ -1245,11 +1004,8 @@ video {
    10. Page-specific figures
    ========================================================================== */
 
-/* index: the project logo and the device mockup. The desktop width is the
-   template's original 35%; the step up on narrow screens is because 35% of a
-   ~320px column is ~112px of artwork, which is too small to read. Kept
-   deliberately modest — these are decorative, and the heading below them is
-   the thing that should carry the page. */
+/* index: 35% is the template's width. Larger on narrow screens, where 35% of
+   a ~320px column is too small to read. */
 .intro-figure {
   width: 35%;
   height: auto;
@@ -1281,8 +1037,7 @@ video {
   }
 }
 
-/* rct: the trial video. Was an inline width:50% that beat the col-12-small
-   class on the same element, so it stayed half-width on phones. */
+/* rct: the trial video. Was an inline width:50% that beat col-12-small. */
 .video-frame {
   margin: 0 auto;
   width: 50%;
@@ -1294,11 +1049,8 @@ video {
   }
 }
 
-/* about: the GEOTEC and LabPsiTec wordmarks. Real <img> elements since
-   2026-09-14, with alt text; before that they were
-   background images on a .photo-groups div, first cropped to a few letters by
-   main.css's background-size: cover and then fixed with contain. A logo has to
-   fit, not fill: the box keeps its old 180px on desktop and 2:1 on phones. */
+/* about: the partner wordmarks. A logo has to fit, not fill -- main.css's
+   background-size: cover cropped them to a few letters. */
 .group-logo {
   display: block;
   width: 100%;
@@ -1314,18 +1066,11 @@ video {
   }
 }
 
-/* about: team portraits, real <img> elements with alt text and lazy loading
-   since 2026-09-14. They were background images on a
-   fixed 350px-tall .photo div, so the crop changed with the column width --
-   landscape on desktop, square on phones -- and every portrait was cut
-   differently at every width.
-
-   Now every portrait is one fixed 6:5 frame at every width, so the crop is
-   the same wherever it is seen. 6:5 because it is close to the old desktop box
-   (~413x350 at 1440px), so cards did not grow taller, and close to most of the
-   source photos (1.17-1.34 wide). object-position sits the frame above centre,
-   where faces are. width/height attributes in the markup give the browser the
-   ratio before the image loads, so lazy loading cannot shift the layout. */
+/* about: team portraits. One 6:5 frame at every width, so the crop is the same
+   wherever it is seen; they used to be background images on a fixed-height
+   div and were cut differently at every column width. object-position sits
+   the frame above centre, where faces are, and the markup's width/height give
+   the ratio before the image loads so lazy loading cannot shift the layout. */
 .team-photo {
   display: block;
   width: 100%;
@@ -1340,16 +1085,9 @@ video {
 /* ==========================================================================
    11. Card grids line up
 
-   .row is already `display: flex; align-items: stretch`, so the *columns* of
-   a card row are equal height -- but the .box.feature inside each one only
-   grows to fit its own text, so the bottom edge of a row is a staircase.
-   Measured at 1440px: research-lines row 1 was 452 / 368 / 368px, ragged by
-   84px, and about rows 2 and 3 the same. It is the main reason the card grids
-   read as unfinished.
-
-   Making the column a flex container and the card a full-height flex column
-   pushes the card's own bottom edge down to meet the column's. Inert once the
-   columns stack on a phone, where every card is full width anyway.
+   .row stretches its columns, but a .box.feature only grows to fit its own
+   text, so a row's bottom edge was a staircase -- ragged by 84px at 1440px.
+   Making the column a flex container pushes each card down to meet it.
    ========================================================================== */
 
 .box.features .row > [class*="col-"] {
@@ -1362,30 +1100,20 @@ video {
   flex-direction: column;
 }
 
-/* With the cards stretched, trailing buttons would sit at the foot of text of
-   differing length; an auto top margin drops them to a common baseline. */
+/* an auto top margin drops trailing buttons to a common baseline */
 .box.features .box.feature ul.actions {
   margin-top: auto;
 }
 
-/* A row that does not fill its 12 columns -- the last two team members, say --
-   centres its remainder instead of hanging left. This replaces an inline
-   `display: flex; justify-content: center; gap: 2rem` that four rows in
-   about.html carried: `display: flex` was redundant (.row is already flex) and
-   the `gap` stacked on top of the template's negative-margin gutters, so two
-   col-6-medium columns plus 2rem no longer fitted on one line at 768px and
-   wrapped. The template's own gutter is the 50px padding on .row > *. */
+/* a row that does not fill its 12 columns centres the remainder rather than
+   hanging left */
 .row.row-centered {
   justify-content: center;
 }
 
 /* --- About: wider team cards ------------------------------------------------
-   The bios are long, and in a third of the 1200px container each card was
-   ~366px wide and very tall. body.page-about widens the page container above
-   1280px (to ~413px cards at 1440, ~463px at 1920), and between 981 and
-   1280px, where a third of the container is under 300px, the team grids go
-   two per row, centred. Below 980px the template's col-6-medium /
-   col-12-small take over as before. */
+   The bios are long. Wider container above 1280px, and two cards per row at
+   981-1280px, where a third of the container is under 300px. */
 @media screen and (min-width: 1281px) {
   body.page-about #main > .container {
     width: min(calc(100% - 100px), 90rem);
@@ -1402,21 +1130,14 @@ video {
   }
 }
 
-/* Pin the card image ratio so a future image cannot change a card's
-   proportions. All ten current card images are already 3:2 (900x600,
-   540x360, 2250x1500), so this crops nothing today. */
+/* pin the ratio so a future image cannot change a card's proportions */
 .box.feature .image.featured img {
   aspect-ratio: 3 / 2;
   object-fit: cover;
 }
 
-/* --- card surfaces (2026-09-14) --------------------------------------------
-   A card used to be image + heading + paragraph floating on the white page,
-   so a row of three read as three columns of text. Every card in a card grid
-   gets an edge now; only cards that actually go somewhere get hover and press
-   feedback (section 16). This had to wait until the cards' dead href="#"
-   wrappers were removed -- a lift on a card that goes nowhere would have been
-   a lie. */
+/* every card in a grid gets an edge; only has-link cards get feedback
+   (section 16), because a lift on a card that goes nowhere would be a lie */
 .box.features .box.feature {
   background: #fff;
   border: 1px solid #e7eae8;
@@ -1428,16 +1149,10 @@ video {
   margin-bottom: 1.25em;
 }
 
-/* --- the whole card is the link ---------------------------------------------
-   A clickable card carries `has-link`, and its title link carries `card-link`.
-   The title's ::after is stretched over the card, so the image, the text and
-   the empty space all go where the title goes -- one link, one tab stop, and
-   an accessible name that is the title. The old markup had three: an image
-   link and a title link, both to "#", beside the real button.
-
-   Any other link inside the card -- its own button, or a link inside a blog
-   excerpt from WordPress -- is lifted above the overlay so it stays clickable
-   and goes where it says. */
+/* --- the whole card is the link ----------------------------------------------
+   has-link on the card, card-link on its title: the title's ::after covers
+   the card, so it is one link and one tab stop named by the title. Any other
+   link inside is lifted above that overlay so it stays clickable. */
 .box.feature.has-link {
   position: relative;
 }
@@ -1455,9 +1170,8 @@ video {
   z-index: 2;
 }
 
-/* Keyboard focus rings the card, not a small box around the title. Only where
-   :has() exists -- elsewhere the title link keeps its own ring from section 13
-   rather than losing focus visibility altogether. */
+/* focus rings the card where :has() exists; elsewhere the title link keeps
+   its own ring from section 13 */
 @supports selector(:has(*)) {
   .box.feature.has-link:has(.card-link:focus-visible) {
     outline: 3px solid var(--ink);
@@ -1472,15 +1186,9 @@ video {
 /* ==========================================================================
    12. Vertical rhythm
 
-   The template's block spacing is a fixed `em` that steps down at two
-   breakpoints rather than scaling with the viewport. #footer is 8em top and
-   bottom above 1280px, which measured 627px tall at 1440px -- most of a
-   laptop screen of nothing, and it made every page feel like it trails off.
-
-   clamp() makes the same spacing fluid. The upper bounds sit below the
-   template's desktop values without collapsing them, and the lower bounds are
-   close to what it already used below 736px, so this takes the worst case out
-   rather than restyling the site. See also the fluid section gap in part 1.
+   The template's block spacing steps down at breakpoints instead of
+   scaling: #footer was 627px tall at 1440px. clamp() makes it fluid, with
+   upper bounds below the template's desktop values.
    ========================================================================== */
 
 #footer {
@@ -1491,19 +1199,11 @@ video {
   padding-bottom: clamp(2.5rem, 6vw, 6rem);
 }
 
-/* --- the footer's own internal spacing (2026-09-16) -------------------------
-   Compressing the band's outer padding alone left the inside as airy as
-   before: the footer is a .row.gtr-200, whose columns carry a 100px top
-   padding above 1280px (80px below it), so the "about" paragraph and the
-   "Get in touch" block sat 100px apart, with another 2em of the paragraph's
-   own margin under it and a 4em margin over the copyright pill. Measured at
-   1440px the whole footer was 544px tall for four lines of text.
-
-   One variable drives the gap between the footer's stacked blocks, because
-   .gtr-200 pairs a negative row margin with an equal column padding and the
-   two must always agree -- change one on its own and the first block moves
-   instead of the gap. #footer wins on specificity (1,2,0 vs 0,2,0), so this
-   holds at every breakpoint, including the >=1681px override in section 4. */
+/* --- the footer's own internal spacing ---------------------------------------
+   One variable for the gap between the footer's blocks: .gtr-200 pairs a
+   negative row margin with an equal column padding and the two must agree,
+   or the first block moves instead of the gap. #footer (1,2,0) beats both
+   the template's rule and the >=1681px override in section 4. */
 #footer {
   --footer-row-gap: clamp(1.25rem, 3vw, 2rem);
 }
@@ -1516,8 +1216,7 @@ video {
   padding-top: var(--footer-row-gap);
 }
 
-/* The about paragraph is the last thing in its block, so its 2em bottom
-   margin only ever added to the gap that --footer-row-gap now sets. */
+/* last in its block, so its bottom margin only ever added to the gap */
 #footer p:last-child {
   margin-bottom: 0;
 }
@@ -1533,18 +1232,10 @@ video {
 /* ==========================================================================
    13. Keyboard focus is visible
 
-   main.css sets `outline: 0` on the nav links, the .button family, the social
-   icons and the ul.special / ul.meta link lists, so tabbing through the site
-   showed nothing at all -- the current-page indicator was the only clue where
-   the caret had got to.
-
-   :focus-visible shows the ring to keyboard users and not on mouse click, so
-   this costs nothing visually for most visitors. #1f525e is the template's
-   own heading colour and measures 8.65:1 against the white nav bar, the white
-   #main and the #f2f5f3 footer.
-
-   No `border-radius` on the ring: an outline already follows the element's own corner radius, and forcing 4px
-   would reshape the 8px nav pills and buttons at the moment they take focus.
+   main.css zeroes the outline on nav links, the .button family, the social
+   icons and the ul.special / ul.meta link lists. :focus-visible shows a
+   ring to keyboard users and not on mouse click. No border-radius: an
+   outline already follows the element's own corners.
    ========================================================================== */
 
 a:focus-visible,
@@ -1558,10 +1249,8 @@ textarea:focus-visible,
   outline-offset: 2px;
 }
 
-/* The rule above is (0,1,1) and loses to four of the five selectors that zero
-   the outline in main.css -- `#nav li a` is (1,0,2) and the three link lists
-   are (0,1,3) -- so those are re-stated here at their own specificity. The
-   .button family is (0,1,0) at most and is already covered. */
+/* re-stated at their own specificity: the rule above is (0,1,1) and loses to
+   `#nav li a` at (1,0,2) and the three link lists at (0,1,3) */
 #nav li a:focus-visible,
 ul.contact li a:focus-visible,
 ul.special li a:focus-visible,
@@ -1573,18 +1262,10 @@ ul.meta li a:focus-visible {
 /* ==========================================================================
    14. The green rule under the masthead
 
-   #main carries `border-top: 35px solid #2dc38a` in main.css -- a flat green
-   slab across the full width, under the header, on every page. It was first
-   thinned to a 6px rule here, and thickened to 8px on 2026-09-15.
-
-   On 2026-09-14 the rule moved off #main and onto the bottom of #masthead
-   (section 5, `--rule`), so it sits directly under the nav buttons at a
-   distance equal to the gap above them, and stays under them when the band
-   sticks on scroll. #main's own border is zeroed on desktop so there are not
-   two.
-
-   Desktop only, as a min-width query: main.css already removes the band below
-   980px, where the mobile title bar replaces the header and nav.
+   main.css draws a 35px green border across #main. The rule is 8px on the
+   bottom of #masthead instead (section 5), so it sits under the nav and
+   sticks with the band; #main's own border is zeroed on desktop so there
+   are not two. Desktop only -- main.css removes the band below 980px.
    ========================================================================== */
 
 @media screen and (min-width: 981px) {
@@ -1596,18 +1277,10 @@ ul.meta li a:focus-visible {
 /* ==========================================================================
    15. Funding entries (home)
 
-   The funding section was four near-identical logo + wall-of-text pairs, each
-   running the project title, a grant number, a funder, a duration and two
-   email addresses together as <br>-separated lines inside a single <p>. It was
-   the least scannable part of the site, and the title was an <h6> *inside* the
-   <p> -- invalid HTML that the parser silently repairs, which is what broke
-   the heading outline.
-
-   The metadata is a description list now, because that is what it is: a set of
-   labelled values. The grid gives it a label column that collapses above the
-   value on a phone, which is also what stops grant numbers like
-   PID2022-140475OB-C21 -- long unbreakable tokens -- from forcing the layout
-   wide.
+   Four logo + wall-of-text pairs, each with its metadata <br>-separated
+   inside one <p> and its title an <h6> *inside* that <p>. A <dl> now; the
+   grid's label column collapses above the value on a phone, which also
+   stops long grant numbers forcing the layout wide.
    ========================================================================== */
 
 .grant-logo {
@@ -1618,9 +1291,8 @@ ul.meta li a:focus-visible {
   margin: 0 0 1em 0;
 }
 
-/* .image img in main.css is width:100%, which sized each logo to its column
-   rather than to itself. A cap on the height gives all four the same presence
-   whatever their intrinsic size. */
+/* main.css sizes .image img to its column rather than to itself; cap the
+   height instead, so all four logos have the same presence */
 .grant-logo img {
   width: auto;
   max-width: 100%;
@@ -1628,10 +1300,8 @@ ul.meta li a:focus-visible {
   object-fit: contain;
 }
 
-/* The template sets a size for h2 (1.65em) and h4 (1.25em) and for no other
-   heading, so a bare <h3> renders at 1em -- smaller than the <h4> beneath it.
-   Both are sized here rather than globally, because .box.feature h3 on
-   research-lines, use-cases and about relies on the template's 1em. */
+/* the template sizes h2 and h4 only. Scoped, because .box.feature h3 on three
+   other pages relies on the 1em. */
 .grant h3 {
   font-size: 1.15em;
 }
@@ -1686,28 +1356,13 @@ ul.meta li a:focus-visible {
 /* ==========================================================================
    16. Hover and press feedback (pointer and touch)
 
-   2026-09-14. Clickable cards, buttons and the study CTA
-   respond to the pointer -- but a phone has no hover, and a naive `:hover`
-   rule misbehaves there: the first tap triggers it and the lift then *sticks*
-   until the user taps somewhere else, so the card looks stuck half-raised.
-
-   So feedback is split by what the device can actually do:
-
-     hover  -- gated on `(hover: hover) and (pointer: fine)`, i.e. a mouse or
-               trackpad. Touch screens never see it, so nothing sticks.
-     press  -- `:active`, on every device. On a phone this is the feedback: a
-               brief press-in while the finger is down. main.js registers a
-               passive touchstart listener, without which iOS Safari does not
-               apply :active to anything.
-     focus  -- the keyboard ring from section 13 (and section 11 for cards).
-
-   Motion is additionally gated on `prefers-reduced-motion: no-preference`.
-   With reduced motion the colour and shadow changes remain -- the feedback
-   is still there -- but nothing moves. That matters more than usual on a site
-   aimed partly at people with anxiety disorders.
-
-   Nav pills get colour only: they sit in the masthead with equal gaps above
-   and below them (section 5), which a lift would visibly break.
+   Hover is gated on (hover: hover) and (pointer: fine): on a touch screen
+   a tap would trigger it and the lift would stick. Press is :active on
+   every device -- main.js registers a passive touchstart, without which
+   iOS Safari never applies it. Motion is additionally gated on
+   prefers-reduced-motion; the colour and shadow changes are not, so the
+   feedback survives. Nav pills get colour only: a lift would break the
+   equal gaps above and below them (section 5).
    ========================================================================== */
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1753,9 +1408,8 @@ ul.meta li a:focus-visible {
   box-shadow: 0 3px 10px rgba(31, 82, 94, 0.12);
 }
 
-/* The fill stays --button in every state, so a press darkens it slightly
-   rather than swapping colour. This is also the only press feedback left when
-   reduced motion turns the scale-in off. */
+/* the fill never changes, so a press darkens it -- and this is the only press
+   feedback left once reduced motion turns the scale-in off */
 .button:active,
 .cta-study:active,
 #myBtnContainer .btn:active,
@@ -1775,8 +1429,7 @@ ul.meta li a:focus-visible {
   }
 }
 
-/* The mobile CTA is a full-width bar: a scale-in would pull its edges away
-   from the sides of the screen, so it only changes colour when pressed. */
+/* the mobile CTA is a full-width bar: a scale-in would pull it off the edges */
 @media screen and (max-width: 980px) {
   .cta-study.cta-floating:active {
     transform: none;
@@ -1786,20 +1439,14 @@ ul.meta li a:focus-visible {
 /* ==========================================================================
    17. Home page: tagline and link to the RCT
 
-   The tagline under "SyMptOMS Project" was left-aligned under a centred
-   title. `p { text-align: justify }` in section 2 reaches it too, and a
-   single justified line renders flush-left -- so it looked misplaced rather
-   than justified. Centred explicitly (2026-09-14).
-
-   The RCT link: the study banner recruits for the SyMptOMS-JIT trial, but
-   the page describing that trial was reachable only from one card on Use
-   Cases. A ninth nav item was not taken: the Spanish nav fits on one row at
-   981px with little to spare.
+   A single justified line renders flush-left, so the tagline under a
+   centred title looked misplaced rather than justified. The RCT link
+   exists because that page was reachable only from one Use Cases card,
+   and a ninth nav item does not fit in Spanish.
    ========================================================================== */
 
-/* text-align alone was not enough: #main p caps the measure at 68ch, and
-   this paragraph's box sat flush left inside the wider highlight box, so its
-   centred text was still 185px left of the title at 1440px. */
+/* text-align alone is not enough: #main p caps the measure, so the box sat
+   flush left and its centred text was still 185px left of the title */
 .box.highlight header > p {
   text-align: center;
   margin-left: auto;
@@ -1813,12 +1460,8 @@ ul.meta li a:focus-visible {
 /* ==========================================================================
    17b. Use Cases: the closing line under the case-study cards
 
-   "All patients have shown positive progress..." carried an inline
-   `text-align: center`, but section 2 caps every #main paragraph at 68ch and
-   leaves the box against the left of its column, so the centred text sat left
-   of the page's centre -- at 1440px a 530px box starting at x=113 in a 1200px
-   row (fixed 2026-09-14). The same fault the RCT page had.
-   The box is centred as well as the text, and the inline style is gone.
+   The same fault the RCT page had: centred text in a 68ch box that itself
+   sat left of centre. The box is centred as well as the text.
    ========================================================================== */
 
 #main p.closing-note {
@@ -1830,35 +1473,14 @@ ul.meta li a:focus-visible {
 /* ==========================================================================
    18. Tools page
 
-   "Our goal" (2026-09-14): the video and its paragraph are no longer cards.
-   With the boxes gone the paragraph is centred against the video's height,
-   which is what the inline `vertical-align: middle` it used to carry was
-   trying, and failing, to do.
+   "Our goal": the video and its paragraph are not cards, so the paragraph
+   centres against the video's height.
 
-   "End user tools": the three tool cards are whole-card links with their
-   buttons inside, like Use Cases (section 11). Their text is centred on the
-   card's axis like the image and the button, rather than justified; and the
-   "For Patients" / "For Therapists" titles are centred over the cards they
-   head -- the col-8 title spans exactly the two therapist cards, so centring
-   it puts it midway between them.
-
-   Grouping below 981px (2026-09-16). main.css used to hide those titles with
-   `.section-title-web { display: none }` at <=980px, on the reasoning that
-   the cards no longer line up under them -- but section 11 above sets
-   `display: flex` on every card-grid column, and at (0,3,0) that beat the
-   hide at (0,0,1) at every width. So both titles showed on a phone, stacked
-   together at the top: "Patients", "Therapists", and only then all three
-   cards. That rule and its class are gone; these titles are `tool-group-title`
-   now and are meant to be visible everywhere.
-
-   Showing the titles is right -- they say who each tool is for -- but each
-   one has to sit with its own cards: Patients / Android app, then Therapists
-   / the two web apps. That needs the titles and the cards in ONE flex
-   container, because `order` cannot move an item between containers, which
-   is why the two .rows in the markup are now one .row.tool-grid.
-
-   Above 981px nothing changes: `order` is not set, so the row wraps into the
-   same two lines as before, col-4 + col-8 over col-4 + col-4 + col-4.
+   "End user tools": three whole-card links (section 11) under two group
+   titles. Below 981px `order` interleaves each title with its own cards,
+   which is why the markup's two .rows are one .row.tool-grid -- order
+   cannot move an item between flex containers. Above 981px order is unset
+   and the row wraps into the same two lines as before.
    ========================================================================== */
 
 .box.features.goal .row.goal-row > [class*="col-"] {
@@ -1871,9 +1493,8 @@ ul.meta li a:focus-visible {
   margin-bottom: 0;
 }
 
-/* Section 11 makes every card-grid column a flex container, so the title is a
-   flex item shrunk to its own text: text-align alone centres nothing. The
-   column has to centre its content. */
+/* section 11 makes the column a flex container, so the title is an item
+   shrunk to its text and text-align centres nothing */
 .box.features.tool-cards .tool-group-title {
   justify-content: center;
 }
@@ -1886,28 +1507,19 @@ ul.meta li a:focus-visible {
   text-align: center;
 }
 
-/* Merging the two rows into one gave the card line the 50px top padding that
-   .row puts on every column and only cancels for its first line -- 40-50px of
-   new space between a title and the cards it heads, which the two-row markup
-   never had. Zeroed so the desktop layout is byte-for-byte what it was. */
+/* .row cancels its column padding for the first line only, so merging the two
+   rows added 40-50px above the cards. Zeroed to keep the old desktop layout. */
 @media screen and (min-width: 981px) {
   .box.features.tool-cards .tool-grid > .tool-card {
     padding-top: 0;
   }
 }
 
-/* --- below 981px: one group at a time -------------------------------------
-   Visual order becomes title, its card(s), the next title, its cards. The
-   titles are col-12-medium, so each one takes a line of its own and the
-   cards after it wrap under it; at 737-980px the two therapist cards are
-   col-6-medium and share their line, and at <=736px everything is full width.
-
-   The gutter is handled here rather than left to the template. .row pairs a
-   50px top padding on its columns with an equal negative margin on itself,
-   which cancels the first line only -- every wrapped line after it keeps the
-   full 50px, and a wrapped line is now what separates a title from its own
-   cards. Both are zeroed and replaced with one row-gap, so the spacing does
-   not depend on how many lines the row happens to wrap into. */
+/* --- below 981px: one group at a time ---------------------------------------
+   Titles are col-12-medium, so each takes a line of its own and the cards
+   wrap under it. The template's row padding is zeroed and replaced with one
+   row-gap, so the spacing does not depend on how many lines the row wraps
+   into. */
 @media screen and (max-width: 980px) {
   .box.features.tool-cards .tool-grid {
     margin-top: 0;
@@ -1944,46 +1556,23 @@ ul.meta li a:focus-visible {
 /* ==========================================================================
    19. Blog: the index, the rail and the reader
 
-   The page used to carry the same nine posts three times -- a grid of cards
-   with full excerpts and a green button, a "Recent Posts" sidebar with four
-   of them and the same excerpts again, and the article -- and still gave a
-   reader no way to change post without leaving the one they were on. The
-   owner's words on 2026-09-16: the posts are "too lengthy and not
-   attractively styled to read", and "I don't like that I can only look at the
-   cards for different posts or look at the actual post."
-
-   So the page is now two things that do different jobs:
-
-     - the INDEX, the card grid at the top: image, date, title, three clamped
-       lines. Three per row instead of two, and no button, because the card is
-       already one link (section 11). It is for finding a post.
-     - the READER, the article plus a sticky RAIL of every post beside it. It
-       is for reading one, and for moving to the next without scrolling back.
-
-   The rail is desktop only. Below 981px the columns stack and the grid is
-   directly above the article, so a second list of the same titles would be
-   two screens of duplicate navigation; the article carries the way back out
-   instead (.post-footer).
-
-   Measured at 1440px before and after: the grid was 2,948px tall and is now
-   1,373px; the article's paragraphs ran 115 characters and now run ~70.
+   The page carried the same nine posts three times and still gave no way
+   to change post without leaving the one being read. Two things now: the
+   card grid, for finding a post, and the article plus a sticky rail of
+   every post, for reading one. The rail is desktop only -- below 981px
+   the grid sits directly above the article and does the same job, and the
+   article carries the way back out (.post-footer).
    ========================================================================== */
 
-/* --- the index -------------------------------------------------------------
-   main.css centres .box.feature, which suits a three-line marketing card and
-   not a clamped paragraph of someone else's prose: centred ragged text in a
-   narrow column reads as a blob. The index cards are left-aligned, alone
-   among the site's card grids, because they carry running prose. */
+/* --- the index ---------------------------------------------------------------
+   main.css centres .box.feature, which suits a marketing card and not a
+   clamped paragraph of someone else's prose. */
 #more_posts .post-card {
   text-align: left;
 }
 
-/* Post titles are sentences someone else wrote -- with hashtags, @handles and
-   sub-clauses -- and the template sets every heading in condensed uppercase.
-   "@GEOTECUJI'S TOOL BOOSTS SYSTEMATIC DATA COLLECTION FOR MENTAL HEALTH
-   TREATMENTS" is three lines of shouting with no word shapes left to read.
-   The condensed bold face stays; only the casing goes, and only on the two
-   places a post title appears. */
+/* post titles are sentences with hashtags and @handles in them; the
+   template's condensed caps left no word shapes to read */
 #more_posts .post-card h3,
 #last_post .post-header h2 {
   text-transform: none;
@@ -2006,15 +1595,9 @@ ul.meta li a:focus-visible {
   line-height: 1.3;
 }
 
-/* Three lines of excerpt, whatever the post. `-webkit-line-clamp` is the only
-   cross-browser way to do this (Chrome, Safari, Firefox and Edge all support
-   the -webkit- prefixed box, and `line-clamp` proper is not yet everywhere);
-   where it is not honoured the paragraph simply shows in full, which is what
-   the card did before, so there is nothing to fall back to.
-
-   `min-height` holds three lines' worth even when the excerpt is shorter, so
-   the titles and cues of a row line up. Every WordPress excerpt here is the
-   same 55 words, so in practice it always fills. */
+/* three lines whatever the post. min-height holds three lines' worth so a
+   row's titles and cues line up; where line-clamp is unsupported the
+   paragraph simply shows in full, as the card did before. */
 .post-card-excerpt {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -2026,10 +1609,8 @@ ul.meta li a:focus-visible {
   margin: 0 0 1em 0;
 }
 
-/* The card's only call to action, and deliberately not a link: the whole card
-   already goes to the post (section 11) and a second link to the same place
-   is a second tab stop announcing the same destination. blog.js marks it
-   aria-hidden for the same reason. */
+/* a cue, not a link: the whole card already goes there (section 11), and a
+   second link would be a second tab stop to the same place */
 .post-card-cue {
   margin-top: auto;
   font-family: "Open Sans Condensed", sans-serif;
@@ -2044,24 +1625,14 @@ ul.meta li a:focus-visible {
   content: " \2192";
 }
 
-/* --- the rail --------------------------------------------------------------
-   Sticky, so it survives a 13,000px post; and scrollable inside its own box,
-   so a feed that grows to thirty posts cannot push its own foot off screen.
-   `top` clears the sticky masthead (section 5) with room to breathe. */
-/* The sticky element is the column's own child from the page source, not the
-   <nav> that blog.js builds inside it: a sticky box travels within its
-   PARENT, and the parent of the nav is a wrapper that is exactly as tall as
-   the nav itself, so it stuck for 0px and scrolled away with the page. The
-   wrapper's parent is the grid column, which .row stretches to the article's
-   full height -- that is the travel the rail needs.
-
-   For the same reason there is no `align-self: start` on .blog-side, however
-   much the column wants it: shrinking the column to its content would take
-   the travel away again.
-
-   `top` clears the sticky masthead, which measures 71-79px tall scrolled at
-   981px and up (section 5); 6rem leaves ~17px of air under it at the
-   worst case. */
+/* --- the rail ----------------------------------------------------------------
+   Sticky, so it survives a 13,000px post, and scrollable inside its own box,
+   so a longer feed cannot push its foot off screen. */
+/* The sticky box is #post-rail from the page source, not the <nav> blog.js
+   builds inside it: sticky travels within its parent, and that wrapper is
+   exactly as tall as the nav. Its parent is the grid column, which .row
+   stretches -- so no `align-self: start` on .blog-side either. top: 6rem
+   clears the masthead, 71-79px tall when stuck. */
 #post-rail {
   position: sticky;
   top: 6rem;
@@ -2087,12 +1658,8 @@ ul.meta li a:focus-visible {
   margin: 0;
 }
 
-/* Section 2 justifies `#main li`, which is right for prose and wrong for a
-   two-line navigation label: "@GeoTecUJI opens the #IPIN2021 conference with
-   an Android scheduling tutorial" was stretched across the rail with word
-   gaps wide enough to read as separate columns. */
-/* `#main li` wins the id, so this needs one of its own: `.post-rail-list li`
-   is (0,1,1) against (1,0,1) and lost silently. */
+/* section 2 justifies #main li, which is wrong for a navigation label */
+/* and `#main li` is (1,0,1), so a plain class loses silently: this needs an id */
 #post-rail .post-rail-list li {
   padding-left: 0;
   text-align: left;
@@ -2120,9 +1687,8 @@ ul.meta li a:focus-visible {
   color: var(--muted);
 }
 
-/* The post on screen. A rule and a weight rather than a fill, because the
-   rail sits on white beside white and a green block would read as a button.
-   --green-ink, not --green: this is text (4.96:1). */
+/* a rule and a weight, not a fill: a green block on white would read as a
+   button. --green-ink, because this is text (4.96:1). */
 .post-rail-link.is-current {
   border-left-color: var(--green);
   color: var(--green-ink);
@@ -2150,13 +1716,11 @@ ul.meta li a:focus-visible {
   }
 }
 
-/* --- the article -----------------------------------------------------------
-   Everything below is about one complaint: the posts are hard to read. They
-   are not authored here, so the fix is the frame around them. */
+/* --- the article -------------------------------------------------------------
+   All of it is about one complaint: the posts are hard to read. They are not
+   authored here, so the fix is the frame around them. */
 
-/* Anything scrolled to -- the article when a card is clicked, a heading when
-   the outline is used -- has to clear the sticky masthead or it lands under
-   the band. */
+/* anything scrolled to has to clear the sticky masthead */
 #last_post,
 .post-body h2,
 .post-body h3 {
@@ -2167,16 +1731,14 @@ ul.meta li a:focus-visible {
   margin: 0 0 1.5em 0;
 }
 
-/* main.css sizes .box.page-content h2 at 3em, which is right for a page title
-   and too loud for a post title stacked under one. */
+/* .box.page-content h2 is 3em, which is too loud for a post title under one */
 #last_post .post-header h2 {
   font-size: 2em;
   line-height: 1.15;
   margin: 0 0 0.5em 0;
 }
 
-/* The meta row wraps on a phone, so it needs its own leading and a gap
-   instead of main.css's `margin-left: 1em` between inline items. */
+/* the meta row wraps on a phone, so it needs a gap rather than margin-left */
 #last_post .post-header ul.meta {
   display: flex;
   flex-wrap: wrap;
@@ -2189,21 +1751,11 @@ ul.meta li a:focus-visible {
   margin-left: 0;
 }
 
-/* .icon:before asks for "Font Awesome 5 Free" at weight 400, which is the
-   Regular face -- and Regular is a ~150-icon subset. fa-clock and fa-comments
-   are in it; fa-book-open and fa-link are Solid only, so at 400 they render
-   nothing at all and leave a gap where an icon should be. fa-link has been
-   blank in this meta row since the row existed; a missing glyph is silent,
-   which is the same trap the socialLinks `style` field documents. */
-#last_post .post-header .fa-book-open::before,
-#last_post .post-header .fa-link::before {
-  font-weight: 900;
-}
+/* fa-book-open and fa-link are Solid-only and drew nothing at the Regular
+   weight .icon:before asks for. They carry `solid` in blog.js now, which is
+   main.css's own switch, so there is no rule for it here. */
 
-/* --- the outline -----------------------------------------------------------
-   Built by blog.js from the post's own h2/h3, and only when there are at
-   least two. One post needs it today -- "GEOTEC in the media", 1,806 words in
-   five sections -- and it is the one the complaint was about. */
+/* --- the outline: built by blog.js from the post's own h2/h3 ----------------- */
 .post-toc {
   border-left: 3px solid var(--green);
   padding: 0.25em 0 0.25em 1.25em;
@@ -2238,17 +1790,10 @@ ul.meta li a:focus-visible {
   padding-left: 1em;
 }
 
-/* --- the post body ---------------------------------------------------------
-   Measure first. The page carries `wide-measure`, which caps a paragraph at
-   100ch; in the col-9 article that was 100 characters of justified text, well
-   past the 45-75 band section 2 explains. 72ch, in the same unit section 2
-   uses, so it needs no breakpoint and follows the reader's own font size.
-
-   The cap is on the body rather than on `p`, so figures, lists and quotes
-   hold the same column as the prose instead of hanging out to the right of
-   it -- and `font-size` is restated here because `ch` resolves against the
-   element's own size: without it the cap would be 72 characters of main.css's
-   16px body text, which is 76 characters of the 15.2px prose inside. */
+/* --- the post body -----------------------------------------------------------
+   72ch, the unit section 2 uses, so it needs no breakpoint. On the body
+   rather than on `p`, so figures and lists hold the prose's column; and
+   font-size is restated because `ch` resolves against the element's own size. */
 .post-body {
   font-size: var(--body-size);
   max-width: 72ch;
@@ -2258,13 +1803,9 @@ body.wide-measure #main .post-body p {
   max-width: none;
 }
 
-/* The template sizes h2 and h4 only (see the note in the project's own docs),
-   so a post's own h2/h3 would render at 3em and 1em respectively -- the second
-   smaller than the text under it. Scoped here, not globally.
-
-   Casing goes for the same reason it goes on the post title: these are the
-   author's own sentences, and the outline above the body lists them in
-   sentence case, so leaving the headings in caps made the two disagree. */
+/* the template sizes h2 and h4 only, so a post's own h3 would render smaller
+   than the text under it. Casing goes because the outline lists these in
+   sentence case and the two would disagree. */
 .post-body h2,
 .post-body h3,
 .post-body h4,
@@ -2293,10 +1834,8 @@ body.wide-measure #main .post-body p {
   margin-top: 0;
 }
 
-/* custom.css section 1 zeroes `ul`'s bottom margin for the template's chrome
-   lists, which left a post's own lists running straight into the paragraph
-   after them. main.css's 3em is too much at this size; 1.5em is the
-   paragraph's own rhythm plus a little. */
+/* section 1 zeroes ul's bottom margin for the chrome lists, which left a
+   post's own lists running into the paragraph after them */
 .post-body ul,
 .post-body ol {
   margin: 0 0 1.5em 0;
@@ -2308,8 +1847,8 @@ body.wide-measure #main .post-body p {
   hyphens: auto;
 }
 
-/* WordPress wraps every image in a <figure>. The sanitiser strips the class
-   it carries, so this has to match the element. */
+/* WordPress wraps every image in a <figure>, and the sanitiser strips the
+   class it puts there, so this has to match the element */
 .post-body figure {
   margin: 2em 0;
 }
@@ -2347,9 +1886,7 @@ body.wide-measure #main .post-body p {
   margin: 2em 0;
 }
 
-/* --- the way out -----------------------------------------------------------
-   The end of a post is the other place a reader needs the index, and on a
-   phone it is the only one: the rail is hidden there. */
+/* --- the way out: on a phone the only one, since the rail is hidden ---------- */
 .post-footer {
   margin-top: 2.5em;
   padding-top: 1.25em;
@@ -2380,24 +1917,14 @@ body.wide-measure #main .post-body p {
   }
 }
 
-/* --- paging the index, and the split between browsing and reading ----------
-   2026-09-17, the owner: nine cards at once is "too much, and it doesn't
-   allow to see what's underneath (the selected blog post)". So the grid shows
-   three at a time -- exactly one row from 981px up -- and a rule marks where
-   the index stops and the reader starts.
+/* --- paging the index, and the split between browsing and reading ------------
+   Three cards at a time, one row from 981px up: at 1440px the grid went from
+   1,733px to 338px, so the index and the article's opening fit on screen
+   together.
 
-   Measured at 1440px: the grid went from 1,733px to 338px, the whole index
-   block -- heading, cards and pager -- is 475px, the rule falls at y=635 and
-   the article's title at y=687. All of it is on screen at once on a 1080p
-   display, which is what the complaint was.
-
-   The pager's buttons are real <button>s, which means main.css's button rule
-   applies to them: 1.25em type, 0.85em padding, the brand fill, and
-   `width: 100%` at 736px and below. Every one of those has to be undone
-   here, the same way `#myBtnContainer .btn` undoes them for the publications
-   filter -- and at id strength, because section 0 restates the fill on
-   `button:hover` and `button:active`, which are (0,1,1) and would beat a
-   plain class. */
+   The pager's controls are real <button>s, so main.css's button rule reaches
+   them -- including width: 100% at 736px and below -- and section 0 restates
+   the fill on button:hover/:active at (0,1,1). Hence the id-strength rules. */
 .post-pager {
   display: flex;
   flex-wrap: wrap;
@@ -2472,12 +1999,8 @@ body.wide-measure #main .post-body p {
   cursor: default;
 }
 
-/* On a phone the three parts do not fit on one line -- "Más recientes" and
-   "Más antiguos" are wide, and the Spanish pager wrapped with "Más antiguos"
-   stranded alone under the numbers. Two deliberate lines instead of one
-   accidental one: the numbers centred on their own row, the two steps spread
-   to the edges beneath them. `order` works because all three are flex items
-   of the same container. */
+/* the three parts do not fit on one line in Spanish, so below 481px the
+   numbers take their own row and the two steps spread to the edges beneath */
 @media screen and (max-width: 480px) {
   .post-pager {
     justify-content: space-between;
@@ -2507,22 +2030,16 @@ body.wide-measure #main .post-body p {
   filter: brightness(0.9);
 }
 
-/* The card of the post being read. On a phone this is the only marker there
-   is -- the rail that carries it on a desktop is hidden below 981px.
-
-   `outline`, not a border or an inset shadow: a border would shift the card's
-   layout by a pixel, and an inset shadow is wiped by the lift shadow section
-   16 puts on the same card under a pointer. An outline collides with
-   nothing, and the focus ring in section 13 still wins over it, which is the
-   right order. */
+/* the open post's card; on a phone this is the only marker, since the rail is
+   hidden. outline, not a border (layout shift) or an inset shadow (wiped by
+   the lift in section 16). */
 #more_posts .post-card.is-current {
   outline: 2px solid var(--green);
   outline-offset: -2px;
 }
 
-/* The split. main.css already draws `hr` as a 2px #e7eae8 rule; the margins
-   go so that the gap is the grid's own -- 50px of column padding above and
-   below it at desktop widths -- rather than that plus the template's 3em. */
+/* main.css already draws hr as a 2px rule; the margins go so the gap is the
+   grid's own 50px of column padding */
 .blog-split {
   margin: 0;
 }

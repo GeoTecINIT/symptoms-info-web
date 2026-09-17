@@ -236,12 +236,9 @@ function pageLocales(pageId) {
  * ------------------------------------------------------------------ */
 
 /**
- * The canonical public URL of a page, on config.siteUrl.
- *
- * Homepages are the directory URL ("/", "/es/") rather than ".../index.html":
- * that is what GEOTEC's project page links to and what people type, and
- * Firebase Hosting serves the directory index for both forms. Every other page
- * is its .html file, which is what the site's own links use.
+ * The canonical public URL of a page. Homepages are the directory form
+ * ("/", "/es/"), which is what GEOTEC links to and what Hosting serves;
+ * every other page is its .html file, as the site's own links have it.
  */
 function publicUrl(pageId, localeId) {
   const dir = config.locales[localeId].dir;
@@ -250,11 +247,9 @@ function publicUrl(pageId, localeId) {
 }
 
 /**
- * Escape a value for a double-quoted attribute or for text. The template
- * engine inserts values raw, which is fine for markup authored here but not for
- * a title or description that happens to contain a quote -- that would end the
- * attribute early and silently drop the rest of the tag. Existing entities are
- * left alone so "&copy;" is not double-escaped.
+ * Escape for a double-quoted attribute. The engine inserts values raw, which
+ * is fine for markup authored here but not for a title carrying a quote.
+ * Existing entities are left alone, so "&copy;" is not double-escaped.
  */
 function escapeHtml(value) {
   return String(value ?? '')
@@ -295,17 +290,10 @@ function headMeta(pageId, localeId) {
 }
 
 /*
- * Cache busting for the site-wide CSS and JS.
- *
- * Firebase Hosting serves these with a default max-age and the repo sets no
- * `headers` block, so without this a browser keeps yesterday's stylesheet after
- * a deploy. That is not theoretical: an edit to custom.css shipped alongside
- * markup that depended on it, and the stale pairing rendered the home page with
- * a 2188px logo and an unstyled CTA. A content hash in the query string gives a
- * changed file a new URL, so old and new can never be paired.
- *
- * Query string rather than a renamed file: nothing else has to know about it,
- * and `assets/` keeps stable paths for anything linking in directly.
+ * Cache busting. Hosting serves these with a default max-age and the repo
+ * sets no `headers` block, so a browser can pair new markup with yesterday's
+ * stylesheet. A content hash in the query string gives a changed file a new
+ * URL; a query string rather than a renamed file, so paths stay stable.
  */
 const hashCache = new Map();
 
@@ -385,14 +373,10 @@ function buildPage(pageId, localeId) {
 }
 
 /**
- * Copy a tree into dist, skipping files already identical in size and mtime.
- *
- * With `mirror`, anything in the destination that no longer exists in the
- * source is deleted, so removing a file from assets/ or images/ removes it from
- * the deploy. Without it, deleted files lived on in dist/ indefinitely: when
- * assets/sass/ was deleted on 2026-09-14 it kept shipping. Not used for
- * src/standalone/, which copies into the root of dist/ next to the generated
- * pages.
+ * Copy a tree into dist, skipping files identical in size and mtime. With
+ * `mirror`, anything no longer in the source is deleted too, or a file removed
+ * from assets/ keeps shipping. Not used for src/standalone/, which copies into
+ * the root of dist/ beside the generated pages.
  */
 function syncDir(from, to, stats, mirror = false) {
   if (!fs.existsSync(from)) return;
@@ -444,13 +428,9 @@ function pruneStaleHtml(expected, stats) {
 }
 
 /**
- * robots.txt and sitemap.xml, generated rather than hand-written so they
- * cannot drift from the page list -- drift across hand-maintained copies is
- * the failure this build exists to prevent.
- *
- * Before these existed, /robots.txt and /sitemap.xml returned HTTP 200 with the
- * homepage's HTML, courtesy of the catch-all rewrite that firebase.json used to
- * carry: a crawler asking for robots.txt was handed a web page.
+ * robots.txt and sitemap.xml, generated so they cannot drift from the page
+ * list. Before these existed the catch-all rewrite in firebase.json answered
+ * /robots.txt with the homepage's HTML and a 200.
  */
 function writeCrawlerFiles() {
   const site = config.siteUrl.replace(/\/+$/, '');

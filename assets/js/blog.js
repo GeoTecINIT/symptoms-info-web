@@ -1,58 +1,7 @@
 /*
- * blog.js -- renders /geotecblog from the Realtime Database.
- *
- * Extracted from ~190 lines of inline script duplicated byte-for-byte between
- * blog.html and es/blog.html. Call initBlog() from the page;
- * every user-visible string is passed in.
- *
- * What changed on extraction:
- *  - One copy instead of two. The old copies being identical meant the
- *    Spanish page rendered "See original post" and "Read more" in English;
- *    those are now locale strings.
- *  - `last_displayed_post` was declared at outer scope AND again inside
- *    getText, shadowing it. displayPost() read the outer one while being
- *    called with the inner -- it only worked because hidePost() guarded
- *    against 0. There is one `showPost(id)` and one `articles` map now.
- *  - No try/catch, no response.ok, no empty state. A failed fetch left
- *    three blank containers. Now the page always ends in list, empty
- *    notice, or error notice with a link to the GEOTEC blog.
- *  - Post titles, tag names and dates were concatenated into HTML strings
- *    from the WordPress API. Titles and tags are set with textContent
- *    (via sanitize-html's toText, which decodes &#8217; and friends);
- *    bodies and excerpts, which really are HTML, go through an allowlist
- *    sanitiser. The old markup also built `onclick="displayPost(<id>)"`
- *    attributes out of feed data -- those are event listeners now, so
- *    nothing from the feed is ever parsed as code.
- *
- * 2026-09-16, first pass: the card grid moved to the top of the page, and
- * posts are sorted newest first and deduplicated by id (sortByDateDesc,
- * dedupe) rather than trusting the feed's order.
- *
- * 2026-09-16, second pass -- the page is an index and a reader, not three
- * lists of the same nine posts:
- *  - The "Recent Posts" sidebar is gone. It showed four of the nine posts,
- *    with the same excerpt as the card above it, and it wrapped a whole
- *    <article> in an <a>, which nests a link inside the excerpt's own links.
- *    In its place buildRail() renders every post as one compact link, title
- *    and date, marking the one on screen. It is the only way to move between
- *    posts without leaving the one you are reading.
- *  - The cards lost their "Read more" button (a second link to the same
- *    place as the card, which the site's own rule forbids) and their excerpt
- *    is plain text clamped by CSS, so nine of them are a grid you can scan
- *    rather than a wall you scroll.
- *  - An article now says how long it is (readingMinutes) and, when it has
- *    the structure for it, carries its own outline (outline(), buildToc()).
- *    The newest post is 1,806 words in five sections; that is the one this
- *    is for.
- *  - A post is addressable: `#post-<id>` opens it, Back returns to the
- *    previous one. Until now no post on this site could be linked to at all.
- *
- * 2026-09-17: the index is paged, three cards at a time (POSTS_PER_PAGE).
- * Nine cards filled the screen and pushed the article the reader had just
- * picked below the fold. The card nodes are built once and moved between
- * pages, never rebuilt, so their listeners and their `is-current` mark
- * survive; the index opens on the page holding whatever is being read, and
- * after that the pager belongs to the reader.
+ * blog.js -- renders /geotecblog from the Realtime Database into the index
+ * grid, its pager, the sticky post rail and the article. One copy for both
+ * locales; the page passes every user-visible string to initBlog().
  *
  * Requires sanitize-html.js to be loaded first.
  */
@@ -61,18 +10,12 @@
 
   var Sanitize = global.SymptomsSanitize;
 
-  // Adult silent reading of prose sits around 220-260 wpm; 200 is the
-  // conventional figure for these estimates and errs towards over-stating the
-  // time, which is the kinder direction to be wrong in.
-  var WORDS_PER_MINUTE = 200;
+  var WORDS_PER_MINUTE = 200; // the conventional figure for these estimates
 
-  // Below this, an outline is noise: it would repeat most of the post.
+  // Fewer than this and the outline just repeats the post.
   var MIN_HEADINGS_FOR_OUTLINE = 2;
 
-  // Nine cards filled the screen and pushed the article the reader had just
-  // chosen below the fold (owner, 2026-09-17). Three is one full row from
-  // 981px up, and the number the owner asked for.
-  var POSTS_PER_PAGE = 3;
+  var POSTS_PER_PAGE = 3; // one full row from 981px up
 
   function el(tag, className, text) {
     var node = document.createElement(tag);
@@ -94,8 +37,7 @@
   function tagNames(post) {
     var embedded = post._embedded || {};
     var terms = embedded['wp:term'] || [];
-    // terms[0] is categories, terms[1] is tags -- but the feed is not
-    // guaranteed to carry both, and the old code indexed [1] unguarded.
+    // terms[1] is tags, but the feed does not always carry both lists
     var list = terms[1] || [];
     return list
       .map(function (t) { return Sanitize.toText(t && t.name); })
@@ -107,23 +49,16 @@
     var media = embedded['wp:featuredmedia'] || [];
     var first = media[0] || {};
     return {
-      // imgurl is the re-hosted copy written by the Cloud Functions; the
-      // original source_url is http:// and would be blocked as mixed content.
+      // the re-hosted copy; source_url is http:// and would be blocked
       url: post.imgurl || null,
       alt: first.title ? Sanitize.toText(first.title.rendered) : '',
     };
   }
 
   /**
-   * Newest first. The feed happens to arrive in that order today, but nothing
-   * in the pipeline guarantees it: scheduledSaveBlogPosts appends new and
-   * modified posts to /geotecblog as it meets them, so a post edited in
-   * WordPress lands after posts published later than it. The cards are the
-   * first thing on the page, so their order is the page's order.
-   *
-   * A post with an unparseable date sorts last rather than poisoning the
-   * comparison with NaN, which would leave the order dependent on the sort's
-   * pivot choices.
+   * Newest first. scheduledSaveBlogPosts appends new *and modified* posts as
+   * it meets them, so the feed's own order is not chronological. Unparseable
+   * dates sort last rather than poisoning the comparison with NaN.
    */
   function sortByDateDesc(posts) {
     return posts
@@ -140,12 +75,8 @@
   }
 
   /**
-   * One card per post id. The live feed carries post 6263 twice, with
-   * different bodies -- the same post saved once and then again after it was
-   * edited -- which rendered two identical-looking cards whose `articles[id]`
-   * entries collided, so the first card opened the second card's article.
-   * The later copy wins: the function appends as it re-fetches, so the one
-   * further down the list is the one written most recently.
+   * One card per post id -- the live feed carries post 6263 twice, with
+   * different bodies. The later copy wins, being the more recent write.
    */
   function dedupe(posts) {
     var lastIndexFor = {};
@@ -164,14 +95,9 @@
   }
 
   /**
-   * Give every heading in a post body an id and report them, so the article
-   * can carry its own outline.
-   *
-   * The ids are assigned here rather than kept from WordPress because the
-   * sanitiser drops `id` (it is not in the allowlist) -- which is what we
-   * want: every article is in the DOM at once, only one of them visible, so
-   * two posts sharing a WordPress slug would otherwise collide. Keying on the
-   * post id cannot.
+   * Give every heading in a post body an id and report them. Keyed on the
+   * post id because every article is in the DOM at once, so WordPress's own
+   * ids could collide -- and the sanitiser drops them anyway.
    */
   function outline(body, postId) {
     var headings = body.querySelectorAll('h2, h3');
@@ -221,18 +147,15 @@
     }
 
     /**
-     * Only a bare `#post-<id>` is a post. The outline's links are
-     * `#post-<id>-h<n>` and must fall through to the browser's own anchor
-     * handling, which is why this anchors both ends of the pattern.
+     * Only a bare `#post-<id>` is a post; the outline's `#post-<id>-h<n>`
+     * links must fall through to the browser's own anchor handling.
      */
     function idFromHash() {
       var match = /^#post-(\d+)$/.exec(global.location.hash || '');
       return match ? match[1] : null;
     }
 
-    // `scroll` is false for the initial render of a plain visit: bringing the
-    // article into view is right when the reader picks a post, and wrong when
-    // the page has just loaded and they have not asked for anything yet.
+    // `scroll` is false on first render: the reader has not asked for a post yet.
     function showPost(id, scroll) {
       id = String(id);
       if (!articles[id]) return false;
@@ -246,9 +169,8 @@
         if (current) railLinks[key].setAttribute('aria-current', 'true');
         else railLinks[key].removeAttribute('aria-current');
       });
-      // The card is marked too, not just the rail: the rail is hidden below
-      // 981px, so on a phone the card is the only thing that can say which
-      // post the article underneath belongs to.
+      // the card is marked too: on a phone the rail is hidden, so it is the
+      // only thing that says which post the article below belongs to
       Object.keys(cardsFor).forEach(function (key) {
         var current = key === id;
         var section = cardsFor[key].firstChild;
@@ -264,10 +186,8 @@
     }
 
     /**
-     * Picking a post from the grid or the rail. The address bar follows, so
-     * the post can be linked and shared and Back returns to the previous one.
-     * pushState fires neither `hashchange` nor `popstate`, so this cannot
-     * re-enter through the listener below.
+     * The address bar follows, so a post can be linked and Back returns to the
+     * previous one. pushState fires no hashchange, so this cannot re-enter.
      */
     function selectPost(id) {
       if (!showPost(id, true)) return;
@@ -281,8 +201,7 @@
     function openPostOnClick(anchor, id) {
       anchor.href = hashFor(id);
       anchor.addEventListener('click', function (e) {
-        // Let a modified click open the post in its own tab: the href is a
-        // real address now, so that works.
+        // a modified click opens the post in its own tab; the href is real
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
         e.preventDefault();
         selectPost(id);
@@ -302,21 +221,15 @@
       return span;
     }
 
-    /** One card in the index grid: image, date, title, three lines, a cue. */
+    /** One card in the index grid: date, title, three clamped lines, a cue. */
     function card(post) {
-      // Three per row from 981px up, two on a tablet, one on a phone: with
-      // the button and the full excerpt gone a card is short enough to fit.
       var col = el('div', 'col-4 col-6-medium col-12-small');
-      // has-link + card-link: the title's click target is stretched over the
-      // whole card, with hover and press feedback (custom.css sections 11, 16)
+      // has-link + card-link: the title's click target covers the whole card
       var section = el('section', 'box feature has-link post-card');
 
-      // No featured image here, deliberately: three of the nine live posts
-      // have none -- including the two most recent -- and a row of cards where
-      // one has a photo and its neighbour has 250px of white reads as broken
-      // rather than as varied. The image still opens the article, which is
-      // where it earns its download. If every post gets a featured image in
-      // WordPress, this is four lines to put back.
+      // No featured image: three of the nine live posts have none, and a row
+      // where one card has a photo and the next has white space reads as
+      // broken. It still opens the article.
       section.appendChild(el('p', 'post-card-date', formatDate(post.date, lang)));
 
       var h3 = document.createElement('h3');
@@ -325,16 +238,12 @@
       h3.appendChild(titleLink);
       section.appendChild(h3);
 
-      // toText, not toFragment: a WordPress excerpt is one <p> of prose that
-      // the card clamps to three lines, so there is no markup worth keeping,
-      // and the trailing "[...]" it ends with is the truncation mark.
+      // toText: the excerpt is one <p> of prose, clamped to three lines by CSS
       section.appendChild(
         el('p', 'post-card-excerpt', Sanitize.toText(post.excerpt && post.excerpt.rendered))
       );
 
-      // A cue, not a second link: the whole card already goes there, and the
-      // title is the link's accessible name. aria-hidden keeps a screen
-      // reader from announcing a "Read more" that is not operable.
+      // a cue, not a link: the card is already one link, named by its title
       var cue = el('span', 'post-card-cue', strings.readMore || '');
       cue.setAttribute('aria-hidden', 'true');
       section.appendChild(cue);
@@ -343,11 +252,8 @@
       return col;
     }
 
-    /* --- paging the index ---------------------------------------------------
-       The card nodes are built once and moved in and out of the grid, so a
-       card's listeners, and the `is-current` mark showPost() puts on it,
-       survive every page change. Rebuilding them per page would rewire nine
-       listeners for every click and drop the mark on the way. */
+    /* Card nodes are built once and moved in and out of the grid, so their
+       listeners and the `is-current` mark survive every page change. */
 
     function pageCount() {
       return Math.ceil(cards.length / POSTS_PER_PAGE);
@@ -375,17 +281,14 @@
 
       pageButtons.forEach(function (button) {
         if (button.dataset.role === 'step') {
-          // Disabled rather than hidden: a control that vanishes at the ends
-          // makes the row jump and moves the other buttons under the cursor.
+          // disabled, not hidden: a vanishing control makes the row jump
           button.disabled =
             button.dataset.dir === 'prev' ? currentPage === 0 : currentPage >= last;
           return;
         }
         var current = Number(button.dataset.page) === currentPage;
         button.className = current ? 'post-pager-page is-current' : 'post-pager-page';
-        // aria-current="page" is what a screen reader reads back as "current
-        // page" in a pagination list; it is the whole announcement, so the
-        // control needs no live region.
+        // the standard pagination announcement, so no live region is needed
         if (current) button.setAttribute('aria-current', 'page');
         else button.removeAttribute('aria-current');
       });
@@ -421,8 +324,7 @@
           button.type = 'button';
           button.dataset.role = 'page';
           button.dataset.page = String(page);
-          // The visible label is a bare numeral; the accessible name says
-          // what the numeral means.
+          // the visible label is a bare numeral; the name says what it means
           button.setAttribute('aria-label', String(strings.pagerPage || '').replace('{n}', page + 1));
           button.addEventListener('click', function () {
             showPage(page);
@@ -488,8 +390,7 @@
       var article = el('article', 'post');
       article.hidden = true;
 
-      // The body is built first: its length is the reading time and its
-      // headings are the outline, and both belong above it in the article.
+      // body first: its length is the reading time, its headings the outline
       var body = el('section', 'post-body');
       var image = featuredImageNode(post);
       if (image) body.appendChild(image);
@@ -503,8 +404,10 @@
 
       var meta = el('ul', 'meta');
       meta.appendChild(el('li', 'icon fa-clock', formatDate(post.date, lang)));
+      // `solid`: fa-book-open exists only in Font Awesome's Solid face, and
+      // .icon:before asks for Regular, where it would draw nothing
       meta.appendChild(
-        el('li', 'icon fa-book-open', String(strings.readingTime || '').replace('{n}', minutes))
+        el('li', 'icon solid fa-book-open', String(strings.readingTime || '').replace('{n}', minutes))
       );
 
       var tags = tagNames(post);
@@ -512,7 +415,7 @@
 
       var link = Sanitize.safeUrl(post.link);
       if (link) {
-        var li = el('li', 'icon fa-link');
+        var li = el('li', 'icon solid fa-link'); // Solid-only glyph, as above
         var a = el('a', null, strings.seeOriginal || '');
         a.href = link;
         a.target = '_blank';
@@ -528,8 +431,7 @@
       }
       article.appendChild(body);
 
-      // The way back out of a long post. On a phone this is the only one:
-      // the rail is a desktop affordance and the grid is a long way up.
+      // the way back out; on a phone the only one, since the rail is hidden
       if (indexEl) {
         var footer = el('footer', 'post-footer');
         var back = el('a', 'post-back', strings.backToPosts || '');
@@ -557,8 +459,7 @@
         return response.json();
       })
       .then(function (data) {
-        // RTDB returns an array here, but returns an object keyed by index if
-        // the list is ever sparse -- normalise so neither shape breaks.
+        // RTDB returns an object keyed by index if the list is ever sparse
         var list = Array.isArray(data)
           ? data
           : data && typeof data === 'object'
@@ -566,9 +467,8 @@
           : null;
         if (!list) throw new Error('unexpected payload shape');
 
-        // A genuinely empty feed and a feed full of junk are different
-        // problems, and saying "no posts yet" for the second one would hide a
-        // broken pipeline behind a reassuring message.
+        // an empty feed and an unusable one are different problems: saying
+        // "no posts yet" for the second would hide a broken pipeline
         var posts = dedupe(sortByDateDesc(list.filter(function (p) {
           return p && typeof p === 'object' && p.id != null;
         })));
@@ -593,23 +493,18 @@
         postEl.appendChild(postsFrag);
         if (railEl) railEl.appendChild(buildRail(posts));
 
-        // Without a pager element there is nothing to page with, so the grid
-        // shows everything rather than silently hiding six posts behind a
-        // control that does not exist.
+        // no pager element: show everything rather than hide posts behind a
+        // control that does not exist
         if (indexEl && pagerEl) buildPager(pagerEl);
         else if (indexEl) cards.forEach(function (col) { indexEl.appendChild(col); });
 
-        // A `#post-<id>` in the address bar wins over "the newest one", so a
-        // shared link opens what it says and scrolls to it. An id that is no
-        // longer in the feed falls back rather than showing nothing.
+        // a #post-<id> in the bar wins over "the newest one"; an id no longer
+        // in the feed falls back rather than showing nothing
         var wanted = idFromHash();
         var opened = wanted && articles[wanted] ? wanted : String(posts[0].id);
 
-        // The index opens on the page holding whatever is being read, so a
-        // deep link does not land with three unrelated cards above it. After
-        // that the pager is the reader's: picking a post never moves it,
-        // because a grid that jumped under the cursor on every rail click
-        // would be worse than one that stays put.
+        // open on the page holding what is being read; after that the pager
+        // belongs to the reader and picking a post never moves it
         if (indexEl && pagerEl) showPage(pageOfPost(opened));
         showPost(opened, opened === wanted);
 
