@@ -35,14 +35,17 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48" />
+    <!-- ?v= makes browsers drop a cached old icon; raise it whenever
+         tools/make-icons.mjs changes the icons (the templated pages get a
+         content hash from the build instead) -->
+    <link rel="icon" href="favicon.ico?v=3" sizes="16x16 32x32 48x48" />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="images/icons/favicon-32.png"
+      href="images/icons/favicon-32.png?v=3"
     />
-    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png?v=3" />
     <style>
       :root {
         --accent: #2dc38a;
@@ -124,12 +127,62 @@
         flex-direction: column;
       }
 
+      .viewer {
+        position: relative;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+      }
+
       iframe {
         flex: 1 1 auto;
         width: 100%;
         min-height: 70vh;
         border: 0;
         background: #fff;
+      }
+
+      /* Shown over the frame until the 3.8 MB PDF has loaded; built by the
+         script under the frame, so without JS there is none to get stuck. */
+      .viewer-loading {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+        background: #fff;
+        color: var(--dark);
+        font-weight: 600;
+        text-align: center;
+        padding: 1em;
+        transition: opacity 0.3s ease;
+      }
+
+      .viewer-loading.is-done {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 4px solid #dcefe6;
+        border-top-color: var(--accent);
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .spinner {
+          animation: spin 0.9s linear infinite;
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       .fallback {
@@ -229,7 +282,8 @@
         real participants -- offer the file as a link rather than an embed.
       */
       @media screen and (max-width: 736px) {
-        iframe {
+        iframe,
+        .viewer {
           display: none;
         }
 
@@ -261,10 +315,36 @@
     </header>
 
     <main>
-      <iframe
-        src="images/symptoms-infography.pdf"
-        title="SyMptOMS-JIT study infography (PDF)"
-      ></iframe>
+      <div class="viewer">
+        <iframe
+          src="images/symptoms-infography.pdf"
+          title="SyMptOMS-JIT study infography (PDF)"
+        ></iframe>
+      </div>
+      <script>
+        (function () {
+          var frame = document.querySelector(".viewer iframe");
+          // phones hide the frame and offer the file as a link instead
+          if (!frame || getComputedStyle(frame).display === "none") return;
+          var overlay = document.createElement("div");
+          overlay.className = "viewer-loading";
+          overlay.setAttribute("role", "status");
+          var spinner = document.createElement("span");
+          spinner.className = "spinner";
+          spinner.setAttribute("aria-hidden", "true");
+          overlay.appendChild(spinner);
+          overlay.appendChild(document.createTextNode(
+            "Loading the infography… · Cargando la infografía…"));
+          frame.parentNode.appendChild(overlay);
+          function hide() {
+            overlay.classList.add("is-done");
+            setTimeout(function () { overlay.remove(); }, 400);
+          }
+          frame.addEventListener("load", hide);
+          // a PDF plugin that never reports load must not leave the page covered
+          setTimeout(hide, 20000);
+        })();
+      </script>
 
       <div class="fallback">
         <p>

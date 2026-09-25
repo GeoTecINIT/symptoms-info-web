@@ -297,16 +297,27 @@ function headMeta(pageId, localeId) {
  */
 const hashCache = new Map();
 
+function contentTag(file) {
+  return fs.existsSync(file)
+    ? '?v=' + crypto.createHash('sha1').update(fs.readFileSync(file)).digest('hex').slice(0, 8)
+    : '';
+}
+
 function assetUrl(href) {
-  if (!hashCache.has(href)) {
-    const file = path.join(ROOT, href);
-    let tag = '';
-    if (fs.existsSync(file)) {
-      tag = '?v=' + crypto.createHash('sha1').update(fs.readFileSync(file)).digest('hex').slice(0, 8);
-    }
-    hashCache.set(href, href + tag);
-  }
+  if (!hashCache.has(href)) hashCache.set(href, href + contentTag(path.join(ROOT, href)));
   return hashCache.get(href);
+}
+
+// The tab icons need it most: browsers keep favicons in a cache of their own
+// and hold on to an old one long after the file has changed. favicon.ico is
+// served from the site root but lives in src/standalone/.
+function iconUrls(prefix) {
+  return {
+    ico: prefix + 'favicon.ico' + contentTag(path.join(SRC, 'standalone', 'favicon.ico')),
+    png32: prefix + assetUrl('images/icons/favicon-32.png'),
+    png16: prefix + assetUrl('images/icons/favicon-16.png'),
+    touch: prefix + assetUrl('images/icons/apple-touch-icon.png'),
+  };
 }
 
 function pageSourcePath(pageId, localeId) {
@@ -336,6 +347,7 @@ function buildPage(pageId, localeId) {
     bodyAttr: page.bodyClass ? ' class="' + page.bodyClass + '"' : '',
     strings: config.strings[localeId],
     stylesheets: config.stylesheets.map((href) => ({ href: prefix + assetUrl(href) })),
+    icons: iconUrls(prefix),
     // Site-wide scripts, then this page's own. Both go through assetUrl, so a
     // page script gets the same content hash as a shared one -- without that, a
     // deploy could pair new page markup with a cached old blog.js, which is the

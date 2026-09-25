@@ -1,6 +1,6 @@
 /* Project overrides for the HTML5 UP "TXT" template, loaded after main.css.
    Keep project styling here; main.css is the template's own file and is
-   hand-edited in places. Twenty numbered sections. */
+   hand-edited in places. Twenty-two numbered sections. */
 
 /* ==========================================================================
    0. Palette: colour tokens and contrast fixes
@@ -1011,9 +1011,9 @@ video {
   height: auto;
 }
 
-/* The brain logo at the top of the home page is a step smaller than the
-   mockup that shares its class. */
-.intro-figure.intro-logo {
+/* The home logo and its rings (section 20). The drawing is 64% of this box,
+   so the phone widths are larger than the mockup to keep it legible. */
+.hero-mark {
   width: 26%;
 }
 
@@ -1022,8 +1022,8 @@ video {
     width: 45%;
   }
 
-  .intro-figure.intro-logo {
-    width: 34%;
+  .hero-mark {
+    width: 38%;
   }
 }
 
@@ -1032,8 +1032,8 @@ video {
     width: 55%;
   }
 
-  .intro-figure.intro-logo {
-    width: 44%;
+  .hero-mark {
+    width: 52%;
   }
 }
 
@@ -1051,9 +1051,15 @@ video {
 
 /* about: the partner wordmarks. A logo has to fit, not fill -- main.css's
    background-size: cover cropped them to a few letters. */
+/* As wide as the paragraph under it, so the two share a centre line: the
+   paragraph stops at 68ch (section 2) while the column keeps growing, and a
+   column-wide logo drifted right of its text on wide screens. The font-size
+   makes this 68ch the paragraph's. */
 .group-logo {
   display: block;
   width: 100%;
+  max-width: 68ch;
+  font-size: var(--body-size);
   height: 180px;
   object-fit: contain;
   margin: 0 0 2em 0;
@@ -2042,4 +2048,418 @@ body.wide-measure #main .post-body p {
    grid's own 50px of column padding */
 .blog-split {
   margin: 0;
+}
+
+/* ==========================================================================
+   20. Home page: motion and illustration
+
+   A sensor pulse inside a heartbeat ring behind the logo, the
+   Sense -> Assess -> Intervene diagram. All of it is
+   decorative: the SVGs are aria-hidden, the diagram's text is real text,
+   and every animation stops under prefers-reduced-motion.
+   ========================================================================== */
+
+/* --- the logo and its pulse ------------------------------------------------ */
+/* A square that holds everything: nothing is drawn outside it, so neither
+   the rings nor the drawing can reach the band above or the title below.
+   In viewBox units (200 across) the drawing fills a circle of radius 64
+   (logo-mark.png is cropped to the drawing's enclosing circle), the pulse
+   rings run from 68 to 96, and the heartbeat ring is 84 with its blip
+   reaching 94. */
+.hero-mark {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  margin: 0 auto 1.25em auto;
+}
+
+.hero-mark .intro-logo {
+  position: absolute;
+  top: 18%;
+  left: 18%;
+  width: 64%;
+  height: 64%;
+}
+
+.hero-pulse {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none; /* section 3 caps media at 100% */
+  overflow: visible;
+  pointer-events: none;
+}
+
+.pulse-ring {
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 1.2;
+  opacity: 0;
+}
+
+/* the heartbeat ring: one ECG blip on a circle, drawn from #ecg-ring */
+.ecg use {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ecg-line {
+  stroke: var(--green);
+  stroke-width: 1.3;
+  opacity: 0.55;
+}
+
+/* a short ink dash that runs round the ring; hidden without motion */
+.ecg-glint {
+  stroke: var(--ink);
+  stroke-width: 1.8;
+  stroke-dasharray: 0 100;
+}
+
+/* --- Sense -> Assess -> Intervene ------------------------------------------ */
+#main ol.flow {
+  --flow-icon: 72px;
+  --flow-gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 2.75em auto 2em auto;
+  max-width: 62rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--flow-gap);
+}
+
+#main ol.flow .flow-step {
+  position: relative;
+  padding: 0;
+  text-align: center;
+  hyphens: manual;
+}
+
+/* the connector: from this icon's right edge to the next icon's left edge */
+#main ol.flow .flow-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--flow-icon) / 2 - 1px);
+  left: calc(50% + var(--flow-icon) / 2 + 10px);
+  width: calc(100% + var(--flow-gap) - var(--flow-icon) - 20px);
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--green) 0 6px, transparent 6px 12px);
+  opacity: 0.7;
+}
+
+.flow-icon {
+  display: grid;
+  place-items: center;
+  width: var(--flow-icon);
+  height: var(--flow-icon);
+  margin: 0 auto 0.9em auto;
+  border-radius: 50%;
+  background: #eef8f3;
+  box-shadow: 0 0 0 1px #d3ecdf;
+}
+
+.flow-icon svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+
+.flow-icon .wave,
+.flow-icon .check,
+.flow-icon .beat {
+  stroke: var(--green-ink);
+}
+
+.flow-icon .heart {
+  transform-origin: 12px 13px;
+}
+
+.flow-title {
+  display: block;
+  font-family: "Open Sans Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 1.15em;
+  color: var(--ink);
+  margin-bottom: 0.35em;
+}
+
+#main ol.flow .flow-step p {
+  text-align: center;
+  hyphens: manual;
+  max-width: 26ch;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* stacked on a phone; the connector turns to run down between the steps */
+@media screen and (max-width: 736px) {
+  #main ol.flow {
+    grid-template-columns: 1fr;
+    --flow-gap: 1.75rem;
+  }
+
+  #main ol.flow .flow-step:not(:last-child)::after {
+    top: auto;
+    bottom: calc(-1 * var(--flow-gap) + 6px);
+    left: calc(50% - 1px);
+    width: 2px;
+    height: calc(var(--flow-gap) - 12px);
+    background: repeating-linear-gradient(180deg, var(--green) 0 4px, transparent 4px 8px);
+  }
+}
+
+/* --- the animations -------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .pulse-ring {
+    transform-origin: 100px 100px;
+    animation: hero-pulse 6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  }
+
+  .pulse-ring:nth-child(2) {
+    animation-delay: 2s;
+  }
+
+  .pulse-ring:nth-child(3) {
+    animation-delay: 4s;
+  }
+
+  .ecg {
+    transform-origin: 100px 100px;
+    animation: ecg-spin 90s linear infinite;
+  }
+
+  .hero-mark .intro-logo {
+    animation: hero-float 7s ease-in-out infinite alternate;
+  }
+
+  .ecg-line {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: ecg-draw 2s 0.2s ease-out forwards;
+  }
+
+  .ecg-glint {
+    stroke-dasharray: 7 100;
+    stroke-dashoffset: 7;
+    animation: ecg-sweep 6s 2.2s ease-in-out infinite;
+  }
+
+  #main ol.flow .flow-step:not(:last-child)::after {
+    animation: flow-dash 1.2s linear infinite;
+  }
+
+  @media screen and (max-width: 736px) {
+    #main ol.flow .flow-step:not(:last-child)::after {
+      animation-name: flow-dash-down;
+      animation-duration: 0.8s;
+    }
+  }
+
+  /* one 6s cycle, a third per step: the highlight walks through the loop */
+  .flow-icon {
+    animation: flow-focus 6s ease-in-out infinite;
+  }
+
+  .is-assess .flow-icon {
+    animation-delay: 2s;
+  }
+
+  .is-intervene .flow-icon {
+    animation-delay: 4s;
+  }
+
+  .is-sense .wave {
+    animation: wave-blink 2s ease-in-out infinite;
+  }
+
+  .is-sense .wave + .wave {
+    animation-delay: 0.3s;
+  }
+
+  .is-assess .check {
+    stroke-dasharray: 10;
+    animation: check-draw 6s 2s ease-out infinite both;
+  }
+
+  .is-intervene .heart {
+    animation: heart-beat 6s 4s ease-in-out infinite;
+  }
+}
+
+@keyframes hero-pulse {
+  0% { transform: scale(0.81); opacity: 0; }
+  15% { opacity: 0.45; }
+  100% { transform: scale(1.143); opacity: 0; }
+}
+
+@keyframes ecg-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hero-float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+
+@keyframes ecg-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ecg-sweep {
+  0% { stroke-dashoffset: 7; opacity: 0; }
+  10% { opacity: 1; }
+  60% { stroke-dashoffset: -100; opacity: 1; }
+  61%, 100% { stroke-dashoffset: -100; opacity: 0; }
+}
+
+@keyframes flow-dash {
+  to { background-position: 12px 0; }
+}
+
+@keyframes flow-dash-down {
+  to { background-position: 0 8px; }
+}
+
+@keyframes flow-focus {
+  0%, 40%, 100% { box-shadow: 0 0 0 1px #d3ecdf; transform: none; }
+  15% { box-shadow: 0 0 0 1px var(--green), 0 0 0 8px rgba(45, 195, 138, 0.15); transform: translateY(-2px); }
+}
+
+@keyframes wave-blink {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+
+@keyframes check-draw {
+  0% { stroke-dashoffset: 10; }
+  12%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes heart-beat {
+  0%, 20%, 100% { transform: scale(1); }
+  5% { transform: scale(1.12); }
+  10% { transform: scale(0.97); }
+  14% { transform: scale(1.08); }
+}
+
+/* ==========================================================================
+   21. Site-wide: loading placeholders, image tint, scroll reveal
+
+   The blog and publications fetch their content after the page loads;
+   until it arrives they show grey outlines of it (built by blog.js and
+   publications.js) with a one-line status a screen reader announces.
+   Images shimmer the same way until they arrive (loading.js), so a slow
+   portrait reads as a frame and not as a missing image. Blocks marked data-reveal fade in as they
+   are scrolled to (reveal.js).
+   ========================================================================== */
+
+.skeleton {
+  pointer-events: none;
+}
+
+.skeleton-bar {
+  display: block;
+  height: 0.8em;
+  margin: 0 0 0.75em 0;
+  border-radius: 4px;
+  background: #e8eeeb;
+}
+
+.skeleton-bar.is-title {
+  height: 1.2em;
+}
+
+.skeleton-bar.is-date,
+.skeleton-bar.is-meta,
+.skeleton-bar.is-cue {
+  height: 0.6em;
+}
+
+.skeleton-bar.is-pill {
+  height: 1.4em;
+}
+
+.post-card.skeleton {
+  text-align: left;
+}
+
+.post-card.skeleton .skeleton-bar.is-cue {
+  margin: 1.75em 0 0 0;
+}
+
+.post-skeleton .skeleton-bar.is-title {
+  height: 2em;
+  margin-bottom: 0.9em;
+}
+
+.post-skeleton .skeleton-bar.is-meta {
+  margin-bottom: 2.25em;
+}
+
+.rail-skeleton .skeleton-bar {
+  height: 0.7em;
+  margin-bottom: 1.1em;
+}
+
+.publication.skeleton .skeleton-bar.is-cue {
+  margin-bottom: 0;
+}
+
+/* the status line under the placeholders: a div, so the measure and the
+   justification #main sets on paragraphs do not reach it */
+.data-loading {
+  color: var(--muted);
+  font-size: 0.85em;
+  text-align: center;
+  padding: 0.75em 0;
+}
+
+#symptoms_publications > .data-loading {
+  text-align: left;
+  padding-top: 0;
+}
+
+/* loading.js marks an image .is-loading until it arrives, then unmarks it,
+   so a transparent image loses the tint once it is drawn. The home logo
+   sits inside its rings, where a grey square would read as a fault. */
+#main img.is-loading:not(.intro-logo) {
+  background-color: #e8eeeb;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton-bar,
+  #main img.is-loading:not(.intro-logo) {
+    background: linear-gradient(90deg, #e8eeeb 0%, #f4f7f5 40%, #e8eeeb 80%);
+    background-size: 300% 100%;
+    animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  }
+
+  /* reveal.js adds .will-reveal itself, so without JS nothing is hidden */
+  .will-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.2, 0.6, 0.3, 1);
+  }
+
+  .will-reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: 0 0; }
 }

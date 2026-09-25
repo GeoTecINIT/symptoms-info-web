@@ -61,7 +61,21 @@
     return bits.join(', ');
   }
 
-  function buildEntry(pub, strings) {
+  /**
+   * BibTeX joins authors with " and "; show them as a list in the page's
+   * language ("A, B and C" / "A, B y C").
+   */
+  function formatAuthors(author, lang) {
+    var names = author.split(/\s+and\s+/i).filter(Boolean);
+    if (names.length < 2) return author;
+    try {
+      return new Intl.ListFormat(lang || 'en', { style: 'long', type: 'conjunction' }).format(names);
+    } catch (e) {
+      return names.join(', ');
+    }
+  }
+
+  function buildEntry(pub, strings, lang) {
     var F = pub.Fields || {};
     var type = toText(pub.EntryType) || 'other';
 
@@ -72,7 +86,7 @@
     card.appendChild(el('p', 'publication-type', label));
 
     var author = toText(F.author);
-    if (author) card.appendChild(el('p', 'publication-authors', author));
+    if (author) card.appendChild(el('p', 'publication-authors', formatAuthors(author, lang)));
 
     var title = toText(F.title);
     var href = doiHref(F.doi);
@@ -117,6 +131,25 @@
       box.appendChild(a);
     }
     container.appendChild(box);
+  }
+
+  // A grey outline of what is coming: one bar per [modifier, width] pair.
+  // aria-hidden, because loadingStatus() is what a screen reader hears.
+  function skeleton(tag, className, bars) {
+    var node = el(tag, className + ' skeleton');
+    node.setAttribute('aria-hidden', 'true');
+    bars.forEach(function (bar) {
+      var b = el('span', 'skeleton-bar' + (bar[0] ? ' ' + bar[0] : ''));
+      b.style.width = bar[1];
+      node.appendChild(b);
+    });
+    return node;
+  }
+
+  function loadingStatus(message) {
+    var p = el('div', 'data-loading', message);
+    p.setAttribute('role', 'status');
+    return p;
   }
 
   global.initPublications = function initPublications(options) {
@@ -175,7 +208,16 @@
       btnContainer.parentNode.insertBefore(select, btnContainer);
     }
 
-    notice(container, strings.loading || '');
+    // Placeholders in the shape of four entries; notice() and the list both
+    // empty the container first, so they replace them.
+    container.textContent = '';
+    container.appendChild(loadingStatus(strings.loading || ''));
+    for (var i = 0; i < 4; i++) {
+      container.appendChild(skeleton('div', 'publication', [
+        ['is-pill', '90px'], ['', i % 2 ? '45%' : '60%'], ['is-title', i % 2 ? '80%' : '70%'],
+        ['', '40%'], ['is-cue', '70px']
+      ]));
+    }
 
     fetch(options.endpoint)
       .then(function (response) {
@@ -204,7 +246,7 @@
         var frag = document.createDocumentFragment();
         entries = [];
         usable.forEach(function (pub) {
-          var card = buildEntry(pub, strings);
+          var card = buildEntry(pub, strings, options.lang);
           entries.push(card);
           frag.appendChild(card);
         });

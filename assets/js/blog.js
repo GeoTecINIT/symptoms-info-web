@@ -126,6 +126,25 @@
     container.appendChild(box);
   }
 
+  // A grey outline of what is coming: one bar per [modifier, width] pair.
+  // aria-hidden, because loadingStatus() is what a screen reader hears.
+  function skeleton(tag, className, bars) {
+    var node = el(tag, className + ' skeleton');
+    node.setAttribute('aria-hidden', 'true');
+    bars.forEach(function (bar) {
+      var b = el('span', 'skeleton-bar' + (bar[0] ? ' ' + bar[0] : ''));
+      b.style.width = bar[1];
+      node.appendChild(b);
+    });
+    return node;
+  }
+
+  function loadingStatus(message) {
+    var p = el('div', 'data-loading', message);
+    p.setAttribute('role', 'status');
+    return p;
+  }
+
   global.initBlog = function initBlog(options) {
     var postEl = document.getElementById(options.postId || 'last_post');
     var indexEl = document.getElementById(options.indexId || 'more_posts');
@@ -448,10 +467,48 @@
       return article;
     }
 
-    notice(postEl, strings.loading || '');
-    if (indexEl) indexEl.textContent = '';
-    if (railEl) railEl.textContent = '';
-    if (pagerEl) pagerEl.textContent = '';
+    // Placeholders in the shape of three cards, the rail and an article,
+    // replaced whatever the fetch ends in.
+    function showLoading() {
+      postEl.textContent = '';
+      postEl.appendChild(skeleton('div', 'post-skeleton', [
+        ['is-title', '65%'], ['is-meta', '30%'], ['', '100%'], ['', '96%'],
+        ['', '100%'], ['', '88%'], ['', '55%']
+      ]));
+      if (indexEl) {
+        indexEl.textContent = '';
+        for (var i = 0; i < POSTS_PER_PAGE; i++) {
+          var col = el('div', 'col-4 col-6-medium col-12-small');
+          col.appendChild(skeleton('section', 'box feature post-card', [
+            ['is-date', '30%'], ['is-title', '85%'], ['is-title', '50%'],
+            ['', '100%'], ['', '94%'], ['', '70%'], ['is-cue', '25%']
+          ]));
+          indexEl.appendChild(col);
+        }
+      }
+      if (railEl) {
+        railEl.textContent = '';
+        railEl.appendChild(skeleton('div', 'rail-skeleton', [
+          ['is-date', '40%'], ['', '90%'], ['', '70%'], ['', '85%'],
+          ['', '60%'], ['', '80%'], ['', '65%']
+        ]));
+      }
+      var status = loadingStatus(strings.loading || '');
+      if (pagerEl) {
+        pagerEl.textContent = '';
+        pagerEl.appendChild(status);
+      } else {
+        postEl.appendChild(status);
+      }
+    }
+
+    function clearLoading() {
+      if (indexEl) indexEl.textContent = '';
+      if (railEl) railEl.textContent = '';
+      if (pagerEl) pagerEl.textContent = '';
+    }
+
+    showLoading();
 
     fetch(options.endpoint)
       .then(function (response) {
@@ -459,6 +516,8 @@
         return response.json();
       })
       .then(function (data) {
+        clearLoading();
+
         // RTDB returns an object keyed by index if the list is ever sparse
         var list = Array.isArray(data)
           ? data
@@ -516,6 +575,7 @@
       })
       .catch(function (error) {
         console.error('blog: could not load posts', error);
+        clearLoading();
         notice(postEl, strings.error || '', strings.errorLinkText, options.fallbackUrl);
       });
   };

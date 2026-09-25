@@ -17,11 +17,11 @@
         <!-- The filter is wired up by assets/js/publications.js from
              data-filter; there are no inline onclick handlers. -->
         <div class="box feature" id="myBtnContainer">
-          <button type="button" class="btn active" data-filter="all">Show all</button>
-          <button type="button" class="btn" data-filter="article">Articles</button>
-          <button type="button" class="btn" data-filter="inproceedings">Inproceedings</button>
-          <button type="button" class="btn" data-filter="phdthesis">Phd Thesis</button>
-          <button type="button" class="btn" data-filter="mastersthesis">Master Thesis</button>
+          <button type="button" class="btn active" data-filter="all">All</button>
+          <button type="button" class="btn" data-filter="article">Journal articles</button>
+          <button type="button" class="btn" data-filter="inproceedings">Conference papers</button>
+          <button type="button" class="btn" data-filter="phdthesis">PhD theses</button>
+          <button type="button" class="btn" data-filter="mastersthesis">Master&rsquo;s theses</button>
         </div>
 
         <div id="symptoms_publications"></div>
@@ -37,6 +37,7 @@
   // both locales.
   initPublications({
     endpoint: "https://symptoms-web-default-rtdb.europe-west1.firebasedatabase.app/publications.json",
+    lang: "{{lang}}",
     fallbackUrl: "{{strings.pubsFallbackUrl}}",
     strings: {
       loading: "{{strings.pubsLoading}}",

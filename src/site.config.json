@@ -71,7 +71,9 @@
     "assets/js/browser.min.js",
     "assets/js/breakpoints.min.js",
     "assets/js/util.js",
-    "assets/js/main.js"
+    "assets/js/main.js",
+    "assets/js/reveal.js",
+    "assets/js/loading.js"
   ],
 
   "strings": {
@@ -105,10 +107,10 @@
       "pubsError": "The publications could not be loaded right now. You can browse them on the GEOTEC site:",
       "pubsErrorLink": "geotec.uji.es",
       "pubsFallbackUrl": "https://geotec.uji.es/publications/",
-      "pubsTypeArticle": "Article",
+      "pubsTypeArticle": "Journal article",
       "pubsTypeInproceedings": "Conference paper",
       "pubsTypePhdThesis": "PhD thesis",
-      "pubsTypeMasterThesis": "Master thesis",
+      "pubsTypeMasterThesis": "Master’s thesis",
       "pubsAbstract": "Abstract",
       "pubsFilterLabel": "Filter by type",
 
@@ -123,7 +125,7 @@
       "copyright": "&copy; 2026 GEOTEC &middot; Universitat Jaume I",
       "designCredit": "Diseño: <a href=\"https://html5up.net\">HTML5 UP</a>",
 
-      "blogLoading": "Cargando publicaciones…",
+      "blogLoading": "Cargando entradas…",
       "blogEmpty": "Todavía no hay publicaciones que mostrar.",
       "blogError": "No se han podido cargar las publicaciones en este momento. Puedes leerlas en el blog de GEOTEC:",
       "blogErrorLink": "geotec.uji.es/blog",
@@ -144,7 +146,7 @@
       "pubsError": "No se han podido cargar las publicaciones en este momento. Puedes consultarlas en la web de GEOTEC:",
       "pubsErrorLink": "geotec.uji.es",
       "pubsFallbackUrl": "https://geotec.uji.es/publications/",
-      "pubsTypeArticle": "Artículo",
+      "pubsTypeArticle": "Artículo de revista",
       "pubsTypeInproceedings": "Contribución a congreso",
       "pubsTypePhdThesis": "Tesis doctoral",
       "pubsTypeMasterThesis": "Tesis de máster",
